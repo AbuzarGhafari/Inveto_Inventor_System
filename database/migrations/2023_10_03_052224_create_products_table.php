@@ -15,9 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('sku_code')->unique();
             $table->string('name');
-            $table->string('desc');
+            $table->string('desc')->nullable();
             $table->integer('pack_size');
             $table->double('distributor_prices');
+            $table->integer('stock_quantity')->default(0);
             $table->timestamps();
         });
     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,6 +24,15 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('welcome');
+        $products = Product::all();
+        $productsCount = $products->count();
+        $totalStock = $products->sum('stock_quantity');
+        
+        return view('welcome', compact('productsCount', 'totalStock'));
+    }
+
+    public function test()
+    {
+        return view('test');
     }
 }

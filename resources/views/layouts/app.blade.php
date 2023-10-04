@@ -6,7 +6,7 @@
          
         <meta name="viewport" content="width=device-width, initial-scale=1">
           
-        <title>Ample Admin Lite Template by WrapPixel</title>
+        <title>@yield('title')</title>
         <link rel="canonical" href="https://www.wrappixel.com/templates/ample-admin-lite/" />
 
         <!-- Favicon icon -->
@@ -19,7 +19,11 @@
         
         <!-- Custom CSS -->
         <link href="{{ asset('assets/css/style.min.css') }}" rel="stylesheet">
+
         
+        <link href="{{ asset('assets/css/admin-custom-style.css') }}" rel="stylesheet">
+        
+        @livewireStyles
     </head>
     <body>
         
@@ -74,6 +78,17 @@
         <script src="{{ asset('assets/plugins/bower_components/chartist/dist/chartist.min.js') }}"></script>
         <script src="{{ asset('assets/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js') }}"></script>
         <script src="{{ asset('assets/js/pages/dashboards/dashboard1.js') }}"></script>
+
+        <script>
+            window.addEventListener('closeModal', event => {
+                $(".modal").modal('hide');                
+            });
+            window.addEventListener('showModal', event => {
+                $(".modal").modal('show');                
+            });
+        </script>
+            
+        @livewireScripts
     </body>
     
 </html>

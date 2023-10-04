@@ -49,6 +49,30 @@
             </div>
 
             <div class="row">
+                <div class="col-sm-3">
+                    <p class="border-top-0  text-dark fw-bold">Stock Cartons Qty</p>
+                </div>
+                <div class="col-sm-9">
+                    <p>{{ $product->stock_quantity }}</p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-3">
+                    <p class="border-top-0  text-dark fw-bold">Stock Status</p>
+                </div>
+                <div class="col-sm-9">
+                    @if ($product->stock_quantity >= 10)
+                        <span class="badge bg-success">In-Stock</span>
+                    @elseif ($product->stock_quantity > 0 && $product->stock_quantity < 10)
+                        <span class="badge bg-warning">In-Stock</span>
+                    @else
+                        <span class="badge bg-danger">Out-of-Stock</span>
+                    @endif
+                </div>
+            </div>
+
+            <div class="row">
                 <div class="col-sm-12">
 
                     <a href="{{ route('products.edit', $product->id) }}" class="btn btn-primary">

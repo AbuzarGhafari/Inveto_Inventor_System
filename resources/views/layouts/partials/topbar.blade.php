@@ -3,12 +3,10 @@
     <nav class="navbar top-navbar navbar-expand-md navbar-dark">
         <div class="navbar-header" data-logobg="skin6">
             
-            <a class="navbar-brand" href="dashboard.html"> 
-                <b class="logo-icon"> 
-                    <img src="{{ asset('assets/plugins/images/logo-icon.png') }}" alt="homepage" />
-                </b> 
+            <a class="navbar-brand" href="{{ route('home') }}"> 
+                <img class="logo-icon" src="{{ asset('assets/images/logo.png') }}" alt="homepage" />
                 <span class="logo-text"> 
-                    <img src="{{ asset('assets/plugins/images/logo-text.png') }}" alt="homepage" />
+                    <span>Al-noor</span> Traders
                 </span>
             </a>            
             <a class="nav-toggler waves-effect waves-light text-dark d-block d-md-none"

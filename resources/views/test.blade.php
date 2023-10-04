@@ -6,7 +6,7 @@
          
         <meta name="viewport" content="width=device-width, initial-scale=1">
           
-        <title>@yield('title')</title>
+        <title>Ample Admin Lite Template by WrapPixel</title>
         <link rel="canonical" href="https://www.wrappixel.com/templates/ample-admin-lite/" />
 
         <!-- Favicon icon -->
@@ -20,16 +20,39 @@
         <!-- Custom CSS -->
         <link href="{{ asset('assets/css/style.min.css') }}" rel="stylesheet">
         
+        @livewireStyles
     </head>
     <body>
-        <div class="container-fluid"> 
-
-            @yield('content')
-
-        </div>                                
         
-        @include('layouts.partials.footer')
-         
+        @include('layouts.partials.preloader')
+
+        <div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full"
+            data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
+            
+            @include('layouts.partials.topbar')
+
+            @include('layouts.partials.leftsidebar')
+ 
+            <div class="page-wrapper">
+
+                @include('layouts.partials.breadcrumb')
+ 
+                <div class="container-fluid"> 
+
+                    @yield('content')
+                    <livewire:hello-world />
+
+                </div>                                
+                
+                @include('layouts.partials.footer')
+
+            </div>
+            
+            
+        </div>
+
+        
+
 
 
         <script src="{{ asset('assets/plugins/bower_components/jquery/dist/jquery.min.js') }}"></script>
@@ -53,6 +76,8 @@
         <script src="{{ asset('assets/plugins/bower_components/chartist/dist/chartist.min.js') }}"></script>
         <script src="{{ asset('assets/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js') }}"></script>
         <script src="{{ asset('assets/js/pages/dashboards/dashboard1.js') }}"></script>
+        <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"></script>
+        @livewireScripts
     </body>
     
 </html>

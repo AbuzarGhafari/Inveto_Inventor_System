@@ -3,9 +3,11 @@
 @section('heading', 'Products List')
 
 @section('content')
+ 
 
+@livewire('products')
 
-<div class="row mb-3">
+{{-- <div class="row mb-3">
     <div class="col-sm-6">
         <input type="text" name="" id="" placeholder="Search Product" class="form-control">
     </div>
@@ -54,6 +56,6 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}
 
 @endsection
