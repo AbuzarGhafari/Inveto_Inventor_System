@@ -21,6 +21,13 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('areas.index') }}"
+                        aria-expanded="false">
+                        <i class="fa ti-star" aria-hidden="true"></i>
+                        <span class="hide-menu">Areas</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
                     <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('shops.index') }}"
                         aria-expanded="false">
                         <i class="fa ti-star" aria-hidden="true"></i>
@@ -32,13 +39,6 @@
                         aria-expanded="false">
                         <i class="fa ti-star" aria-hidden="true"></i>
                         <span class="hide-menu">Order Bookers</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('areas.index') }}"
-                        aria-expanded="false">
-                        <i class="fa ti-star" aria-hidden="true"></i>
-                        <span class="hide-menu">Areas</span>
                     </a>
                 </li>
                 {{-- <li class="sidebar-item">

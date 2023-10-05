@@ -20,9 +20,14 @@
                         @error('form.mobile')<div class="alert alert-danger p-2">{{ $message }}</div>@enderror
                     </div>
                     <div class="form-group mb-4">
-                        <label class="col-md-12 p-0">Order Booker Area</label>
+                        <label class="col-md-12 p-0">Order Booker Area</label> 
                         <div class="col-md-12 border-bottom p-0">
-                            <input type="text"  wire:model.live="form.area" class="form-control p-0 border-0" > 
+                            <select  wire:model.live="form.area" class="form-control p-0 border-0" >
+                                <option value="">Select Area</option>
+                                @foreach ($areas as $area)
+                                    <option value="{{ $area->id }}">{{ $area->name }}</option>
+                                @endforeach 
+                            </select>
                         </div>
                         @error('form.area')<div class="alert alert-danger p-2">{{ $message }}</div>@enderror
                     </div>

@@ -16,7 +16,7 @@ class OrderBookers extends Component
     {
         $orderBookers = OrderBooker::where('name','LIKE', "%".$this->search."%")
                     ->orWhere('mobile','LIKE', "%".$this->search."%")
-                    ->orWhere('area','LIKE', "%".$this->search."%")
+                    // ->orWhere('area','LIKE', "%".$this->search."%")
                     ->paginate(10);
         return view('livewire.orderbooker.order-bookers',[
             'orderBookers' => $orderBookers

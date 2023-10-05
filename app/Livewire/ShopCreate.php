@@ -2,59 +2,47 @@
 
 namespace App\Livewire;
 
+use App\Models\Area;
 use App\Models\Shop;
 use Livewire\Component;
+use App\Livewire\Forms\ShopForm;
 
 class ShopCreate extends Component
 {    
-    public $shop_name = '';
+    public ShopForm $form; 
 
-    public $shopkeeper_name = '';
+    public Area $area;
 
-    public $shopkeeper_mobile = '';
-
-    public $city = '';
-
-    public $address = '';
-
-    public $route_main_area = '';
-
-    public $location_sub_area = '';
-
-    public $channel = '';
-
-    public $shop_type = '';
-
-    public $shop_sub_type = '';
+    public $areas = []; 
+    
+    public $subAreas = [];
 
     public function save()
     {
-        $validated = $this->validate();
+        $validated = $this->validate(); 
 
         Shop::create($validated);
 
         return redirect()->route('shops.index');
     }
-   
-    public function rules(): array
-    {
-        return [
-            'shop_name' => 'required',
-            'shopkeeper_name' => 'required',
-            'shopkeeper_mobile' => 'required',
-            'city' => 'required',
-            'address' => 'required',
-            'route_main_area' => 'required',
-            'location_sub_area' => 'required',
-            'channel' => 'required',
-            'shop_type' => 'required',
-            'shop_sub_type' => 'required',
-        ];
-    }
+ 
 
+    public function updated($field, $value)
+    { 
+        if ($field == 'form.main_area') { 
+            $area = Area::with('subAreas')->find($this->form->main_area);
+            $this->subAreas = [];
+            foreach ($area->subAreas as $sa) {
+                $this->subAreas[] = $sa;
+            } 
+        }
+    }
+    
 
     public function render()
     {
+        $this->areas = Area::all();
+        
         return view('livewire.shop.shop-create');
     }
 }

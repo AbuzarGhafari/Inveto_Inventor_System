@@ -31,7 +31,7 @@
                                     <a href="{{ route('order-bookers.show', $booker->id) }}">{{ $booker->name }}</a>
                                 </td>
                                 <td>{{ $booker->mobile }}</td>
-                                <td>{{ $booker->area }}</td>
+                                {{-- <td>{{ $booker->area }}</td> --}}
                                 <td>
                                     <a href="{{ route('order-bookers.edit', $booker->id) }}" class="btn btn-primary">
                                         <i class=" fas fa-pencil-alt me-2"></i>

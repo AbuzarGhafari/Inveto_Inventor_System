@@ -17,9 +17,14 @@ return new class extends Migration
             $table->string('shopkeeper_name');
             $table->string('shopkeeper_mobile');
             $table->string('city');
-            $table->string('address');
-            $table->string('route_main_area');
-            $table->string('location_sub_area');
+            $table->string('address');  
+            
+            $table->unsignedBigInteger('main_area')->nullable();
+            $table->foreign('main_area')->references('id')->on('areas')->nullOnDelete();
+            
+            $table->unsignedBigInteger('sub_area')->nullable();
+            $table->foreign('sub_area')->references('id')->on('sub_areas')->nullOnDelete();
+
             $table->string('channel');
             $table->string('shop_type');
             $table->string('shop_sub_type');

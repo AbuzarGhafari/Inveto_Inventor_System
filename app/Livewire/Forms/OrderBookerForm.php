@@ -17,14 +17,14 @@ class OrderBookerForm extends Form
     public $mobile = '';
 
     #[Rule('required', as: 'Area')]
-    public $area = '';
+    public $area_id = '';
  
 
     public function setOrderBooker(OrderBooker $orderBooker)
     {
         $this->name = $orderBooker->name;
         $this->mobile = $orderBooker->mobile;
-        $this->area = $orderBooker->area;
+        $this->area_id = $orderBooker->area;
     }
 
 }
