@@ -2,6 +2,8 @@
 
 @section('heading', 'Product Details')
 
+@section('title', 'Product Details')
+
 @section('content')
 
 <div class="row">

@@ -27,7 +27,7 @@ class Products extends Component
                     ->orWhere('name','LIKE', "%".$this->search."%")
                     ->paginate(10);
 
-        return view('livewire.products', [ 
+        return view('livewire.product.products', [ 
             'products' => $products,
         ]);
     }

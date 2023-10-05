@@ -52,7 +52,7 @@
 </div>
 
 
-<div class="row">
+{{-- <div class="row">
     <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
         <div class="white-box">
             <h3 class="box-title">Products Yearly Sales</h3>
@@ -73,10 +73,10 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}
 
 
-<div class="row">
+{{-- <div class="row">
     <div class="col-md-12 col-lg-12 col-sm-12">
         <div class="white-box">
             <div class="d-md-flex mb-3">
@@ -157,10 +157,10 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}
 
 
-<div class="row">
+{{-- <div class="row">
     <!-- .col -->
     <div class="col-md-12 col-lg-8 col-sm-12">
         <div class="card white-box p-0">
@@ -333,6 +333,6 @@
         </div>
     </div>
     <!-- /.col -->
-</div>
+</div> --}}
 
 @endsection

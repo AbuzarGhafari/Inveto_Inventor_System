@@ -2,6 +2,8 @@
 
 @section('heading', 'Products List')
 
+@section('title', 'Products List')
+
 @section('content')
  
 
