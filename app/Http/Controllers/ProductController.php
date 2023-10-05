@@ -36,7 +36,7 @@ class ProductController extends Controller
             'name' => 'required',
             'desc' => 'sometimes:required',
             'pack_size' => 'required|integer|min:0',
-            'distributor_prices' => 'required|decimal:2|min:0',
+            'distributor_prices' => ['required','regex:/^\d*\.?\d+$/','min:0'],
         ]);
 
         Product::create($validated);
@@ -70,7 +70,7 @@ class ProductController extends Controller
             'name' => 'required',
             'desc' => 'sometimes:required',
             'pack_size' => 'required|integer|min:0',
-            'distributor_prices' => 'required|decimal:2|min:0',
+            'distributor_prices' => ['required','regex:/^\d*\.?\d+$/','min:0'],
         ]);
 
         $product->update($validated);
