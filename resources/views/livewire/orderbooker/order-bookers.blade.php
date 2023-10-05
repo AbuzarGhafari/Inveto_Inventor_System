@@ -4,7 +4,7 @@
             <input wire:model.live="search" type="text"  placeholder="Search Order Booker" class="form-control">
         </div> 
         <div class="col-sm-6 text-end">
-            <a href="{{ route('order-booker.create') }}" class="btn btn-danger text-white">
+            <a href="{{ route('order-bookers.create') }}" class="btn btn-danger text-white">
                 <i class="fas fa-plus me-2"></i>
                 Add Order Booker
             </a>
@@ -28,12 +28,12 @@
                             @foreach ($orderBookers as $booker)                            
                             <tr wire:key = "{{ $booker->sku_code }}">
                                 <td>
-                                    <a href="{{ route('order-booker.show', $booker->id) }}">{{ $booker->name }}</a>
+                                    <a href="{{ route('order-bookers.show', $booker->id) }}">{{ $booker->name }}</a>
                                 </td>
                                 <td>{{ $booker->mobile }}</td>
                                 <td>{{ $booker->area }}</td>
                                 <td>
-                                    <a href="{{ route('order-booker.edit', $booker->id) }}" class="btn btn-primary">
+                                    <a href="{{ route('order-bookers.edit', $booker->id) }}" class="btn btn-primary">
                                         <i class=" fas fa-pencil-alt me-2"></i>
                                         Edit
                                     </a>                                    

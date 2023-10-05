@@ -37,3 +37,43 @@
     padding: 0.5rem !important;
 }
  
+
+.sidebar-nav ul .sidebar-item{
+    width: 100% !important;
+}
+
+.badge-secondary{
+    background: #e5e5e5;
+    color: #2f323e;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+#main-wrapper[data-layout=horizontal] .left-sidebar[data-sidebarbg=skin6] .sidebar-nav ul .sidebar-item .sidebar-link, #main-wrapper[data-layout=vertical] .left-sidebar[data-sidebarbg=skin6] .sidebar-nav ul .sidebar-item .sidebar-link {
+    color: #232425;
+}
+
+.sidebar-nav ul .sidebar-item .sidebar-link { 
+    font-weight: 600;
+}
+
+.sub-area-badges{
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 520px;
+    gap: 0.5rem;
+}
+
+.bg-danger-light{
+    background: rgba(255, 0, 0, 0.25) !important;
+    border: 1px solid rgb(202, 0, 0) !important;
+}
+
+.btn-gray{
+    background: #e4e4e4;
+}
+
+.flex-gap-2{
+    gap: 0.5rem;
+}
+ 

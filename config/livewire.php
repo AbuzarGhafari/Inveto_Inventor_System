@@ -155,4 +155,6 @@ return [
     */
 
     'pagination_theme' => 'bootstrap',
+
+    'legacy_model_binding' => true,
 ];

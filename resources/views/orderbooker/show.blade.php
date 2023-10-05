@@ -38,7 +38,7 @@
             <div class="row">
                 <div class="col-sm-12">
 
-                    <a href="{{ route('order-booker.edit', $orderBooker->id) }}" class="btn btn-primary">
+                    <a href="{{ route('order-bookers.edit', $orderBooker->id) }}" class="btn btn-primary">
                         <i class=" fas fa-pencil-alt me-2"></i>
                         Edit
                     </a>

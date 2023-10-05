@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AreaController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\ProductController;
@@ -31,8 +32,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('/shops', ShopController::class);
 
-    Route::resource('/order-booker', OrderBookerController::class);
+    Route::resource('/order-bookers', OrderBookerController::class);
+    
+    Route::resource('/areas', AreaController::class);
     
 });
-
-Route::get('/test', [HomeController::class, 'test']);
+ 

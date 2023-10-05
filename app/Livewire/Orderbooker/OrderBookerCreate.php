@@ -16,7 +16,7 @@ class OrderBookerCreate extends Component
 
         OrderBooker::create($this->form->all());
 
-        return redirect()->route('order-booker.index');
+        return redirect()->route('order-bookers.index');
     }
   
     public function render()
