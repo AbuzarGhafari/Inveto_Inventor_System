@@ -7,6 +7,6 @@
 
 @section('content')
 
-@livewire('shop-create')
+@livewire('shop.shop-create')
 
 @endsection

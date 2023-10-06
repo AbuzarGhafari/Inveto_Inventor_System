@@ -21,9 +21,7 @@
                             <tr>
                                 <th class="border-top-0 text-dark">#</th>
                                 <th class="border-top-0 text-dark">SKU Code</th>
-                                <th class="border-top-0  text-dark">Name</th>
-                                <th class="border-top-0  text-dark">Pack Size</th>
-                                <th class="border-top-0  text-dark">Distributor Price</th>
+                                <th class="border-top-0  text-dark">Name</th> 
                                 <th class="border-top-0  text-dark">Cartons Qty</th>
                                 <th class="border-top-0  text-dark">Stock Status</th>
                                 <th class="border-top-0  text-dark text-end">Action</th>
@@ -39,9 +37,7 @@
                                     <a href="{{ route('products.show', $product->id) }}">{{ $product->sku_code }}</a>
                                 </td>
                                 <td>{{ $product->name }}</td>
-                                <td>{{ $product->pack_size }}</td>
-                                <td>{{ $product->distributor_prices }}</td>
-                                <td>{{ $product->stock_quantity }}</td>
+                                <td>{{ $product->pack_size }}</td> 
                                 <td>
                                     @if ($product->stock_quantity >= 10)
                                         <span class="badge bg-success">In-Stock</span>
@@ -53,6 +49,10 @@
                                 </td>
                                 <td>
                                     <div class="d-flex justify-content-end flex-gap-2">
+                                        <a class="btn btn-gray text-dark" href="{{ route('products.show', $product->id) }}">
+                                            <i class="fa fa-eye me-2" aria-hidden="true"></i>
+                                            Show
+                                        </a>
                                         <a href="{{ route('products.edit', $product->id) }}" class="btn btn-primary">
                                             <i class=" fas fa-pencil-alt me-2"></i>
                                             Edit

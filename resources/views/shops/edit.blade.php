@@ -6,6 +6,6 @@
 
 @section('content')
 
-@livewire('shop-edit', ['shop' => $shop])
+@livewire('shop.shop-edit', ['shop' => $shop])
 
 @endsection

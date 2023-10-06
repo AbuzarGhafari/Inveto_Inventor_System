@@ -28,6 +28,13 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('shop-types.index') }}"
+                        aria-expanded="false">
+                        <i class="fa ti-star" aria-hidden="true"></i>
+                        <span class="hide-menu">Shop Types</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
                     <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('shops.index') }}"
                         aria-expanded="false">
                         <i class="fa ti-star" aria-hidden="true"></i>

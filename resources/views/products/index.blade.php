@@ -7,7 +7,7 @@
 @section('content')
  
 
-@livewire('products')
+@livewire('product.products')
 
 
 @endsection

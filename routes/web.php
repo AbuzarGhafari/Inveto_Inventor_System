@@ -5,6 +5,7 @@ use App\Http\Controllers\AreaController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ShopTypeController;
 use App\Http\Controllers\OrderBookerController;
 
 /*
@@ -29,12 +30,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
     
     Route::resource('/products', ProductController::class);
-
-    Route::resource('/shops', ShopController::class);
-
-    Route::resource('/order-bookers', OrderBookerController::class);
     
     Route::resource('/areas', AreaController::class);
+    
+    Route::resource('/shop-types', ShopTypeController::class);
+
+    Route::resource('/shops', ShopController::class);
+    
+    Route::resource('/order-bookers', OrderBookerController::class);
     
 });
  

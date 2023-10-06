@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
+use App\Models\ShopType;
 use Illuminate\Http\Request;
 
-class ProductController extends Controller
+class ShopTypeController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
-    { 
-        return view('products.index');
+    {
+        return view('shoptypes.index');
     }
 
     /**
@@ -20,37 +20,37 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('products.create');
+        //
     }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {        
+    {
         //
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Product $product)
+    public function show(ShopType $shopType)
     {
-        return view('products.show', compact('product'));
+        return view('shoptypes.show', compact('shopType'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Product $product)
+    public function edit(ShopType $shopType)
     {
-        return view('products.edit', compact('product'));
+        //
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Product $product)
+    public function update(Request $request, ShopType $shopType)
     {
         //
     }
@@ -58,7 +58,7 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Product $product)
+    public function destroy(ShopType $shopType)
     {
         //
     }
