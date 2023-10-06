@@ -11,7 +11,7 @@
                             <div class="form-group mb-4">
                                 <label class="col-md-12 p-0">Shop Name</label>
                                 <div class="col-md-12 border-bottom p-0">
-                                    <input type="text" wire:model.blur="shop_name"  class="form-control p-0 border-0" > 
+                                    <input type="text" wire:model.live="form.shop_name"  class="form-control p-0 border-0" > 
                                 </div>
                                 @error('form.shop_name')<div class="alert alert-danger p-2">{{ $message }}</div>@enderror
                             </div>

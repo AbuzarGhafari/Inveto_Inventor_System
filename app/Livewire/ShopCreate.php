@@ -21,7 +21,7 @@ class ShopCreate extends Component
     {
         $validated = $this->validate(); 
 
-        Shop::create($validated);
+        Shop::create($this->form->all());
 
         return redirect()->route('shops.index');
     }

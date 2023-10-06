@@ -12,6 +12,20 @@ class Shops extends Component
     
     public $search = '';
 
+    public Shop $shopObj;
+
+    public function selectShop(Shop $shop)
+    {
+        $this->shopObj = $shop;
+    }
+
+    public function deleteShop()
+    { 
+        $this->shopObj->delete(); 
+
+        $this->dispatch('closeModal'); 
+    }
+
     public function render()
     {        
         $shops = Shop::where('shop_name','LIKE', "%".$this->search."%")

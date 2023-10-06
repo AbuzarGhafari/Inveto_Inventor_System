@@ -31,7 +31,7 @@
                             @foreach ($areas as $area)                            
                             <tr wire:key = "{{ $area->id }}">
                                 <td>
-                                    <a href="{{ route('areas.show', $area->id) }}">{{ $area->id }}</a>
+                                    {{ $loop->iteration }}
                                 </td>
                                 <td>
                                     <a href="{{ route('areas.show', $area->id) }}">{{ $area->name }}</a>

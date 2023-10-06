@@ -24,42 +24,58 @@
                             <div class="alert alert-danger p-2">{{ $message }}</div>
                         @enderror
                     </div>
-                    <div class="form-group mb-4">
-                        <label class="col-md-12 p-0">Product Name</label>
-                        <div class="col-md-12 border-bottom p-0">
-                            <input type="text" class="form-control p-0 border-0" name="name" value="{{ old('name') }}"> 
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group mb-4">
+                                <label class="col-md-12 p-0">Product Name</label>
+                                <div class="col-md-12 border-bottom p-0">
+                                    <input type="text" class="form-control p-0 border-0" name="name" value="{{ old('name') }}"> 
+                                </div>
+                                @error('name')
+                                    <div class="alert alert-danger p-2">{{ $message }}</div>
+                                @enderror
+                            </div>
                         </div>
-                        @error('name')
-                            <div class="alert alert-danger p-2">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    <div class="form-group mb-4">
-                        <label class="col-md-12 p-0">Product Description</label>
-                        <div class="col-md-12 border-bottom p-0">
-                            <input type="text" class="form-control p-0 border-0" name="desc" value="{{ old('desc') }}"> 
+                        <div class="col-sm-6">
+                            <div class="form-group mb-4">
+                                <label class="col-md-12 p-0">Product Description</label>
+                                <div class="col-md-12 border-bottom p-0">
+                                    <input type="text" class="form-control p-0 border-0" name="desc" value="{{ old('desc') }}"> 
+                                </div>
+                                @error('desc')
+                                    <div class="alert alert-danger p-2">{{ $message }}</div>
+                                @enderror
+                            </div>
                         </div>
-                        @error('desc')
-                            <div class="alert alert-danger p-2">{{ $message }}</div>
-                        @enderror
                     </div>
-                    <div class="form-group mb-4">
-                        <label class="col-md-12 p-0">Pack Size</label>
-                        <div class="col-md-12 border-bottom p-0">
-                            <input type="number" class="form-control p-0 border-0" name="pack_size" value="{{ old('pack_size') }}"> 
+                    
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group mb-4">
+                                <label class="col-md-12 p-0">Pack Size</label>
+                                <div class="col-md-12 border-bottom p-0">
+                                    <input type="number" class="form-control p-0 border-0" name="pack_size" value="{{ old('pack_size') }}"> 
+                                </div>
+                                @error('pack_size')
+                                    <div class="alert alert-danger p-2">{{ $message }}</div>
+                                @enderror
+                            </div>
                         </div>
-                        @error('pack_size')
-                            <div class="alert alert-danger p-2">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    <div class="form-group mb-4">
-                        <label class="col-md-12 p-0">Distributor Price</label>
-                        <div class="col-md-12 border-bottom p-0">
-                            <input type="text" class="form-control p-0 border-0" name="distributor_prices" value="{{ old('distributor_prices') }}"> 
+                        <div class="col-sm-6">
+                            <div class="form-group mb-4">
+                                <label class="col-md-12 p-0">Distributor Price</label>
+                                <div class="col-md-12 border-bottom p-0">
+                                    <input type="text" class="form-control p-0 border-0" name="distributor_prices" value="{{ old('distributor_prices') }}"> 
+                                </div>
+                                @error('distributor_prices')
+                                    <div class="alert alert-danger p-2">{{ $message }}</div>
+                                @enderror
+                            </div>
                         </div>
-                        @error('distributor_prices')
-                            <div class="alert alert-danger p-2">{{ $message }}</div>
-                        @enderror
                     </div>
+                    
+                    
+                    
                                         
                     <div class="form-group mb-4">
                         <div class="col-sm-12">

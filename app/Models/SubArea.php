@@ -17,4 +17,9 @@ class SubArea extends Model
     {
         return $this->belongsTo(Area::class);
     }
+    
+    public function shops(): HasMany
+    {
+        return $this->hasMany(Shop::class, 'id', 'sub_area');
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Shop;
 use App\Models\SubArea;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -16,5 +17,11 @@ class Area extends Model
     public function subAreas(): HasMany
     {
         return $this->hasMany(SubArea::class);
+    }
+
+    
+    public function shops(): HasMany
+    {
+        return $this->hasMany(Shop::class, 'id', 'main_area');
     }
 }

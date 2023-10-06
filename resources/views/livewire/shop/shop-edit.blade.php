@@ -7,106 +7,114 @@
                     @csrf
 
                     <div class="row mb-4">
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                             <div class="form-group mb-4">
                                 <label class="col-md-12 p-0">Shop Name</label>
                                 <div class="col-md-12 border-bottom p-0">
-                                    <input type="text" wire:model.live="shop_name"  class="form-control p-0 border-0" > 
+                                    <input type="text" wire:model.live="form.shop_name"  class="form-control p-0 border-0" > 
                                 </div>
-                                @error('shop_name')<div class="alert alert-danger p-2">{{ $message }}</div>@enderror
+                                @error('form.shop_name')<div class="alert alert-danger p-2">{{ $message }}</div>@enderror
                             </div>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                             <div class="form-group mb-4">
                                 <label class="col-md-12 p-0">Shopkeeper Name</label>
                                 <div class="col-md-12 border-bottom p-0">
-                                    <input type="text" wire:model.live="shopkeeper_name"  class="form-control p-0 border-0" > 
+                                    <input type="text" wire:model.live="form.shopkeeper_name"  class="form-control p-0 border-0" > 
                                 </div>
-                                @error('shopkeeper_name')<div class="alert alert-danger p-2">{{ $message }}</div>@enderror
+                                @error('form.shopkeeper_name')<div class="alert alert-danger p-2">{{ $message }}</div>@enderror
                             </div>
                         </div>
-                    </div>
-
-                    <div class="row mb-4">
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                             <div class="form-group mb-4">
                                 <label class="col-md-12 p-0">Shopkeeper Mobile</label>
                                 <div class="col-md-12 border-bottom p-0">
-                                    <input type="text" wire:model.live="shopkeeper_mobile"  class="form-control p-0 border-0" > 
+                                    <input type="text" wire:model.live="form.shopkeeper_mobile"  class="form-control p-0 border-0" > 
                                 </div>
-                                @error('shopkeeper_mobile')<div class="alert alert-danger p-2">{{ $message }}</div>@enderror
+                                @error('form.shopkeeper_mobile')<div class="alert alert-danger p-2">{{ $message }}</div>@enderror
                             </div>
                         </div>
-                        <div class="col-sm-6">
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-sm-4">
                             <div class="form-group mb-4">
                                 <label class="col-md-12 p-0">City</label>
                                 <div class="col-md-12 border-bottom p-0">
-                                    <input type="text" wire:model.live="city"  class="form-control p-0 border-0" > 
+                                    <input type="text" wire:model.live="form.city"  class="form-control p-0 border-0" > 
                                 </div>
-                                @error('city')<div class="alert alert-danger p-2">{{ $message }}</div>@enderror
+                                @error('form.city')<div class="alert alert-danger p-2">{{ $message }}</div>@enderror
                             </div>
                         </div>
-                    </div>
-
-                    <div class="row mb-4">
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                             <div class="form-group mb-4">
                                 <label class="col-md-12 p-0">Address</label>
                                 <div class="col-md-12 border-bottom p-0">
-                                    <input type="text" wire:model.live="address"  class="form-control p-0 border-0" > 
+                                    <input type="text" wire:model.live="form.address"  class="form-control p-0 border-0" > 
                                 </div>
-                                @error('address')<div class="alert alert-danger p-2">{{ $message }}</div>@enderror
+                                @error('form.address')<div class="alert alert-danger p-2">{{ $message }}</div>@enderror
                             </div>
                         </div>
-                        <div class="col-sm-6">
-                            <div class="form-group mb-4">
-                                <label class="col-md-12 p-0">Route (Main Area)</label>
-                                <div class="col-md-12 border-bottom p-0">
-                                    <input type="text" wire:model.live="route_main_area"  class="form-control p-0 border-0" > 
-                                </div>
-                                @error('route_main_area')<div class="alert alert-danger p-2">{{ $message }}</div>@enderror
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row mb-4">
-                        <div class="col-sm-6">
-                            <div class="form-group mb-4">
-                                <label class="col-md-12 p-0">Location (Sub Area)</label>
-                                <div class="col-md-12 border-bottom p-0">
-                                    <input type="text" wire:model.live="location_sub_area"  class="form-control p-0 border-0" > 
-                                </div>
-                                @error('location_sub_area')<div class="alert alert-danger p-2">{{ $message }}</div>@enderror
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                             <div class="form-group mb-4">
                                 <label class="col-md-12 p-0">Channel</label>
                                 <div class="col-md-12 border-bottom p-0">
-                                    <input type="text" wire:model.live="channel"  class="form-control p-0 border-0" > 
+                                    <input type="text" wire:model.live="form.channel"  class="form-control p-0 border-0" > 
                                 </div>
-                                @error('channel')<div class="alert alert-danger p-2">{{ $message }}</div>@enderror
+                                @error('form.channel')<div class="alert alert-danger p-2">{{ $message }}</div>@enderror
                             </div>
                         </div>
                     </div>
 
+ 
                     <div class="row mb-4">
                         <div class="col-sm-6">
                             <div class="form-group mb-4">
                                 <label class="col-md-12 p-0">Shop Main Type</label>
                                 <div class="col-md-12 border-bottom p-0">
-                                    <input type="text" wire:model.live="shop_type"  class="form-control p-0 border-0" > 
+                                    <input type="text" wire:model.live="form.shop_type"  class="form-control p-0 border-0" > 
                                 </div>
-                                @error('shop_type')<div class="alert alert-danger p-2">{{ $message }}</div>@enderror
+                                @error('form.shop_type')<div class="alert alert-danger p-2">{{ $message }}</div>@enderror
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group mb-4">
                                 <label class="col-md-12 p-0">Shop Sub Type</label>
                                 <div class="col-md-12 border-bottom p-0">
-                                    <input type="text" wire:model.live="shop_sub_type"  class="form-control p-0 border-0" > 
+                                    <input type="text" wire:model.live="form.shop_sub_type"  class="form-control p-0 border-0" > 
                                 </div>
-                                @error('shop_sub_type')<div class="alert alert-danger p-2">{{ $message }}</div>@enderror
+                                @error('form.shop_sub_type')<div class="alert alert-danger p-2">{{ $message }}</div>@enderror
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-4">
+                        <div class="col-sm-6">
+                            <div class="form-group mb-4"> 
+                                <label class="col-md-12 p-0">Route (Main Area)</label>
+                                <div class="col-md-12 border-bottom p-0">
+                                    <select  wire:model.live="form.main_area"   class="form-control p-0 border-0" >
+                                        <option value="">Select Area</option>
+                                        @foreach ($areas as $area)
+                                            <option value="{{ $area->id }}">{{ $area->name }}</option>
+                                        @endforeach 
+                                    </select>
+                                </div>
+                                @error('form.main_area')<div class="alert alert-danger p-2">{{ $message }}</div>@enderror
+                            </div>
+                        </div>
+                        <div class="col-sm-6"> 
+                            <div class="form-group mb-4">
+                                <label class="col-md-12 p-0">Location (Sub Area)</label>
+                                <div class="col-md-12 border-bottom p-0">
+                                    <select  wire:model.live="form.sub_area" class="form-control p-0 border-0" >
+                                        <option value="">Select Sub Area</option>
+                                        @foreach ($subAreas as $sa)
+                                            <option value="{{ $sa->id }}">{{ $sa->name }}</option>
+                                        @endforeach 
+                                    </select>
+                                </div>
+                                @error('form.sub_area')<div class="alert alert-danger p-2">{{ $message }}</div>@enderror
                             </div>
                         </div>
                     </div>
