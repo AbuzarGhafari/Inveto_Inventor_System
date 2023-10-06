@@ -81,3 +81,8 @@
     background-color: #e7e7e7;
     border-color: #e7e7e7;
 }
+
+.left-sidebar .sidebar-nav .svg-icon{
+    margin-right: 0.5rem;
+    fill: #2c3033;
+}
