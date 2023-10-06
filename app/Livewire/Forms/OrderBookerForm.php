@@ -16,15 +16,15 @@ class OrderBookerForm extends Form
     #[Rule('size:11', message: 'Mobile number is incorrect. Its should be 11.')]
     public $mobile = '';
 
-    #[Rule('required', as: 'Area')]
-    public $area_id = '';
+    // #[Rule('required', as: 'Area')]
+    // public $area_id = '';
  
 
     public function setOrderBooker(OrderBooker $orderBooker)
     {
         $this->name = $orderBooker->name;
         $this->mobile = $orderBooker->mobile;
-        $this->area_id = $orderBooker->area;
+        // $this->area_id = $orderBooker->area;
     }
 
 }

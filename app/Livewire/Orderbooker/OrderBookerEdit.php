@@ -29,9 +29,6 @@ class OrderBookerEdit extends Component
     }
 
 
-
-
-
     public function render()
     {
         return view('livewire.orderbooker.order-booker-edit');

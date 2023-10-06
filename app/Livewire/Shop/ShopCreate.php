@@ -5,6 +5,7 @@ namespace App\Livewire\Shop;
 use App\Models\Area;
 use App\Models\Shop;
 use Livewire\Component;
+use App\Models\ShopType;
 use App\Livewire\Forms\ShopForm;
 
 class ShopCreate extends Component
@@ -13,9 +14,15 @@ class ShopCreate extends Component
 
     public Area $area;
 
+    public ShopType $shopType;
+
     public $areas = []; 
-    
+
     public $subAreas = [];
+    
+    public $shopTypes = []; 
+    
+    public $subTypes = []; 
 
     public function save()
     {
@@ -35,6 +42,12 @@ class ShopCreate extends Component
             foreach ($area->subAreas as $sa) {
                 $this->subAreas[] = $sa;
             } 
+        } else if($field == 'form.shop_type'){
+            $sto = ShopType::with('subShopTypes')->find($this->form->shop_type);
+            $this->subTypes = [];
+            foreach ($sto->subShopTypes as $sa) {
+                $this->subTypes[] = $sa;
+            } 
         }
     }
     
@@ -42,6 +55,9 @@ class ShopCreate extends Component
     public function render()
     {
         $this->areas = Area::all();
+        
+        $this->shopTypes = ShopType::all();
+
         
         return view('livewire.shop.shop-create');
     }

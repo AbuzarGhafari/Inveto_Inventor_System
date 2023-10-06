@@ -68,28 +68,35 @@
 
  
                     <div class="row mb-4">
-                        <div class="col-sm-6">
+                        <div class="col-sm-3">
                             <div class="form-group mb-4">
                                 <label class="col-md-12 p-0">Shop Main Type</label>
                                 <div class="col-md-12 border-bottom p-0">
-                                    <input type="text" wire:model.live="form.shop_type"  class="form-control p-0 border-0" > 
+                                    <select  wire:model.live="form.shop_type"   class="form-control p-0 border-0" >
+                                        <option value="">Select Main Type</option>
+                                        @foreach ($shopTypes as $st)
+                                            <option value="{{ $st->id }}">{{ $st->name }}</option>
+                                        @endforeach 
+                                    </select>
                                 </div>
                                 @error('form.shop_type')<div class="alert alert-danger p-2">{{ $message }}</div>@enderror
                             </div>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-3">
                             <div class="form-group mb-4">
                                 <label class="col-md-12 p-0">Shop Sub Type</label>
                                 <div class="col-md-12 border-bottom p-0">
-                                    <input type="text" wire:model.live="form.shop_sub_type"  class="form-control p-0 border-0" > 
+                                    <select  wire:model.live="form.shop_sub_type"   class="form-control p-0 border-0" >
+                                        <option value="">Select Sub Type</option>
+                                        @foreach ($subTypes as $st)
+                                            <option value="{{ $st->id }}">{{ $st->name }}</option>
+                                        @endforeach 
+                                    </select>
                                 </div>
                                 @error('form.shop_sub_type')<div class="alert alert-danger p-2">{{ $message }}</div>@enderror
                             </div>
-                        </div>
-                    </div>
-                    
-                    <div class="row mb-4">
-                        <div class="col-sm-6">
+                        </div> 
+                        <div class="col-sm-3">
                             <div class="form-group mb-4"> 
                                 <label class="col-md-12 p-0">Route (Main Area)</label>
                                 <div class="col-md-12 border-bottom p-0">
@@ -103,7 +110,7 @@
                                 @error('form.main_area')<div class="alert alert-danger p-2">{{ $message }}</div>@enderror
                             </div>
                         </div>
-                        <div class="col-sm-6"> 
+                        <div class="col-sm-3"> 
                             <div class="form-group mb-4">
                                 <label class="col-md-12 p-0">Location (Sub Area)</label>
                                 <div class="col-md-12 border-bottom p-0">

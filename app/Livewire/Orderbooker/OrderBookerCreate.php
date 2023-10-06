@@ -1,7 +1,6 @@
 <?php
 
-namespace App\Livewire\Orderbooker;
-use App\Models\Area;
+namespace App\Livewire\Orderbooker; 
 use Livewire\Component;
 use App\Models\OrderBooker;
 use App\Livewire\Forms\OrderBookerForm;
@@ -20,11 +19,8 @@ class OrderBookerCreate extends Component
     }
   
     public function render()
-    {
-        $areas = Area::all();
+    { 
         
-        return view('livewire.orderbooker.order-booker-create',[
-            'areas' => $areas
-        ]);
+        return view('livewire.orderbooker.order-booker-create');
     }
 }

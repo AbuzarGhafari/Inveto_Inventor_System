@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Area;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class OrderBooker extends Model
 {
@@ -11,5 +14,8 @@ class OrderBooker extends Model
 
     protected $guarded = [];
 
-    
+    public function areas(): BelongsToMany
+    {
+        return $this->belongsToMany(Area::class, 'order_booker_areas', 'order_booker_id', 'area_id');
+    }
 }

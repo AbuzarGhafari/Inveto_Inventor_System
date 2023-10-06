@@ -41,7 +41,13 @@
                                 </td>
                                 <td>{{ $shop->shopkeeper_name }}</td>
                                 <td>{{ $shop->shopkeeper_mobile }}</td>
-                                <td>{{ $shop->shop_type }}</td>
+                                <td> 
+                                    @isset($shop->shopMainType)
+                                        {{ $shop->shopMainType->name }}
+                                    @else
+                                        <span class="badge text-light bg-secondary">--</span>
+                                    @endisset
+                                </td>
                                 <td>
                                     @isset($shop->area)
                                         {{ $shop->area->name }}
@@ -88,7 +94,9 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">   
+                @isset($shop)
                 <p class="form-control bg-danger-light" >{{ $shop->shop_name }} </p> 
+                @endisset
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

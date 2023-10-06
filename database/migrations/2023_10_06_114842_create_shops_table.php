@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('shopkeeper_mobile');
             $table->string('city');
             $table->string('address');  
+            $table->string('channel');
             
             $table->unsignedBigInteger('main_area')->nullable();
             $table->foreign('main_area')->references('id')->on('areas')->nullOnDelete();
@@ -25,9 +26,13 @@ return new class extends Migration
             $table->unsignedBigInteger('sub_area')->nullable();
             $table->foreign('sub_area')->references('id')->on('sub_areas')->nullOnDelete();
 
-            $table->string('channel');
-            $table->string('shop_type');
-            $table->string('shop_sub_type');
+            
+            $table->unsignedBigInteger('shop_type')->nullable();
+            $table->foreign('shop_type')->references('id')->on('shop_types')->nullOnDelete();
+            
+            $table->unsignedBigInteger('shop_sub_type')->nullable();
+            $table->foreign('shop_sub_type')->references('id')->on('shop_sub_types')->nullOnDelete();
+ 
             $table->timestamps();
         });
     }

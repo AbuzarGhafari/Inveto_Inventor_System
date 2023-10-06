@@ -101,8 +101,12 @@
                     <div class="col-sm-4">
                         <p class="border-top-0  text-dark fw-bold">Main type</p>
                     </div>
-                    <div class="col-sm-8">
-                        <p>{{ $shop->shop_type }}</p>
+                    <div class="col-sm-8"> 
+                        @isset($shop->shopMainType)
+                            <span class="badge bg-info">{{ $shop->shopMainType->name }}</span>                             
+                        @else 
+                            <span class="badge text-light bg-secondary">--</span>
+                        @endisset
                     </div>
                 </div>
 
@@ -110,8 +114,12 @@
                     <div class="col-sm-4">
                         <p class="border-top-0  text-dark fw-bold">Sub Type</p>
                     </div>
-                    <div class="col-sm-8">
-                        <p>{{ $shop->shop_sub_type }}</p>
+                    <div class="col-sm-8"> 
+                        @isset($shop->shopSubType)
+                            <span class="badge bg-info">{{ $shop->shopSubType->name }}</span>                             
+                        @else 
+                            <span class="badge text-light bg-secondary">--</span>
+                        @endisset
                     </div>
                 </div>
 

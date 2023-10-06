@@ -14,14 +14,16 @@ class ShopType extends Model
 
     protected $guarded = [];
 
+    
+    public function shops(): HasMany
+    {
+        return $this->hasMany(Shop::class, 'id', 'shop_type');
+    }
+
+    
     public function subShopTypes(): HasMany
     {
         return $this->hasMany(ShopSubType::class);
     }
 
-    
-    public function shops(): HasMany
-    {
-        return $this->hasMany(Shop::class, 'id', 'shop_main_type');
-    }
 }
