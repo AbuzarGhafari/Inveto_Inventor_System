@@ -24,8 +24,7 @@ class BillForm extends Form
     #[Rule('required', as: 'Shop')]
     public $shop_id = '';
 
-
-    public $status = '';
+    public $status = '0';
 
     public $actual_price = 0;
 
@@ -33,23 +32,9 @@ class BillForm extends Form
 
     public $final_price = 0;
 
-    public $recovered_amount = '';
+    public $recovered_amount = 0;
 
-    public $is_recovered = '';
-
-
-    // public Collection $inputs;
-
-    // protected $rules = [
-    //     'inputs.*.sku_code' => 'required',
-    //     'inputs.*.no_of_cottons' => 'required',
-    //     'inputs.*.no_of_pieces' => 'required',
-    // ];
-    
-    // protected $messages = [
-    //     'inputs.*.sku_code.required' => 'This SKU Code field is required.',
-    //     'inputs.*.no_of_cottons.required' => 'This No. of Cottons field is required.',
-    //     'inputs.*.no_of_pieces.required' => 'This No. of Pieces field is required.',
-    // ];
+    public $is_recovered = false;
+ 
 
 }

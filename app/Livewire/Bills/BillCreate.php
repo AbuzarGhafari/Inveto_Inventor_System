@@ -2,10 +2,13 @@
 
 namespace App\Livewire\Bills;
 
+use Carbon\Carbon;
 use App\Models\Area;
+use App\Models\Bill;
 use App\Models\Product;
 use App\Models\SubArea;
 use Livewire\Component;
+use App\Models\BillEntry;
 use App\Models\OrderBooker;
 use App\Livewire\Forms\BillForm;
 use Illuminate\Support\Collection;
@@ -28,17 +31,16 @@ class BillCreate extends Component
     public Collection $inputs;
 
     protected $rules = [
-        'inputs.*.sku_code' => 'required',
+        'inputs.*.product_id' => 'required',
         'inputs.*.no_of_cottons' => 'required',
         'inputs.*.no_of_pieces' => 'required', 
     ];
     
     protected $messages = [
-        'inputs.*.sku_code.required' => 'This SKU Code field is required.',
+        'inputs.*.product_id.required' => 'This SKU Code field is required.',
         'inputs.*.no_of_cottons.required' => 'This No. of Cottons field is required.',
         'inputs.*.no_of_pieces.required' => 'This No. of Pieces field is required.', 
     ];
-
  
 
     public function updated($field, $value)
@@ -78,9 +80,14 @@ class BillCreate extends Component
 
     public function mount()
     {
+        
+        $now = Carbon::now()->timezone('Asia/Karachi');
+        $this->form->bill_number = $now->year . 'M' . $now->month . 'D' . $now->day . strtoupper($now->shortLocaleDayOfWeek) . (Bill::getBillsCountToday() + 1);
+
         $this->fill([
             'inputs' => collect([
                 [
+                    'product_id' => '',
                     'sku_code' => '',
                     'no_of_cottons' => '1', 
                     'no_of_pieces' => '1',
@@ -98,6 +105,7 @@ class BillCreate extends Component
     {
         $this->inputs->push(
             [
+                'product_id' => '',
                 'sku_code' => '',
                 'no_of_cottons' => '1', 
                 'no_of_pieces' => '1',
@@ -117,9 +125,7 @@ class BillCreate extends Component
 
     public function updatedInputs()
     {
-        $this->formatMappedInputs();
-        // $this->calculateTotals();
- 
+        $this->formatMappedInputs();  
     }
 
     public function formatMappedInputs()
@@ -127,8 +133,12 @@ class BillCreate extends Component
         $this->inputs = $this->inputs->map(function ($row) {
             $total = 0;
             $subtotal = 0; 
-            $product = Product::find($row['sku_code']);
+            $product = Product::find($row['product_id']);
             if($product){
+
+                $row['product_id'] = $product->id;
+
+                $row['sku_code'] = $product->sku_code;
 
                 $row['cottons_price'] = $product->distributor_prices * $row['no_of_cottons'];
                 
@@ -160,7 +170,21 @@ class BillCreate extends Component
 
     public function save()
     { 
-        $validated = $this->validate();  
+        $validated = $this->validate();   
+
+        $bill = Bill::create($this->form->all());
+
+        $this->inputs->map(function ($row)  use ($bill) {
+            
+            $row['bill_id'] = $bill->id;
+
+            $row['bill_number'] = $bill->bill_number;
+
+            BillEntry::create($row);
+            
+        });
+
+        return redirect()->route('bills.index');
     }
 
     public function render()

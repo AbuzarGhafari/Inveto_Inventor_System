@@ -6,7 +6,7 @@
                 
                 <div class="d-flex align-items-center justify-content-between mb-4 bg-info p-2">
 
-                    <p class="fw-bold text-light m-0">Bill Number: 2023M-09A-01</p>
+                    <p class="fw-bold text-light m-0">Bill Number: {{ $form->bill_number }}</p>
 
                     <div wire:click="addInput" class="btn btn-dark">Add Entry</div>
                 </div>
@@ -104,22 +104,18 @@
                                     @if($key > 0) <div wire:click="removeInput({{$key}})" class="btn btn-sm btn-danger text-white"><i class="fa fa-times"></i></div> @endif
                                 </td>
                                 <td>{{ $key+1 }}</td>
-                                {{-- <td>
-                                    <input type="text" id="input_{{$key}}_email" wire:model.live="inputs.{{$key}}.email" >
-                                    @error('inputs.'.$key.'.email') <span class="text-xs text-red-600">{{ $message }}</span> @enderror
                                 
-                                </td> --}}
                                 <td>
                                     <div>
                                         <div class="border-bottom p-0">                                    
-                                            <select id="input_{{$key}}_sku_code"  wire:model.live="inputs.{{$key}}.sku_code"   class="form-control p-0 border-0">
+                                            <select id="input_{{$key}}_product_id"  wire:model.live="inputs.{{$key}}.product_id"   class="form-control p-0 border-0">
                                                 <option value="">Select SKU Code</option>
                                                 @foreach ($products as $product)
                                                     <option value="{{ $product->id }}">{{ $product->sku_code }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
-                                        @error('inputs.'.$key.'.sku_code')<div class="alert alert-danger p-2">{{ $message }}</div>@enderror
+                                        @error('inputs.'.$key.'.product_id')<div class="alert alert-danger p-2">{{ $message }}</div>@enderror
                                     </div>
                                 </td>
                                 <td> 
@@ -180,7 +176,7 @@
                                         
                     <div class="form-group mb-4">
                         <div class="col-sm-12 text-end">
-                            <button class="btn btn-success" type="submit">Generate New Bill</button>
+                            <button class="btn btn-success" type="submit">Generate Bill</button>
                         </div>
                     </div>
                 </form>
