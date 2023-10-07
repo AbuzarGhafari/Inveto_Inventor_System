@@ -23,7 +23,7 @@ class Area extends Model
     
     public function shops(): HasMany
     {
-        return $this->hasMany(Shop::class, 'id', 'main_area');
+        return $this->hasMany(Shop::class, 'main_area', 'id');
     }
 
     public function orderBookers(): BelongsToMany

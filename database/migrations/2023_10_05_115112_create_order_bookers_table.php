@@ -16,9 +16,6 @@ return new class extends Migration
             $table->string('name');
             $table->string('mobile');
 
-            $table->unsignedBigInteger('area_id')->nullable();
-            $table->foreign('area_id')->references('id')->on('areas')->nullOnDelete();
-
             $table->timestamps();
         });
     }

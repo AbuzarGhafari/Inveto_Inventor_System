@@ -28,6 +28,13 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('order-bookers.index') }}"
+                        aria-expanded="false">
+                        <div class="svg-icon">@include('layouts.partials.svgs.order-booker')</div>
+                        <span class="hide-menu">Order Bookers</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
                     <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('shop-types.index') }}"
                         aria-expanded="false">
                         <div class="svg-icon">@include('layouts.partials.svgs.shop-types')</div>
@@ -42,10 +49,10 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('order-bookers.index') }}"
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('bills.index') }}"
                         aria-expanded="false">
-                        <div class="svg-icon">@include('layouts.partials.svgs.order-booker')</div>
-                        <span class="hide-menu">Order Bookers</span>
+                        <div class="svg-icon">@include('layouts.partials.svgs.bills')</div>
+                        <span class="hide-menu">Bills</span>
                     </a>
                 </li>
                 

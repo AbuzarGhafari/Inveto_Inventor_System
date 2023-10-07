@@ -3,7 +3,9 @@
 namespace App\Models;
 
 use App\Models\Area;
+use App\Models\Shop;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -20,6 +22,6 @@ class SubArea extends Model
     
     public function shops(): HasMany
     {
-        return $this->hasMany(Shop::class, 'id', 'sub_area');
+        return $this->hasMany(Shop::class, 'sub_area', 'id');
     }
 }

@@ -27,7 +27,7 @@
                         </thead>
                         <tbody>
                             @foreach ($orderBookers as $booker)                            
-                            <tr wire:key = "{{ $booker->sku_code }}">
+                            <tr wire:key = "{{ $booker->id }}">
                                 <td>
                                     {{ $loop->iteration }}
                                 </td>
