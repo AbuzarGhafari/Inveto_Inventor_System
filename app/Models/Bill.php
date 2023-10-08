@@ -6,8 +6,11 @@ use Carbon\Carbon;
 use App\Models\Area;
 use App\Models\Bill;
 use App\Models\Shop;
+use App\Models\SubArea;
+use App\Models\BillEntry;
 use App\Models\OrderBooker;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -32,8 +35,19 @@ class Bill extends Model
         return $this->belongsTo(Area::class);
     }
 
+    public function subArea(): BelongsTo
+    {
+        return $this->belongsTo(SubArea::class);
+    }
+
     public function shop(): BelongsTo
     {
         return $this->belongsTo(Shop::class);
     }
+    
+    public function billEntries(): HasMany
+    {
+        return $this->hasMany(BillEntry::class);
+    }
+    
 }

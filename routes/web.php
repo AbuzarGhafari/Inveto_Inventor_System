@@ -40,7 +40,12 @@ Route::middleware(['auth'])->group(function () {
     
     Route::resource('/order-bookers', OrderBookerController::class);
 
+    Route::get('/bills/daily-sales-report/{booker}', [BillController::class, 'dailySalesReport'])->name('bills.dailySalesReport');
+
     Route::resource('/bills', BillController::class);
+
+    Route::get('/bills/print/{bill}', [BillController::class, 'print'])->name('bills.print');
+    
     
 });
  

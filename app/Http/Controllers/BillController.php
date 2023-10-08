@@ -2,8 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use PDF;
+// use Barryvdh\DomPDF\PDF;
+use Carbon\Carbon;
 use App\Models\Bill;
+use App\Models\OrderBooker;
 use Illuminate\Http\Request;
+// use Barryvdh\DomPDF\Facade as PDF;
+// use Barryvdh\DomPDF\Facade\Pdf as PDF;
 
 class BillController extends Controller
 {
@@ -36,8 +42,42 @@ class BillController extends Controller
      */
     public function show(Bill $bill)
     {
-        //
+        return view('bills.show', compact('bill'));
     }
+
+    /**
+     * Display the specified resource.
+     */
+    public function print(Bill $bill)
+    {
+        $data = [
+            'bill'    => $bill,
+       ];
+
+        $pdf = PDF::loadView('bills.print', $data);
+
+        return $pdf->stream('invoice_'.$bill->bill_number.'.pdf');
+          
+    }
+
+    public function dailySalesReport(OrderBooker $booker)
+    { 
+        $bills = Bill::whereDate('created_at', Carbon::today())->where('order_booker_id', $booker->id)->get();
+
+        $date = Carbon::today()->format('Y-m-d');
+
+        $data = [
+            'bills'    => $bills,
+            'booker'    => $booker,
+        ];
+
+        $pdf = PDF::loadView('bills.diapy-sales-report', $data);
+
+        return $pdf->stream('summary_'.$booker->name.'_'.$date.'.pdf');
+
+        // return view('bills.diapy-sales-report', compact('bills', 'booker'));
+    }
+ 
 
     /**
      * Show the form for editing the specified resource.
