@@ -35,7 +35,7 @@
                         </thead>
                         <tbody>
                             @foreach ($bills as $bill)                            
-                            <tr class="{{ $bill->is_recovered ? 'bill-completed' : 'bill-pending' }}" wire:key = "{{ $bill->id }}">
+                            <tr class="{{ $bill->is_recovered ? ' ' : 'bill-pending' }}" wire:key = "{{ $bill->id }}">
                                 <td>{{ $loop->iteration }} </td>
                                 <td>
                                     <a href="{{ route('bills.show', $bill->id) }}">{{ $bill->bill_number }}</a> 
@@ -77,7 +77,7 @@
                                             </button>                                    
                                         @endif                                
                                         <a target="_blank" href="{{ route('bills.print', $bill->id) }}" class="btn btn-success text-white">
-                                            <i class="fa fa-print me-2" aria-hidden="true"></i>                                            
+                                            <i class="fa fa-print" aria-hidden="true"></i>                                            
                                         </a>                                    
                                     </div>
 

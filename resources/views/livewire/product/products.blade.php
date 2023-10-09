@@ -37,7 +37,7 @@
                                     <a href="{{ route('products.show', $product->id) }}">{{ $product->sku_code }}</a>
                                 </td>
                                 <td>{{ $product->name }}</td>
-                                <td>{{ $product->pack_size }}</td> 
+                                <td>{{ $product->stock_quantity }}</td> 
                                 <td>
                                     @if ($product->stock_quantity >= 10)
                                         <span class="badge bg-success">In-Stock</span>

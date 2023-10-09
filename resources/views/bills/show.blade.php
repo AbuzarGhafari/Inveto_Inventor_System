@@ -157,7 +157,7 @@
                     <p class="border-top-0 text-dark fw-bold">Remaining Amount</p>
                 </div>
                 <div class="col-sm-8">
-                    <p  class="text-danger-dark">{{ $bill->recovered_amount }}</p>
+                    <p  class="text-danger-dark">{{ $bill->final_price - $bill->recovered_amount }}</p>
                 </div>
             </div>  
 
