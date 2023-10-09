@@ -28,8 +28,13 @@
             padding: 5px  !important;
         }
 
-        table{
+        /* table{
             width: 100%
+        } */
+
+        table th,
+        table td{
+            font-size: 0.8rem;
         }
 
         .mb-0{
@@ -52,22 +57,21 @@
 
 
         img {
-            width: 120px;
-            margin-left: 285px;
+            width: 80px;
         }
 
         .title {
             font-weight: bold;
-            font-size: 1.75rem;
-            margin-top: 0.5rem;
-            text-align: center
+            font-size: 0.9rem;
+            margin: 0px;
         }
+
         .fw-bold{
             font-weight: bold;
         }
 
         .mb-5{
-            margin-bottom: 2rem;
+            margin-bottom: 0.5rem;
         }
     </style>
 

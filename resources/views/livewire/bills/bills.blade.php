@@ -26,8 +26,7 @@
                             <tr> 
                                 <th class="border-top-0  text-dark">#</th>
                                 <th class="border-top-0  text-dark">Bill Number</th>
-                                <th class="border-top-0  text-dark">Order Booker</th>
-                                <th class="border-top-0  text-dark">Area</th>
+                                <th class="border-top-0  text-dark">Order Booker</th> 
                                 <th class="border-top-0  text-dark">Shop</th>
                                 <th class="border-top-0  text-dark">Bill Amount</th> 
                                 <th class="border-top-0  text-dark">Recovered</th> 
@@ -39,12 +38,23 @@
                             <tr class="{{ $bill->is_recovered ? 'bill-completed' : 'bill-pending' }}" wire:key = "{{ $bill->id }}">
                                 <td>{{ $loop->iteration }} </td>
                                 <td>
-                                    <a href="{{ route('bills.show', $bill->id) }}">{{ $bill->bill_number }}</a> <br>
+                                    <a href="{{ route('bills.show', $bill->id) }}">{{ $bill->bill_number }}</a> 
+                                    @if ($bill->recover_bill)
+                                        <span class="bill_alert"></span> 
+                                    @endif 
+                                    <br>
                                     <span class="date-sm">{{ \Carbon\Carbon::parse($bill->created_at)->format('d/m/Y g:i:s A')}}</span>
                                 </td>
-                                <td>{{ $bill->orderBooker->name }}</td>
-                                <td>{{ $bill->mainArea->name }}</td>
-                                <td>{{ $bill->shop->shop_name }}</td>
+                                <td>
+                                    {{ $bill->orderBooker->name }}
+                                    <br>
+                                    <span class="text-sm-light">{{ $bill->mainArea->name }}</span>
+                                </td>
+                                
+                                <td>
+                                    {{ $bill->shop->shop_name }} <br>
+                                    <span class="text-sm-light">{{ $bill->shop->shopkeeper_mobile }}</span>
+                                </td>
                                 <td>
                                     <span class="text-info-dark">{{ $bill->final_price }}</span>
                                 </td>

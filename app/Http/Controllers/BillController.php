@@ -71,7 +71,7 @@ class BillController extends Controller
             'booker'    => $booker,
         ];
 
-        $pdf = PDF::loadView('bills.diapy-sales-report', $data);
+        $pdf = PDF::loadView('bills.dialy-sales-report', $data);
 
         return $pdf->stream('summary_'.$booker->name.'_'.$date.'.pdf');
 

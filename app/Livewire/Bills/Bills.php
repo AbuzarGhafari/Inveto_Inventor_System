@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Bills;
 
+use Carbon\Carbon;
 use App\Models\Bill;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -31,6 +32,18 @@ class Bills extends Component
         $bills = Bill::with(['orderBooker'])->where('bill_number','LIKE', "%".$this->search."%")
                     ->orderBy('created_at', 'desc')
                     ->paginate(10);
+
+        foreach ($bills as $bill) {
+            $to = Carbon::createFromFormat('Y-m-d H:i:s', $bill->created_at);
+            $from = Carbon::createFromFormat('Y-m-d H:i:s', Carbon::now());
+            $diff_in_days = $to->diffInDays($from);
+            if($diff_in_days >= 14){
+                $bill->recover_bill = true;
+            }else{
+                $bill->recover_bill = false;
+            }
+            $bill->diff_in_days = $diff_in_days;
+        }
 
         return view('livewire.bills.bills',[
             'bills' => $bills
