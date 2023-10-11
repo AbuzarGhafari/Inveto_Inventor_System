@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Builder;
 
 class Bill extends Model
 {
@@ -48,6 +49,16 @@ class Bill extends Model
     public function billEntries(): HasMany
     {
         return $this->hasMany(BillEntry::class);
+    }
+
+    public function scopeRecovered(Builder $query): void
+    {
+        $query->where('is_recovered', true);
+    }
+
+    public function scopePending(Builder $query): void
+    {
+        $query->where('is_recovered', false);
     }
     
 }

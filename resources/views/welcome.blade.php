@@ -11,46 +11,65 @@
 <div class="row justify-content-center">
     <div class="col-lg-4 col-md-12">
         <div class="white-box analytics-info">
-            <h3 class="box-title">Total Products</h3>
-            <ul class="list-inline two-part d-flex align-items-center mb-0">
-                <li>
-                    <div id="sparklinedash"><canvas width="67" height="30"
-                            style="display: inline-block; width: 67px; height: 30px; vertical-align: top;"></canvas>
-                    </div>
-                </li>
-                <li class="ms-auto"><span class="counter text-success">{{ $productsCount }}</span></li>
+            <h3 class="box-title">Total Orders</h3>
+            <ul class="list-inline two-part d-flex align-items-center mb-0"> 
+                <li class="ms-auto"><span class="counter text-success">{{ $ordersCount }}</span></li>
             </ul>
         </div>
     </div>
     <div class="col-lg-4 col-md-12">
         <div class="white-box analytics-info">
-            <h3 class="box-title">Total Stock</h3>
-            <ul class="list-inline two-part d-flex align-items-center mb-0">
-                <li>
-                    <div id="sparklinedash2"><canvas width="67" height="30"
-                            style="display: inline-block; width: 67px; height: 30px; vertical-align: top;"></canvas>
-                    </div>
-                </li>
-                <li class="ms-auto"><span class="counter text-purple">{{ $totalStock }}</span></li>
+            <h3 class="box-title">Recovered orders</h3>
+            <ul class="list-inline two-part d-flex align-items-center mb-0"> 
+                <li class="ms-auto"><span class="counter text-purple">{{ $recoveredOrdersCount }}</span></li>
             </ul>
         </div>
     </div>
     <div class="col-lg-4 col-md-12">
         <div class="white-box analytics-info">
-            <h3 class="box-title">Unique Visitor</h3>
-            <ul class="list-inline two-part d-flex align-items-center mb-0">
-                <li>
-                    <div id="sparklinedash3"><canvas width="67" height="30"
-                            style="display: inline-block; width: 67px; height: 30px; vertical-align: top;"></canvas>
-                    </div>
-                </li>
-                <li class="ms-auto"><span class="counter text-info">911</span>
+            <h3 class="box-title">Pending Orders</h3>
+            <ul class="list-inline two-part d-flex align-items-center mb-0"> 
+                <li class="ms-auto"><span class="counter text-danger-dark">{{ $pendingOrdersCount }}</span>
                 </li>
             </ul>
         </div>
     </div>
 </div>
 
+
+<div class="row justify-content-center">
+    <div class="col-lg-4 col-md-12">
+        <div class="white-box analytics-info">
+            <h3 class="box-title">Ordered Amount</h3>
+            <ul class="list-inline two-part d-flex align-items-center mb-0"> 
+                <li class="ms-auto"><span class="counter text-success">{{ $totalOrderedAmount }}</span></li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-12">
+        <div class="white-box analytics-info">
+            <h3 class="box-title">Recovered Amount</h3>
+            <ul class="list-inline two-part d-flex align-items-center mb-0"> 
+                <li class="ms-auto"><span class="counter text-purple">{{ $totalRecoveredAmount }}</span></li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-12">
+        <div class="white-box analytics-info">
+            <h3 class="box-title">Total Profit</h3>
+            <ul class="list-inline two-part d-flex align-items-center mb-0"> 
+                <li>
+                    <p>
+                        <span class="text-danger">{{ $totalBuyAmount }}</span>, 
+                        <span class="text-success ms-2">{{ $totalSellAmount }}</span> 
+                    </p>
+                </li>
+                <li class="ms-auto"><span class="counter text-success-dark">{{ $totalProfit }}</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
 
 {{-- <div class="row">
     <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">

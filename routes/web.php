@@ -42,7 +42,10 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/bills/daily-sales-report/{booker}', [BillController::class, 'dailySalesReport'])->name('bills.dailySalesReport');
 
+
     Route::resource('/bills', BillController::class);
+
+    Route::get('/bills/create-bill-with-previous/{bill}', [BillController::class, 'createBillWithPreviousBill'])->name('bills.createBillWithPreviousBill');
 
     Route::get('/bills/print/{bill}', [BillController::class, 'print'])->name('bills.print');
     

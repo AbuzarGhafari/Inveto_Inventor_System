@@ -15,7 +15,7 @@ class Bills extends Component
 
     public Bill $bill;
 
-    public $recovery_amount;
+    public $recovery_amount = 0;
 
     public $bill_number;
 
@@ -24,6 +24,10 @@ class Bills extends Component
     public $bill_amount;
 
     public $recovered_amount;
+
+    public $is_previous_bill;
+
+    public $previous_bill_amount = 0;
 
     public $remaining_amount;
     
@@ -37,7 +41,7 @@ class Bills extends Component
             $to = Carbon::createFromFormat('Y-m-d H:i:s', $bill->created_at);
             $from = Carbon::createFromFormat('Y-m-d H:i:s', Carbon::now());
             $diff_in_days = $to->diffInDays($from);
-            if($diff_in_days >= 14){
+            if($diff_in_days >= 14 & !$bill->is_recovered){
                 $bill->recover_bill = true;
             }else{
                 $bill->recover_bill = false;
@@ -58,6 +62,11 @@ class Bills extends Component
         $this->bill_amount = $bill->final_price;
         $this->recovered_amount = $bill->recovered_amount;
         $this->remaining_amount = $bill->final_price - $bill->recovered_amount;
+
+        if($bill->previous_bill_id){
+            $this->is_previous_bill = true;
+            $this->previous_bill_amount = $bill->previous_bill_amount;
+        }
     }
 
     public function addRecovery()
@@ -66,14 +75,14 @@ class Bills extends Component
 
         $this->bill->save(); 
 
-        $this->recovery_amount = '';
+        $this->recovery_amount = 0;
 
         $this->dispatch('closeModal'); 
     }
 
     public function fullyRecovered()
     {
-        $this->bill->recovered_amount = $this->bill->final_price;
+        $this->bill->recovered_amount = $this->bill->final_price + $this->bill->previous_bill_amount;
 
         $this->bill->is_recovered = true;
 
@@ -81,7 +90,7 @@ class Bills extends Component
 
         $this->bill = new Bill();
 
-        $this->recovery_amount = '';
+        $this->recovery_amount = 0;
 
         $this->dispatch('closeModal'); 
 

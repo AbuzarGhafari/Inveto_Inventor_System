@@ -129,7 +129,18 @@
                 <div class="col-sm-8">
                     <p>{{ $bill->discount }}</p>
                 </div>
-            </div>  
+            </div>
+            
+            @if($bill->previous_bill_id)
+            <div class="row">
+                <div class="col-sm-4">
+                    <p class="border-top-0 text-dark fw-bold">Previous Bill Amount</p>
+                </div>
+                <div class="col-sm-8">
+                    <p  class="text-danger-dark">{{ $bill->previous_bill_amount }}</p>
+                </div>
+            </div>   
+            @endif
         </div>
     </div>
     <div class="col-sm-6">
@@ -157,7 +168,7 @@
                     <p class="border-top-0 text-dark fw-bold">Remaining Amount</p>
                 </div>
                 <div class="col-sm-8">
-                    <p  class="text-danger-dark">{{ $bill->final_price - $bill->recovered_amount }}</p>
+                    <p  class="text-danger-dark">{{  $bill->previous_bill_amount + $bill->final_price - $bill->recovered_amount }}</p>
                 </div>
             </div>  
 

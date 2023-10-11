@@ -35,6 +35,12 @@ return new class extends Migration
             $table->double('recovered_amount');
             $table->boolean('is_recovered');
 
+            
+            $table->unsignedBigInteger('previous_bill_id')->nullable();
+            $table->foreign('previous_bill_id')->references('id')->on('bills')->nullOnDelete();
+            $table->double('previous_bill_amount')->default(0)->nullable();
+               
+
             $table->timestamps();
         });
     }

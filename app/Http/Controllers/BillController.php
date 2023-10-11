@@ -29,6 +29,11 @@ class BillController extends Controller
         return view('bills.create');
     }
 
+    public function createBillWithPreviousBill(Bill $bill)
+    {
+        return view('bills.createBillWithPreviousBill', compact('bill'));
+    }
+
     /**
      * Store a newly created resource in storage.
      */

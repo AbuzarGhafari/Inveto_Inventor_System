@@ -18,6 +18,10 @@ class BillCreate extends Component
 {
     public BillForm $form; 
 
+    public $add_previous_bill;
+
+    public Bill $previousBill;
+
     public $products;
 
     public $orderBookers;
@@ -89,6 +93,7 @@ class BillCreate extends Component
                 [
                     'product_id' => '',
                     'sku_code' => '',
+                    'assigned_price' => '1', 
                     'no_of_cottons' => '1', 
                     'no_of_pieces' => '1',
                     'cottons_price' => '0',
@@ -107,6 +112,7 @@ class BillCreate extends Component
             [
                 'product_id' => '',
                 'sku_code' => '',
+                'assigned_price' => '1', 
                 'no_of_cottons' => '1', 
                 'no_of_pieces' => '1',
                 'cottons_price' => '0',
@@ -138,11 +144,17 @@ class BillCreate extends Component
 
                 $row['product_id'] = $product->id;
 
+                $row['product_name'] = $product->name;
+
+                $row['distributor_prices'] = $product->distributor_prices;
+
                 $row['sku_code'] = $product->sku_code;
 
-                $row['cottons_price'] = $product->distributor_prices * $row['no_of_cottons'];
+                $assigned_price = $row['assigned_price'];
+
+                $row['cottons_price'] = $assigned_price * $row['no_of_cottons'];
                 
-                $row['peices_price'] = round(($product->distributor_prices / $product->pack_size) * $row['no_of_pieces']);
+                $row['peices_price'] = round(($assigned_price / $product->pack_size) * $row['no_of_pieces']);
     
                 $row['total_price'] = $row['cottons_price'] + $row['peices_price'];
     
@@ -179,6 +191,44 @@ class BillCreate extends Component
             $row['bill_id'] = $bill->id;
 
             $row['bill_number'] = $bill->bill_number;
+
+            unset($row['product_name']);
+            unset($row['distributor_prices']);
+
+            BillEntry::create($row);
+            
+        });
+
+        return redirect()->route('bills.index');
+    }
+
+    public function createBillWithPreviousBill()
+    {
+        $this->form->order_booker_id = $this->previousBill->orderBooker->id;
+        $this->form->main_area_id = $this->previousBill->mainArea->id;
+        $this->form->sub_area_id = $this->previousBill->subArea->id;
+        $this->form->shop_id = $this->previousBill->shop->id;
+
+        $validated = $this->validate();   
+
+        $previousBillAmount = $this->previousBill->previous_bill_amount +   $this->previousBill->final_price - $this->previousBill->recovered_amount;
+
+        $bill = Bill::create($this->form->all() + [
+            'previous_bill_id' => $this->previousBill->id,
+            'previous_bill_amount' => $previousBillAmount
+        ]);
+
+        $this->previousBill->is_recovered = true;
+        $this->previousBill->save();
+
+        $this->inputs->map(function ($row)  use ($bill) {
+            
+            $row['bill_id'] = $bill->id;
+
+            $row['bill_number'] = $bill->bill_number;
+
+            unset($row['product_name']);
+            unset($row['distributor_prices']);
 
             BillEntry::create($row);
             

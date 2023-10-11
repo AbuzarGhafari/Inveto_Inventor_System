@@ -11,8 +11,10 @@
                     <div wire:click="addInput" class="btn btn-dark">Add Entry</div>
                 </div>
 
-                <form class="form-horizontal form-material" wire:submit="save">
+                <form class="form-horizontal form-material" wire:submit="{{ !$add_previous_bill ? 'save': 'createBillWithPreviousBill' }}">
                     @csrf
+
+                    @if (!$add_previous_bill)
                     <div class="row">
                         <div class="col-sm-3">
                             <div class="form-group mb-4">
@@ -78,7 +80,27 @@
                             </div>
                         </div>
                     </div> 
- 
+                    @endif
+
+                    @if ($add_previous_bill)
+                    <div class="row">
+                        <div class="col-sm-6">
+                            
+                            <p>Previous Bill Number: {{ $previousBill->bill_number }}</p>
+                            <p>Bill Date: {{ \Carbon\Carbon::parse($previousBill->created_at)->format('d/m/Y g:i:s A')}}  </p>
+                            <p>Pending Bill Amount: <span class="text-danger-dark">{{ $previousBill->previous_bill_amount + $previousBill->final_price - $previousBill->recovered_amount }}</span></p>
+                            
+                        </div>
+                        <div class="col-sm-6 text-end">
+                            
+                            <p>Order Booker: {{ $previousBill->orderBooker->name }}</p>
+                            <p>Shop Name: {{ $previousBill->shop->shop_name }}</p>
+                            <p>Shopkeeper Name: {{ $previousBill->shop->shopkeeper_name }}</p>
+                            
+                        </div>
+                    </div>
+                @endif
+  
                     
                 <div class="table-responsive">
                     <table class="table text-nowrap">
@@ -86,14 +108,15 @@
                             <tr> 
                                 <th></th>
                                 <th class="border-top-0  text-dark">#</th>
-                                <th class="border-top-0  text-dark">SKU Code</th>
-                                <th class="border-top-0  text-dark">No. of Cottons</th> 
-                                <th class="border-top-0  text-dark">No. of Pieces</th> 
+                                <th class="border-top-0  text-dark">SKU Code</th> 
+                                <th class="border-top-0  text-dark" style="width: 30px;">No. Cottons</th> 
+                                <th class="border-top-0  text-dark" style="width: 30px;">No. Pieces</th> 
+                                <th class="border-top-0  text-dark">Assign Price</th> 
                                 <th class="border-top-0  text-dark">Cottons Price</th> 
                                 <th class="border-top-0  text-dark">Pieces Price</th> 
                                 <th class="border-top-0  text-dark">Total Price</th> 
                                 <th class="border-top-0  text-dark">Discount</th> 
-                                <th class="border-top-0  text-dark w-25 text-end">Final Price</th> 
+                                <th class="border-top-0  text-dark w-10 text-end">Final Price</th> 
  
                             </tr>
                         </thead>
@@ -116,8 +139,19 @@
                                             </select>
                                         </div>
                                         @error('inputs.'.$key.'.product_id')<div class="alert alert-danger p-2">{{ $message }}</div>@enderror
+
+                                        @isset($inputs[$key]['product_name'])
+                                            <span class="text-sm">
+                                                {{  $inputs[$key]['product_name'] }} 
+                                            </span>, 
+                                            <span class="text-sm">
+                                                {{  $inputs[$key]['distributor_prices'] }} 
+                                            </span>
+                                        @endisset
+                                        {{-- <input type="text" readonly class="form-control px-0 " wire:model.live="inputs.{{$key}}.product_name" />
+                                        <input type="text" readonly class="form-control px-0" wire:model.live="inputs.{{$key}}.distributor_prices" /> --}}
                                     </div>
-                                </td>
+                                </td> 
                                 <td> 
                                     <div>
                                         <input type="number" id="input_{{$key}}_no_of_cottons"  wire:model.live.debounce.500ms="inputs.{{$key}}.no_of_cottons"   class="form-control p-0 border-0">                                
@@ -129,6 +163,9 @@
                                         <input type="number" id="input_{{$key}}_no_of_pieces"  wire:model.live.debounce.500ms="inputs.{{$key}}.no_of_pieces"   class="form-control  p-0 border-0">                                
                                         @error('inputs'.$key.'.no_of_pieces')<div class="alert alert-danger p-2">{{ $message }}</div>@enderror
                                     </div>
+                                </td>
+                                <td class="text-end">
+                                    <input type="text" class="form-control text-end" wire:model.live.debounce.500ms="inputs.{{$key}}.assigned_price" />
                                 </td>
                                 <td class="text-end">
                                     <input type="text" readonly class="form-control text-end" wire:model.live="inputs.{{$key}}.cottons_price" />
@@ -152,15 +189,15 @@
                             @endforeach
                             <tr>
                                 <td colspan="9" class="text-end fw-bold">Actual Price</td>
-                                <td class="text-end fw-bold">{{ $form->actual_price }}</td>
+                                <td colspan="3" class="text-end fw-bold">{{ $form->actual_price }}</td>
                             </tr>
                             <tr>
                                 <td colspan="9" class="text-end fw-bold">Total Discount</td>
-                                <td class="text-end fw-bold">{{ $form->discount }}</td>
+                                <td colspan="3" class="text-end fw-bold">{{ $form->discount }}</td>
                             </tr>
                             <tr>
                                 <td colspan="9" class="text-end fw-bold">Final Price</td>
-                                <td class="text-end fw-bold">{{ $form->final_price }}</td>
+                                <td colspan="3" class="text-end fw-bold">{{ $form->final_price }}</td>
                             </tr>
                         </tbody>
                     </table>

@@ -9,8 +9,7 @@
                 <i class="fas fa-plus me-2"></i>
                 Generate Bill
             </a>
-                     
-
+                      
         </div>
     </div>
 
@@ -20,7 +19,7 @@
         <div class="col-sm-12">
             <div class="white-box">
                 
-                <div class="table-responsive">
+                <div class="table-responsive--">
                     <table class="table text-nowrap">
                         <thead>
                             <tr> 
@@ -57,11 +56,19 @@
                                 </td>
                                 <td>
                                     <span class="text-info-dark">{{ $bill->final_price }}</span>
+                                    @if($bill->previous_bill_id)
+                                        <br>
+                                        <span class="text-danger-dark text-sm">Prv: {{ $bill->previous_bill_amount }}</span>
+                                    @endif
                                 </td>
                                 <td>
                                     <span class="text-success-dark">{{ $bill->recovered_amount }} </span><br>
                                     @if (!$bill->is_recovered)
-                                    <span class="text-sm text-danger-dark">- {{ $bill->final_price - $bill->recovered_amount }}</span>
+                                        @if(!$bill->previous_bill_id)
+                                            <span class="text-sm text-danger-dark">- {{ $bill->final_price - $bill->recovered_amount }}</span>
+                                        @else
+                                            <span class="text-sm text-danger-dark">- {{ $bill->previous_bill_amount + $bill->final_price - $bill->recovered_amount }}</span>
+                                        @endif
                                     @endif
                                 </td>
                                 <td>
@@ -69,16 +76,23 @@
                                         <a href="{{ route('bills.show', $bill->id) }}" class="btn btn-secondary">
                                             <i class=" fas fa-eye me-2"></i>
                                             Show
-                                        </a>    
-                                        @if (!$bill->is_recovered)
-                                            <button data-bs-toggle="modal" data-bs-target="#addRecoveryModal" wire:click="selectBill({{ $bill }})"   class="btn btn-info text-light">
-                                                <i class="fa fa-plus-circle me-2" aria-hidden="true"></i>
-                                                Add Recovery
-                                            </button>                                    
-                                        @endif                                
+                                        </a>                                    
                                         <a target="_blank" href="{{ route('bills.print', $bill->id) }}" class="btn btn-success text-white">
                                             <i class="fa fa-print" aria-hidden="true"></i>                                            
-                                        </a>                                    
+                                        </a>  
+                                        @if (!$bill->is_recovered) 
+                                        <div class="btn-group"> 
+                                            <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                              <span class="visually-hidden">Toggle Dropdown</span>
+                                            </button>
+                                            <ul class="dropdown-menu"> 
+                                                <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addRecoveryModal" wire:click="selectBill({{ $bill }})"  type="button" >Add Recovery</a></li>
+                                                <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#fullyRecoveredModal" wire:click="selectBill({{ $bill }})"  type="button" >Fully Recovered</a></li>
+                                                <li><hr class="dropdown-divider"></li>
+                                                <li><a class="dropdown-item" href="{{ route('bills.createBillWithPreviousBill', $bill) }}">Add in New Bill</a></li>
+                                            </ul>
+                                          </div>   
+                                          @endif                                
                                     </div>
 
                                 </td>
@@ -120,13 +134,19 @@
                     <p>Bill Amount</p>
                     <p class="text-info-dark">{{ $bill_amount }}</p>
                 </div>
+                @if($is_previous_bill)
+                <div class="d-flex justify-content-between ">
+                    <p>Previous Bill Amount</p>
+                    <p class="text-danger-dark">{{ $previous_bill_amount }}</p>
+                </div>
+                @endif
                 <div class="d-flex justify-content-between ">
                     <p>Recovered Amount</p>
                     <p class="text-success-dark">{{ $recovered_amount }}</p>
                 </div>
                 <div class="d-flex justify-content-between ">
                     <p>Remaining Amount</p>
-                    <p class="text-danger-dark">{{ $remaining_amount }}</p>
+                    <p class="text-danger-dark">{{ $previous_bill_amount + $remaining_amount }}</p>
                 </div>
  
 
@@ -135,7 +155,6 @@
 
             </div>
             <div class="modal-footer">
-                <button data-bs-toggle="modal" data-bs-target="#fullyRecoveredModal"  class="btn btn-secondary me-auto "> Fully Recovered</button>  
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary">Save changes</button>
             </div>
