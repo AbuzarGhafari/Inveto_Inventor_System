@@ -133,6 +133,8 @@
         <tr> 
             <th class="border-top-0  text-dark text-left">#</th>
             <th class="border-top-0  text-dark text-left ">Product Name</th>
+            <th class="border-top-0  text-dark text-left ">Cotton Price</th>
+            <th class="border-top-0  text-dark text-left ">Piece Price</th>
             <th class="border-top-0  text-dark text-end">No. of Cottons</th>
             <th class="border-top-0  text-dark text-end">No. of Pieces</th>
             <th class="border-top-0  text-dark text-end">Amount</th> 
@@ -145,6 +147,8 @@
         <tr wire:key = "{{ $be->id }}">
             <td class="text-left">{{ $loop->iteration }}</td>
             <td class="text-left">{{ $be->product->name }}</td>
+            <td class="text-left">{{ $be->assigned_price }}</td>
+            <td class="text-left">{{  $be->assigned_price / $be->product->pack_size}}</td>
             <td class="text-end">{{ $be->no_of_cottons }}</td>
             <td class="text-end">{{ $be->no_of_pieces }}</td>
             <td class="text-end">{{ $be->total_price }}</td>
@@ -154,21 +158,21 @@
         @endforeach
         <tr>
             <td colspan="6" class="text-end fw-bold">Bill Amount</td>
-            <td class="text-end fw-bold">{{ $bill->actual_price }}</td>
+            <td  colspan="3"  class="text-end fw-bold">{{ $bill->actual_price }}</td>
         </tr>
         <tr>
             <td colspan="6" class="text-end fw-bold">Discount</td>
-            <td class="text-end fw-bold">{{ $bill->discount }}</td>
+            <td  colspan="3"  class="text-end fw-bold">{{ $bill->discount }}</td>
         </tr>
         @if($bill->previous_bill_id)
         <tr>
             <td colspan="6" class="text-end fw-bold">Previous Bill Amount</td>
-            <td class="text-end fw-bold">{{ $bill->previous_bill_amount }}</td>
+            <td  colspan="3"  class="text-end fw-bold">{{ $bill->previous_bill_amount }}</td>
         </tr>
         @endif
         <tr>
             <td colspan="6" class="text-end fw-bold">Total Amount</td>
-            <td class="text-end fw-bold">{{ $bill->previous_bill_amount + $bill->final_price }}</td>
+            <td  colspan="3"  class="text-end fw-bold">{{ $bill->previous_bill_amount + $bill->final_price }}</td>
         </tr>
     </tbody>
 </table>
