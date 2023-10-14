@@ -123,27 +123,17 @@
         </tr>
     </thead>
     <tbody>
-        @php
-            $totalCottons = 0;
-            $totalPieces = 0;
-        @endphp
-        @foreach ($bills as $bill)
-            @foreach ($bill->billEntries as $be)
-                <tr wire:key = "{{ $be->id }}">
-                    <td class="text-left">{{ $loop->iteration }}</td>
-                    <td class="text-left">{{ $be->product->name }}</td>
-                    <td class="text-end">{{ $be->no_of_cottons }}</td>
-                    <td class="text-end">{{ $be->no_of_pieces }}</td> 
-                </tr>
-                @php
-                    $totalCottons = $totalCottons + $be->no_of_cottons;
-                    $totalPieces = $totalPieces + $be->no_of_pieces;
-                @endphp
-            @endforeach
+        @foreach ($summary as $item)
+            <tr wire:key = "{{ $item['name'] }}">
+                <td class="text-left">{{ $loop->iteration }}</td>
+                <td class="text-left">{{ $item['name'] }}</td>
+                <td class="text-end">{{ $item['total_no_of_cottons'] }}</td>
+                <td class="text-end">{{ $item['total_no_of_pieces'] }}</td> 
+            </tr>
         @endforeach
         <tr>
-            <td colspan="3" class="text-end fw-bold">{{ $totalCottons }}</td>
-            <td class="text-end fw-bold">{{ $totalPieces }}</td>
+            <td colspan="3" class="text-end fw-bold">{{ $overallTotalCottons }}</td>
+            <td class="text-end fw-bold">{{ $overallTotalPieces }}</td>
         </tr> 
     </tbody>
 </table>

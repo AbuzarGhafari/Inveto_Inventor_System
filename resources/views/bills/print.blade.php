@@ -12,25 +12,24 @@
     <style>
         *{
             font-family: sans-serif;
-        }
-        .row {
-            padding: 0px !important;
-            display: flex; 
-            justify-content: space-around; 
-        }
-        
-        .col{ 
-            width: 100%; 
+        } 
+
+
+        .table,
+        .table th,
+        .table td{
+            border: 1px solid #aaa;
+            border-collapse: collapse;
         }
 
         .table th,
         .table td {
-            padding: 5px  !important;
-            font-size: 0.75rem;
+            padding: 1px  !important;
+            font-size: 0.6rem;
         }
 
         p{
-            font-size: 0.75rem;
+            font-size: 0.6rem;
         }
 
         table{
@@ -48,14 +47,6 @@
             text-align: left;
         }
 
-        .table,
-        .table th,
-        .table td{
-            border: 1px solid #aaa;
-            border-collapse: collapse;
-        }
-
-
         img {
             width: 120px;
         }
@@ -68,10 +59,7 @@
         .fw-bold{
             font-weight: bold;
         }
-
-        .mb-5{
-            margin-bottom: 0.5rem;
-        }
+ 
     </style>
 
 
@@ -88,42 +76,36 @@
 <table class="mb-5">
     <tr>
         <td >
-            @include('datauri.al-noor-traders')
-            <p class="title text-center">Bill Invoice</p>
-        </td>
-        <td>
-            <p class="mb-0 text-end">Distributor: Bilal Mazhar</p>
-            <p class="mb-0 text-end">Disribution: Innovative biscuits, Rice and Sugar</p>
-            <p class="mb-0 text-end">Mobile: +92 322 1784066, +92 310 0087693, 0476334066</p>
-            <p class="mb-0 text-end">Address: Mohallah Hussain Abad Near Motti Masjid Chiniot</p>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <div class="col">
+            <div>
 
-                <p class="mb-0 text-dark">Bill Number: {{ $bill->bill_number }}</p>
-                <p class="mb-0 text-dark">Bill Date: {{ \Carbon\Carbon::parse($bill->created_at)->format('d/m/Y g:i:s A')}}</p>
-                <p class="mb-0 text-dark">Order Booker: {{ $bill->orderBooker->name }}</p>
-                <p class="mb-0 text-dark">Main Area: {{ $bill->mainArea->name }}</p>
-                <p class="mb-0 text-dark">Sub Area: {{ $bill->subArea->name }}</p>
-        
+                @include('datauri.al-noor-traders')
+                <p class="mb-0 title text-center">Bill Invoice</p>
+
+                
+                <p class="mb-0 text-dark">Bill Number/Date: {{ $bill->bill_number }} , {{ \Carbon\Carbon::parse($bill->created_at)->format('d/m/Y g:i:s A')}}</p>
+                
+                <p class="mb-0 text-dark">Order Booker: {{ $bill->orderBooker->name }},
+                Area: {{ $bill->mainArea->name }},  {{ $bill->subArea->name }}</p> 
         
             </div>
         </td>
         <td>
-            <div class="col text-end">
- 
+            <div>
 
-                <p class="mb-0 text-dark">Shop Name: {{ $bill->shop->shop_name }}</p>
-                <p class="mb-0 text-dark">Shopkeepr Name: {{ $bill->shop->shopkeeper_name }}</p>
-                <p class="mb-0 text-dark">Shopkeepr Mobile: {{ $bill->shop->shopkeeper_mobile }}</p>
-                <p class="mb-0 text-dark">Address: {{ $bill->shop->address }}, {{ $bill->shop->city }}</p>
+                <p class="mb-0 text-end">Distributor: Bilal Mazhar</p>
+                <p class="mb-0 text-end">Disribution: Innovative biscuits, Rice and Sugar</p>
+                <p class="mb-0 text-end">Mobile: +92 322 1784066, +92 310 0087693, 0476334066</p>
+                <p class="mb-0 text-end">Address: Mohallah Hussain Abad Near Motti Masjid Chiniot</p>
+
+                <p class="mb-0 text-dark text-end">Shop Name: {{ $bill->shop->shop_name }}</p>
+                <p class="mb-0 text-dark text-end">Shopkeepr Name: {{ $bill->shop->shopkeeper_name }}</p>
+                <p class="mb-0 text-dark text-end">Shopkeepr Mobile: {{ $bill->shop->shopkeeper_mobile }}</p>
+                <p class="mb-0 text-dark text-end">Address: {{ $bill->shop->address }}, {{ $bill->shop->city }}</p>
                      
-        
             </div>
         </td>
     </tr>
+
 </table>
 
 
@@ -148,7 +130,7 @@
             <td class="text-left">{{ $loop->iteration }}</td>
             <td class="text-left">{{ $be->product->name }}</td>
             <td class="text-left">{{ $be->assigned_price }}</td>
-            <td class="text-left">{{  $be->assigned_price / $be->product->pack_size}}</td>
+            <td class="text-left">{{  number_format($be->assigned_price / $be->product->pack_size, 2) }}</td>
             <td class="text-end">{{ $be->no_of_cottons }}</td>
             <td class="text-end">{{ $be->no_of_pieces }}</td>
             <td class="text-end">{{ $be->total_price }}</td>

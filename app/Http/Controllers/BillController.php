@@ -68,11 +68,37 @@ class BillController extends Controller
     public function dailySalesReport(OrderBooker $booker)
     { 
         $bills = Bill::whereDate('created_at', Carbon::today())->where('order_booker_id', $booker->id)->get();
+        $billEntries = [];
+        foreach ($bills as $bill) {
+            foreach($bill->billEntries as $be){
+                $billEntry = [];
+                $billEntry['name'] = $be->product->name;
+                $billEntry['no_of_cottons'] = $be->no_of_cottons;
+                $billEntry['no_of_pieces'] = $be->no_of_pieces;
+                $billEntries[] = $billEntry;
+            }
+        }
+ 
+        $collection = collect($billEntries);
+        
+        $summary = $collection->groupBy('name')
+            ->map(function ($items, $name) {
+                return [
+                    'name' => $name,
+                    'total_no_of_cottons' => $items->sum('no_of_cottons'),
+                    'total_no_of_pieces' => $items->sum('no_of_pieces'),
+                ];
+            });
+
+        $overallTotalCottons = $summary->sum('total_no_of_cottons');
+        $overallTotalPieces = $summary->sum('total_no_of_pieces');
 
         $date = Carbon::today()->format('Y-m-d');
 
         $data = [
-            'bills'    => $bills,
+            'summary' => $summary,
+            'overallTotalCottons' => $overallTotalCottons,
+            'overallTotalPieces' => $overallTotalPieces,
             'booker'    => $booker,
         ];
 
