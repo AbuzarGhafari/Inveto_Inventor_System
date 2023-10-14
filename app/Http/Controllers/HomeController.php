@@ -43,20 +43,17 @@ class HomeController extends Controller
         $totalRecoveredAmount = number_format($totalRecoveredAmount, 0, '');
 
         $billEntries = BillEntry::all();
+  
 
-        // dd($billEntries);
-
-        $totalBuyAmount = 0;
-        $totalSellAmount = 0;
-
-        $data = $billEntries->map(function($item, $key) use($totalBuyAmount, $totalSellAmount){
+        $data = $billEntries->map(function($item, $key){
+            
             $totalBuyAmount = ($item->product->distributor_prices * $item->no_of_cottons) + ($item->product->pack_size / $item->product->distributor_prices * $item->no_of_pieces);
-             
             
             return [
                 'totalBuyAmount' => $totalBuyAmount,
                 'totalSellAmount' => $item->final_price
             ];
+
         });
 
         $totalBuyAmount = $data->sum('totalBuyAmount');

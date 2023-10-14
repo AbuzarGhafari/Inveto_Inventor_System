@@ -25,7 +25,7 @@ class Products extends Component
     {
         $products = Product::where('sku_code','LIKE', "%".$this->search."%")
                     ->orWhere('name','LIKE', "%".$this->search."%")
-                    ->paginate(10);
+                    ->paginate(20);
 
         return view('livewire.product.products', [ 
             'products' => $products,

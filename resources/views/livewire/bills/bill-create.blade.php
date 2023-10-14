@@ -131,14 +131,9 @@
                                 <td>
                                     <div>
                                         <div class="border-bottom p-0">                                    
-                                            <select id="input_{{$key}}_product_id"  wire:model.live="inputs.{{$key}}.product_id"   class="form-control p-0 border-0">
-                                                <option value="">Select SKU Code</option>
-                                                @foreach ($products as $product)
-                                                    <option value="{{ $product->id }}">{{ $product->sku_code }}</option>
-                                                @endforeach
-                                            </select>
+                                            <input type="text" id="input_{{$key}}_sku_code"   wire:model.blur="inputs.{{$key}}.sku_code"   class="form-control p-0 border-0">                                
+                                            @error('inputs.'.$key.'.sku_code')<div class="alert alert-danger p-2">{{ $message }}</div>@enderror
                                         </div>
-                                        @error('inputs.'.$key.'.product_id')<div class="alert alert-danger p-2">{{ $message }}</div>@enderror
 
                                         @isset($inputs[$key]['product_name'])
                                             <span class="text-sm">
@@ -148,24 +143,23 @@
                                                 {{  $inputs[$key]['distributor_prices'] }} 
                                             </span>
                                         @endisset
-                                        {{-- <input type="text" readonly class="form-control px-0 " wire:model.live="inputs.{{$key}}.product_name" />
-                                        <input type="text" readonly class="form-control px-0" wire:model.live="inputs.{{$key}}.distributor_prices" /> --}}
                                     </div>
                                 </td> 
                                 <td> 
                                     <div>
-                                        <input type="number" id="input_{{$key}}_no_of_cottons"  wire:model.live.debounce.500ms="inputs.{{$key}}.no_of_cottons"   class="form-control p-0 border-0">                                
-                                        @error('inputs'.$key.'.no_of_cottons')<div class="alert alert-danger p-2">{{ $message }}</div>@enderror
+                                        <input type="number" id="input_{{$key}}_no_of_cottons"  wire:model.blur="inputs.{{$key}}.no_of_cottons"   class="form-control p-0 border-0">                                
+                                        @error('inputs.'.$key.'.no_of_cottons')<div class="alert alert-danger p-2">{{ $message }}</div>@enderror
                                     </div>
                                 </td>
                                 <td> 
                                     <div>
-                                        <input type="number" id="input_{{$key}}_no_of_pieces"  wire:model.live.debounce.500ms="inputs.{{$key}}.no_of_pieces"   class="form-control  p-0 border-0">                                
-                                        @error('inputs'.$key.'.no_of_pieces')<div class="alert alert-danger p-2">{{ $message }}</div>@enderror
+                                        <input type="number" id="input_{{$key}}_no_of_pieces"  wire:model.blur="inputs.{{$key}}.no_of_pieces"   class="form-control  p-0 border-0">                                
+                                        @error('inputs.'.$key.'.no_of_pieces')<div class="alert alert-danger p-2">{{ $message }}</div>@enderror
                                     </div>
                                 </td>
                                 <td class="text-end">
-                                    <input type="text" class="form-control text-end" wire:model.live.debounce.500ms="inputs.{{$key}}.assigned_price" />
+                                    <input type="text" class="form-control text-end" wire:model.blur="inputs.{{$key}}.assigned_price" />
+                                    @error('inputs.'.$key.'.assigned_price')<div class="alert alert-danger p-2">{{ $message }}</div>@enderror
                                 </td>
                                 <td class="text-end">
                                     <input type="text" readonly class="form-control text-end" wire:model.live="inputs.{{$key}}.cottons_price" />
@@ -178,8 +172,8 @@
                                 </td>
                                 <td>                                    
                                     <div>
-                                        <input type="number" id="input_{{$key}}_discount"  wire:model.live.debounce.500ms="inputs.{{$key}}.discount"   class="form-control  p-0 border-0">                                
-                                        @error('inputs'.$key.'.discount')<div class="alert alert-danger p-2">{{ $message }}</div>@enderror
+                                        <input type="number" id="input_{{$key}}_discount"  wire:model.blur="inputs.{{$key}}.discount"   class="form-control  p-0 border-0">                                
+                                        @error('inputs.'.$key.'.discount')<div class="alert alert-danger p-2">{{ $message }}</div>@enderror
                                     </div>
                                 </td>
                                 <td class="text-end">
@@ -188,28 +182,26 @@
                             </tr> 
                             @endforeach
                             <tr>
-                                <td colspan="9" class="text-end fw-bold">Actual Price</td>
+                                <td colspan="3" class="fw-bold">Buying Price</td>
+                                <td colspan="3" class=" fw-bold">{{ number_format($buyingPrice, '2', '.', ',') }}</td>
+                                <td colspan="3" class="text-end fw-bold">Actual Price</td>
                                 <td colspan="3" class="text-end fw-bold">{{ $form->actual_price }}</td>
                             </tr>
                             <tr>
-                                <td colspan="9" class="text-end fw-bold">Total Discount</td>
+                                <td colspan="3" class="fw-bold">Selling Price</td>
+                                <td colspan="3" class=" fw-bold">{{ number_format($sellingPrice, '2', '.', ',') }}</td>
+                                <td colspan="3" class="text-end fw-bold">Total Discount</td>
                                 <td colspan="3" class="text-end fw-bold">{{ $form->discount }}</td>
                             </tr>
                             <tr>
-                                <td colspan="9" class="text-end fw-bold">Final Price</td>
+                                <td colspan="3" class="fw-bold">Profit/Loss</td>
+                                <td colspan="3" class=" fw-bold">{{ number_format($profitLoss, '2', '.', ',') }}</td>
+                                <td colspan="3" class="text-end fw-bold">Final Price</td>
                                 <td colspan="3" class="text-end fw-bold">{{ $form->final_price }}</td>
                             </tr>
                         </tbody>
                     </table>
-                </div>
-
-
-                    
-
-                    
-                    
-                     
- 
+                </div> 
                                         
                     <div class="form-group mb-4">
                         <div class="col-sm-12 text-end">

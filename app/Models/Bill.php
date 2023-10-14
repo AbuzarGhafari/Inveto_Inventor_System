@@ -60,5 +60,26 @@ class Bill extends Model
     {
         $query->where('is_recovered', false);
     }
+
+    public function getProfit()
+    {
+        
+        $data = $this->billEntries->map(function($item, $key){
+            
+            $totalBuyAmount = ($item->product->distributor_prices * $item->no_of_cottons) + ($item->product->pack_size / $item->product->distributor_prices * $item->no_of_pieces);
+            
+            return [
+                'totalBuyAmount' => $totalBuyAmount,
+                'totalSellAmount' => $item->final_price
+            ];
+
+        });
+
+        return [
+            'totalBuyAmount' => $data->sum('totalBuyAmount'),
+            'totalSellAmount' => $data->sum('totalSellAmount'),
+            'totalProfitLoss' => $data->sum('totalSellAmount') - $data->sum('totalBuyAmount')
+        ];
+    }
     
 }

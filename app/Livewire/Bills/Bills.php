@@ -35,9 +35,14 @@ class Bills extends Component
     {
         $bills = Bill::with(['orderBooker'])->where('bill_number','LIKE', "%".$this->search."%")
                     ->orderBy('created_at', 'desc')
-                    ->paginate(10);
+                    ->paginate(20);
 
         foreach ($bills as $bill) {
+
+            $response = $bill->getProfit();
+            $bill->profitLoss = $response['totalProfitLoss'];
+            
+
             $to = Carbon::createFromFormat('Y-m-d H:i:s', $bill->created_at);
             $from = Carbon::createFromFormat('Y-m-d H:i:s', Carbon::now());
             $diff_in_days = $to->diffInDays($from);
@@ -94,5 +99,13 @@ class Bills extends Component
 
         $this->dispatch('closeModal'); 
 
+    }
+
+    public function deleteBill()
+    {
+        $this->bill->delete(); 
+        $this->bill = new Bill();
+
+        $this->dispatch('closeModal'); 
     }
 }

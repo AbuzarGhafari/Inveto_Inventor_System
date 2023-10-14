@@ -28,6 +28,7 @@
                                 <th class="border-top-0  text-dark">Order Booker</th> 
                                 <th class="border-top-0  text-dark">Shop</th>
                                 <th class="border-top-0  text-dark">Bill Amount</th> 
+                                <th class="border-top-0  text-dark">P/L</th> 
                                 <th class="border-top-0  text-dark">Recovered</th> 
                                 <th class="border-top-0  text-dark text-end">Action</th>
                             </tr>
@@ -62,6 +63,9 @@
                                     @endif
                                 </td>
                                 <td>
+                                    <span class="badge badge-secondary">{{ $bill->profitLoss }}</span>
+                                </td>
+                                <td>
                                     <span class="text-success-dark">{{ $bill->recovered_amount }} </span><br>
                                     @if (!$bill->is_recovered)
                                         @if(!$bill->previous_bill_id)
@@ -80,19 +84,21 @@
                                         <a target="_blank" href="{{ route('bills.print', $bill->id) }}" class="btn btn-success text-white">
                                             <i class="fa fa-print" aria-hidden="true"></i>                                            
                                         </a>  
-                                        @if (!$bill->is_recovered) 
                                         <div class="btn-group"> 
                                             <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
                                               <span class="visually-hidden">Toggle Dropdown</span>
                                             </button>
                                             <ul class="dropdown-menu"> 
+                                                @if (!$bill->is_recovered) 
                                                 <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addRecoveryModal" wire:click="selectBill({{ $bill }})"  type="button" >Add Recovery</a></li>
                                                 <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#fullyRecoveredModal" wire:click="selectBill({{ $bill }})"  type="button" >Fully Recovered</a></li>
-                                                <li><hr class="dropdown-divider"></li>
                                                 <li><a class="dropdown-item" href="{{ route('bills.createBillWithPreviousBill', $bill) }}">Add in New Bill</a></li>
+                                                
+                                                <li><hr class="dropdown-divider"></li>
+                                                @endif  
+                                                <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deleteBillModal" wire:click="selectBill({{ $bill }})"  type="button" >Delete Bill</a></li>
                                             </ul>
-                                          </div>   
-                                          @endif                                
+                                          </div>                                 
                                     </div>
 
                                 </td>
@@ -205,5 +211,53 @@
     </form>
   </div>
   
+  
+  <div  wire:ignore.self class="modal fade" id="deleteBillModal" tabindex="-1" aria-labelledby="deleteBillLabel" aria-hidden="true">
+    <form wire:submit="deleteBill">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title text-danger fs-5" id="deleteBillLabel">Delete Bill</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">  
+                <p class="text-danger mb-2">Are you sure?</p>
+                @csrf
+                <div class="d-flex justify-content-between ">
+                    <p>Bill Number</p>
+                    <p>{{ $bill_number }}</p>
+                </div>
+                <div class="d-flex justify-content-between ">
+                    <p>Order Booker</p>
+                    <p>{{ $order_booker }}</p>
+                </div>
+                <div class="d-flex justify-content-between ">
+                    <p>Bill Amount</p>
+                    <p class="text-info-dark">{{ $bill_amount }}</p>
+                </div>
+                @if($is_previous_bill)
+                <div class="d-flex justify-content-between ">
+                    <p>Previous Bill Amount</p>
+                    <p class="text-danger-dark">{{ $previous_bill_amount }}</p>
+                </div>
+                @endif
+                <div class="d-flex justify-content-between ">
+                    <p>Recovered Amount</p>
+                    <p class="text-success-dark">{{ $recovered_amount }}</p>
+                </div>
+                <div class="d-flex justify-content-between ">
+                    <p>Remaining Amount</p>
+                    <p class="text-danger-dark">{{ $previous_bill_amount + $remaining_amount }}</p>
+                </div> 
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+        </div>
+    </form>
+  </div>
+
 
 </div>

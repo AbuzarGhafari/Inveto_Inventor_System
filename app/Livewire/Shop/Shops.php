@@ -32,7 +32,7 @@ class Shops extends Component
                     ->orWhere('address','LIKE', "%".$this->search."%")
                     ->orWhere('shopkeeper_name','LIKE', "%".$this->search."%")
                     ->orWhere('shopkeeper_mobile','LIKE', "%".$this->search."%")
-                    ->paginate(10);
+                    ->paginate(20);
 
         return view('livewire.shop.shops',[
             'shops' => $shops

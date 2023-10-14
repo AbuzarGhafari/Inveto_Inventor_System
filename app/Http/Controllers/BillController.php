@@ -47,7 +47,16 @@ class BillController extends Controller
      */
     public function show(Bill $bill)
     {
-        return view('bills.show', compact('bill'));
+        
+        $response = $bill->getProfit();
+        $bill->totalBuyAmount = $response['totalBuyAmount'];
+        $bill->totalSellAmount = $response['totalSellAmount'];
+        $bill->totalProfitLoss = $response['totalProfitLoss'];
+ 
+
+        return view('bills.show', compact(
+            'bill'
+        ));
     }
 
     /**

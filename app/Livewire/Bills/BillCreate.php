@@ -34,16 +34,29 @@ class BillCreate extends Component
 
     public Collection $inputs;
 
+    public $buyingPrice = 0;
+
+    public $sellingPrice = 0;
+
+    public $profitLoss = 0;
+
     protected $rules = [
-        'inputs.*.product_id' => 'required',
-        'inputs.*.no_of_cottons' => 'required',
-        'inputs.*.no_of_pieces' => 'required', 
+        'inputs.*.sku_code' => 'required|integer',
+        'inputs.*.no_of_cottons' => 'required|integer',
+        'inputs.*.no_of_pieces' => 'required|integer', 
+        'inputs.*.assigned_price' => 'required', 
+        'inputs.*.discount' => 'required', 
     ];
     
     protected $messages = [
-        'inputs.*.product_id.required' => 'This SKU Code field is required.',
+        'inputs.*.sku_code.required' => 'This SKU Code field is required.',
+        'inputs.*.sku_code.integer' => 'This SKU Code field must be number.',
         'inputs.*.no_of_cottons.required' => 'This No. of Cottons field is required.',
+        'inputs.*.no_of_cottons.integer' => 'This No. of Cottons field must be number.',
         'inputs.*.no_of_pieces.required' => 'This No. of Pieces field is required.', 
+        'inputs.*.no_of_pieces.integer' => 'This No. of Pieces field must be number.', 
+        'inputs.*.assigned_price.required' => 'This Assigned Price field is required.', 
+        'inputs.*.discount.required' => 'This discount field is required.', 
     ];
  
 
@@ -93,9 +106,9 @@ class BillCreate extends Component
                 [
                     'product_id' => '',
                     'sku_code' => '',
-                    'assigned_price' => '1', 
-                    'no_of_cottons' => '1', 
-                    'no_of_pieces' => '1',
+                    'assigned_price' => '', 
+                    'no_of_cottons' => '', 
+                    'no_of_pieces' => '',
                     'cottons_price' => '0',
                     'peices_price' => '0',
                     'total_price' => '0',
@@ -104,6 +117,13 @@ class BillCreate extends Component
                 ]                
             ]),
         ]);
+
+        if($this->add_previous_bill){
+            $this->form->order_booker_id = $this->previousBill->orderBooker->id;
+            $this->form->main_area_id = $this->previousBill->mainArea->id;
+            $this->form->sub_area_id = $this->previousBill->subArea->id;
+            $this->form->shop_id = $this->previousBill->shop->id;
+        }
     }
 
     public function addInput()
@@ -112,12 +132,12 @@ class BillCreate extends Component
             [
                 'product_id' => '',
                 'sku_code' => '',
-                'assigned_price' => '1', 
-                'no_of_cottons' => '1', 
-                'no_of_pieces' => '1',
-                'cottons_price' => '0',
-                'peices_price' => '0',
-                'total_price' => '0',
+                'assigned_price' => '', 
+                'no_of_cottons' => '', 
+                'no_of_pieces' => '',
+                'cottons_price' => '',
+                'peices_price' => '',
+                'total_price' => '',
                 'discount' => '0',
                 'final_price' => '0',
             ]   
@@ -130,46 +150,45 @@ class BillCreate extends Component
     }
 
     public function updatedInputs()
-    {
+    {   
+        $validated = $this->validate();  
+        
         $this->formatMappedInputs();  
     }
+ 
 
     public function formatMappedInputs()
-    {
+    { 
         $this->inputs = $this->inputs->map(function ($row) {
-            $total = 0;
-            $subtotal = 0; 
-            $product = Product::find($row['product_id']);
-            if($product){
 
-                $row['product_id'] = $product->id;
+            $product = Product::where('sku_code', $row['sku_code'])->first();
+             
+            if(!$product) return $row;
 
-                $row['product_name'] = $product->name;
+            $row['product_id'] = $product->id;
 
-                $row['distributor_prices'] = $product->distributor_prices;
+            $row['product_name'] = $product->name;
 
-                $row['sku_code'] = $product->sku_code;
+            $row['distributor_prices'] = $product->distributor_prices; 
 
-                $assigned_price = $row['assigned_price'];
+            $row['pack_size'] = $product->pack_size; 
 
-                $row['cottons_price'] = $assigned_price * $row['no_of_cottons'];
-                
-                $row['peices_price'] = round(($assigned_price / $product->pack_size) * $row['no_of_pieces']);
-    
-                $row['total_price'] = $row['cottons_price'] + $row['peices_price'];
-    
-                if($row['discount'] > 0)
-                    $row['final_price'] = $row['total_price'] - $row['discount'];
-                else
-                    $row['final_price'] = $row['total_price'];
+            $row['sku_code'] = $product->sku_code;
 
-            }else{
-                $row['cottons_price'] = 0;
-                $row['peices_price'] = 0;
-                $row['total_price'] = 0;
-                $row['discount'] = 0;
-                $row['final_price'] = 0;
+            $assigned_price = $row['assigned_price'];
+
+            $row['cottons_price'] = $assigned_price * $row['no_of_cottons'];
+            
+            $row['peices_price'] = round(($assigned_price / $product->pack_size) * $row['no_of_pieces']);
+
+            $row['total_price'] = $row['cottons_price'] + $row['peices_price'];
+
+            if($row['discount'] > 0){
+                $row['final_price'] = $row['total_price'] - $row['discount'];
+                $row['discount'] = $row['discount'];
             }
+            else
+                $row['final_price'] = $row['total_price'];
 
             return $row; 
         });
@@ -177,6 +196,23 @@ class BillCreate extends Component
         $this->form->actual_price = $this->inputs->sum('total_price');
         $this->form->final_price = $this->inputs->sum('final_price');
         $this->form->discount = $this->inputs->sum('discount');
+
+        
+        $data = $this->inputs->map(function($row){
+            
+            $totalBuyAmount = ($row['distributor_prices'] * $row['no_of_cottons']) + ($row['pack_size']/ $row['distributor_prices'] * $row['no_of_pieces']);
+            
+            return [
+                'totalBuyAmount' => $totalBuyAmount,
+                'totalSellAmount' => $row['final_price']
+            ];
+
+        });
+
+        $this->buyingPrice = $data->sum('totalBuyAmount');
+        $this->sellingPrice = $data->sum('totalSellAmount');
+        $this->profitLoss = $this->sellingPrice - $this->buyingPrice;
+
     }
     
 
@@ -194,6 +230,7 @@ class BillCreate extends Component
 
             unset($row['product_name']);
             unset($row['distributor_prices']);
+            unset($row['pack_size']);
 
             BillEntry::create($row);
             
@@ -204,10 +241,6 @@ class BillCreate extends Component
 
     public function createBillWithPreviousBill()
     {
-        $this->form->order_booker_id = $this->previousBill->orderBooker->id;
-        $this->form->main_area_id = $this->previousBill->mainArea->id;
-        $this->form->sub_area_id = $this->previousBill->subArea->id;
-        $this->form->shop_id = $this->previousBill->shop->id;
 
         $validated = $this->validate();   
 
@@ -229,6 +262,7 @@ class BillCreate extends Component
 
             unset($row['product_name']);
             unset($row['distributor_prices']);
+            unset($row['pack_size']);
 
             BillEntry::create($row);
             
