@@ -50,10 +50,7 @@
                                             <i class=" fas fa-pencil-alt me-2"></i>
                                             Edit
                                         </a>                          
-                                        <a target="_blank" href="{{ route('bills.dailySalesReport', $booker->id) }}" class="btn btn-success text-white">
-                                            <i class="fa fa-print me-2" aria-hidden="true"></i>    
-                                            Dialy Sales Report                                        
-                                        </a>                                
+                                                                       
                                     </div>
 
                                 </td>

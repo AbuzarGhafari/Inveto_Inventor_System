@@ -100,7 +100,7 @@
     </tr>
     <tr>
         <td>
-            <p class="mb-0 text-dark">Order Booker: {{ $booker->name }}</p>
+            <p class="mb-0 text-dark">Order Booker: {{ $booker }}</p>
         </td>
     </tr>
     

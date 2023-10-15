@@ -39,9 +39,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/shops', ShopController::class);
     
     Route::resource('/order-bookers', OrderBookerController::class);
-
-    Route::get('/bills/daily-sales-report/{booker}', [BillController::class, 'dailySalesReport'])->name('bills.dailySalesReport');
-
+ 
 
     Route::resource('/bills', BillController::class);
 

@@ -41,7 +41,7 @@ class BillCreate extends Component
     public $profitLoss = 0;
 
     protected $rules = [
-        'inputs.*.sku_code' => 'required|integer',
+        'inputs.*.sku_code' => 'required|regex:/^([0-9]*)$/',
         'inputs.*.no_of_cottons' => 'required|integer',
         'inputs.*.no_of_pieces' => 'required|integer', 
         'inputs.*.assigned_price' => 'required', 
@@ -96,10 +96,8 @@ class BillCreate extends Component
     }
 
     public function mount()
-    {
-        
-        $now = Carbon::now()->timezone('Asia/Karachi');
-        $this->form->bill_number = $now->year . 'M' . $now->month . 'D' . $now->day . strtoupper($now->shortLocaleDayOfWeek) . (Bill::getBillsCountToday() + 1);
+    {        
+        $this->form->bill_number = Bill::getUniqueBillNumber();
 
         $this->fill([
             'inputs' => collect([
@@ -200,7 +198,7 @@ class BillCreate extends Component
         
         $data = $this->inputs->map(function($row){
             
-            $totalBuyAmount = ($row['distributor_prices'] * $row['no_of_cottons']) + ($row['pack_size']/ $row['distributor_prices'] * $row['no_of_pieces']);
+            $totalBuyAmount = ($row['distributor_prices'] * $row['no_of_cottons']) + ($row['distributor_prices'] / $row['pack_size'] * $row['no_of_pieces']);
             
             return [
                 'totalBuyAmount' => $totalBuyAmount,

@@ -73,50 +73,6 @@ class BillController extends Controller
         return $pdf->stream('invoice_'.$bill->bill_number.'.pdf');
           
     }
-
-    public function dailySalesReport(OrderBooker $booker)
-    { 
-        $bills = Bill::whereDate('created_at', Carbon::today())->where('order_booker_id', $booker->id)->get();
-        $billEntries = [];
-        foreach ($bills as $bill) {
-            foreach($bill->billEntries as $be){
-                $billEntry = [];
-                $billEntry['name'] = $be->product->name;
-                $billEntry['no_of_cottons'] = $be->no_of_cottons;
-                $billEntry['no_of_pieces'] = $be->no_of_pieces;
-                $billEntries[] = $billEntry;
-            }
-        }
- 
-        $collection = collect($billEntries);
-        
-        $summary = $collection->groupBy('name')
-            ->map(function ($items, $name) {
-                return [
-                    'name' => $name,
-                    'total_no_of_cottons' => $items->sum('no_of_cottons'),
-                    'total_no_of_pieces' => $items->sum('no_of_pieces'),
-                ];
-            });
-
-        $overallTotalCottons = $summary->sum('total_no_of_cottons');
-        $overallTotalPieces = $summary->sum('total_no_of_pieces');
-
-        $date = Carbon::today()->format('Y-m-d');
-
-        $data = [
-            'summary' => $summary,
-            'overallTotalCottons' => $overallTotalCottons,
-            'overallTotalPieces' => $overallTotalPieces,
-            'booker'    => $booker,
-        ];
-
-        $pdf = PDF::loadView('bills.dialy-sales-report', $data);
-
-        return $pdf->stream('summary_'.$booker->name.'_'.$date.'.pdf');
-
-        // return view('bills.diapy-sales-report', compact('bills', 'booker'));
-    }
  
 
     /**

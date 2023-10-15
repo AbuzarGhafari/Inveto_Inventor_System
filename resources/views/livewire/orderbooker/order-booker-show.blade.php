@@ -1,60 +1,34 @@
 <div>
 
-    
-    <div class="row mb-3"> 
-        <div class="col-sm-12 text-end">
+    <div class="white-box">
+        <div class="d-flex justify-content-end mb-1"> 
             <button data-bs-toggle="modal" data-bs-target="#AssignAreaModal" class="btn btn-dark text-white">
                 <i class="fas fa-plus me-2"></i>
                 Assign Area
             </button>
         </div>
-    </div>
- 
 
-
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="white-box">
-                <div class="row">
-                    <div class="col-sm-3">
-                        <p class="border-top-0 text-dark fw-bold">Name</p>
-                    </div>
-                    <div class="col-sm-9">
-                        <p>{{ $orderBooker->name }}</p>
-                    </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="d-flex justify-content-between">
+                    <p class="border-top-0 text-dark fw-bold">Name</p>
+                    <p>{{ $orderBooker->name }}</p>
                 </div>
-                <div class="row">
-                    <div class="col-sm-3">
-                        <p class="border-top-0  text-dark fw-bold">Mobile</p>
-                    </div>
-                    <div class="col-sm-9">
-                        <p>{{ $orderBooker->mobile }}</p>
-                    </div>
+                <div class="d-flex justify-content-between">
+                    <p class="border-top-0  text-dark fw-bold">Mobile</p>
+                    <p>{{ $orderBooker->mobile }}</p>
                 </div>
-                <div class="row">
-                    <div class="col-sm-3">
-                        <p class="border-top-0  text-dark fw-bold">Assigned Main Areas</p>
-                    </div>
-                    <div class="col-sm-9">
-                        
+                <div class="d-flex justify-content-between">
+                    <p class="border-top-0  text-dark fw-bold">Assigned Main Areas</p>
+                    <p>
                         @foreach ($orderBooker->areas as $ar) 
-                            <span class="badge badge-secondary">{{ $ar->name }}</span>
+                        <span class="badge badge-secondary">{{ $ar->name }}</span>
                         @endforeach 
-                    </div>
-                </div>   
-     
-     
-                
-                 
+                    </p>
+                </div> 
             </div>
-        </div>
-    </div>
 
-    
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="white-box">
-                
+            <div class="col-sm-6">
                 <div class="table-responsive">
                     <table class="table text-nowrap">
                         <thead>
@@ -88,12 +62,15 @@
                         </tbody>
                     </table>
                 </div>
-
-                             
             </div>
         </div>
+        
     </div>
+
     
+        
+    @livewire('bills.bills', ['order_booker_bills'=>true, 'order_booker_id' => $orderBooker->id, 'booker' => $orderBooker]) 
+
 
 
 

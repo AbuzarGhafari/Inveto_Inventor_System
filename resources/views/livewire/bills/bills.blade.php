@@ -4,7 +4,15 @@
         <div class="col-sm-6">
             <input wire:model.live="search" type="text"  placeholder="Search Bill" class="form-control">
         </div> 
-        <div class="col-sm-6 text-end">
+        <div class="col-sm-6 text-end"> 
+
+            @if ($order_booker_bills & isset($selected_bills))
+                <a target="_blank" wire:click="dailySalesReport" class="btn btn-success text-white">
+                    <i class="fa fa-print me-2" aria-hidden="true"></i>    
+                    Dialy Sales Report
+                </a>
+            @endif
+
             <a href="{{ route('bills.create') }}" class="btn btn-dark">
                 <i class="fas fa-plus me-2"></i>
                 Generate Bill
@@ -18,6 +26,7 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="white-box">
+ 
                 
                 <div class="table-responsive--">
                     <table class="table text-nowrap">
@@ -36,7 +45,12 @@
                         <tbody>
                             @foreach ($bills as $bill)                            
                             <tr class="{{ $bill->is_recovered ? ' ' : 'bill-pending' }}" wire:key = "{{ $bill->id }}">
-                                <td>{{ $loop->iteration }} </td>
+                                <td>
+                                    @if ($order_booker_bills)
+                                        <input type="checkbox" id="{{ $bill->id }}" name="{{ $bill->id }}" value="{{ $bill->id }}" wire:model.live="selected_bills"/>
+                                    @endif
+                                    {{ $loop->iteration }} 
+                                </td>
                                 <td>
                                     <a href="{{ route('bills.show', $bill->id) }}">{{ $bill->bill_number }}</a> 
                                     @if ($bill->recover_bill)
@@ -56,22 +70,24 @@
                                     <span class="text-sm-light">{{ $bill->shop->shopkeeper_mobile }}</span>
                                 </td>
                                 <td>
-                                    <span class="text-info-dark">{{ $bill->final_price }}</span>
+                                    <span class="text-info-dark">{{ number_format($bill->final_price, '2', '.', ',') }}</span>
                                     @if($bill->previous_bill_id)
                                         <br>
-                                        <span class="text-danger-dark text-sm">Prv: {{ $bill->previous_bill_amount }}</span>
+                                        <span class="text-danger-dark text-sm">Prv: {{ number_format($bill->previous_bill_amount, '2', '.', ',') }}</span>
                                     @endif
                                 </td>
                                 <td>
-                                    <span class="badge badge-secondary">{{ $bill->profitLoss }}</span>
+                                    <span class="badge badge-secondary">{{ number_format($bill->profitLoss, '2', '.', ',') }}</span>
                                 </td>
                                 <td>
-                                    <span class="text-success-dark">{{ $bill->recovered_amount }} </span><br>
+                                    <span class="text-success-dark">{{ number_format($bill->recovered_amount, '2', '.', ',') }} </span><br>
                                     @if (!$bill->is_recovered)
                                         @if(!$bill->previous_bill_id)
-                                            <span class="text-sm text-danger-dark">- {{ $bill->final_price - $bill->recovered_amount }}</span>
+                                            <span class="text-sm text-danger-dark">- {{ number_format($bill->final_price - $bill->recovered_amount, '2', '.', ',') }}</span>
                                         @else
-                                            <span class="text-sm text-danger-dark">- {{ $bill->previous_bill_amount + $bill->final_price - $bill->recovered_amount }}</span>
+                                            <span class="text-sm text-danger-dark">- 
+                                                {{ number_format($bill->previous_bill_amount + $bill->final_price - $bill->recovered_amount , '2', '.', ',') }}
+                                                </span>
                                         @endif
                                     @endif
                                 </td>

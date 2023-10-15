@@ -67,49 +67,49 @@
         <div class="white-box">
             <div class="d-flex justify-content-between">
                 <p class="border-top-0 text-dark fw-bold">Bill Amount</p>
-                <p>{{ $bill->actual_price }}</p>
+                <p>{{ number_format($bill->actual_price, '2', '.', ',') }}</p>
             </div> 
 
             <div class="d-flex justify-content-between">
                 <p class="border-top-0 text-dark fw-bold">Discount</p>
-                <p>{{ $bill->discount }}</p>
+                <p>{{ number_format($bill->discount, '2', '.', ',') }}</p>
             </div>
             
             @if($bill->previous_bill_id)
             <div class="d-flex justify-content-between">
                 <p class="border-top-0 text-dark fw-bold">Previous Bill Amount</p>
-                <p  class="text-danger-dark">{{ $bill->previous_bill_amount }}</p>
+                <p  class="text-danger-dark">{{ number_format($bill->previous_bill_amount, '2', '.', ',') }}</p>
             </div>   
             @endif
             
             <div class="d-flex justify-content-between">
                 <p class="border-top-0 text-dark fw-bold">Bill Final Price</p>
-                <p  class="text-info-dark">{{ $bill->final_price }}</p>
+                <p  class="text-info-dark">{{ number_format($bill->final_price, '2', '.', ',') }}</p>
             </div> 
 
             <div class="d-flex justify-content-between">
                 <p class="border-top-0 text-dark fw-bold">Recovered Amount</p>
-                <p  class="text-success-dark">{{ $bill->recovered_amount }}</p>
+                <p  class="text-success-dark">{{ number_format($bill->recovered_amount, '2', '.', ',')  }}</p>
             </div>  
                 
             <div class="d-flex justify-content-between">
                 <p class="border-top-0 text-dark fw-bold">Remaining Amount</p>
-                <p  class="text-danger-dark">{{  $bill->previous_bill_amount + $bill->final_price - $bill->recovered_amount }}</p>
+                <p  class="text-danger-dark">{{ number_format($bill->previous_bill_amount + $bill->final_price - $bill->recovered_amount, '2', '.', ',')  }} </p>
             </div>  
 
             <div class="d-flex justify-content-between">
                 <p class="border-top-0 text-dark fw-bold">Buying Amount</p>
-                <p  class="text-danger-dark">{{ $bill->totalBuyAmount }}</p>
+                <p  class="text-danger-dark">{{ number_format($bill->totalBuyAmount, '2', '.', ',')  }}</p>
             </div>  
 
             <div class="d-flex justify-content-between">
                 <p class="border-top-0 text-dark fw-bold">Selling Amount</p>
-                <p  class="text-success-dark">{{ $bill->totalSellAmount }}</p>
+                <p  class="text-success-dark">{{ number_format($bill->totalSellAmount, '2', '.', ',') }}</p>
             </div>  
 
             <div class="d-flex justify-content-between">
                 <p class="border-top-0 text-dark fw-bold">Profit/Loss Amount</p>
-                <p  class="text-success-dark">{{ $bill->totalProfitLoss }}</p>
+                <p  class="text-success-dark">{{ number_format($bill->totalProfitLoss, '2', '.', ',') }}</p>
             </div>  
 
 

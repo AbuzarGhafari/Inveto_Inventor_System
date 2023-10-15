@@ -26,6 +26,19 @@ class Bill extends Model
         return Bill::whereDate('created_at', Carbon::today())->get()->count();
     }
 
+    public static function getUniqueBillNumber()
+    {        
+        $now = Carbon::now()->timezone('Asia/Karachi');
+        $count = 1;
+        $billCountToday = Bill::getBillsCountToday();
+        while ($count != 0) {            
+            $billCountToday = $billCountToday + 1;      
+            $bill_number = $now->year . 'M' . $now->month . 'D' . $now->day . strtoupper($now->shortLocaleDayOfWeek) . ($billCountToday);
+            $count = Bill::where('bill_number', $bill_number)->get()->count();
+        }
+        return $bill_number;
+    }
+
     public function orderBooker(): BelongsTo
     {
         return $this->belongsTo(OrderBooker::class);

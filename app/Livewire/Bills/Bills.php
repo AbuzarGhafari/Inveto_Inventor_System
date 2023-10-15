@@ -5,6 +5,8 @@ namespace App\Livewire\Bills;
 use Carbon\Carbon;
 use App\Models\Bill;
 use Livewire\Component;
+// use Barryvdh\DomPDF\PDF;
+use PDF;
 use Livewire\WithPagination;
 
 class Bills extends Component
@@ -30,12 +32,29 @@ class Bills extends Component
     public $previous_bill_amount = 0;
 
     public $remaining_amount;
+
+    public $order_booker_bills = false;
+
+    public $order_booker_id;
+
+    public $selected_bills = [ 0 ];
+
+    public $booker;
     
     public function render()
     {
         $bills = Bill::with(['orderBooker'])->where('bill_number','LIKE', "%".$this->search."%")
                     ->orderBy('created_at', 'desc')
                     ->paginate(20);
+
+        if($this->order_booker_bills){
+            
+            $bills = Bill::with(['orderBooker'])->where('bill_number','LIKE', "%".$this->search."%")
+                        ->where('order_booker_id', $this->order_booker_id)
+                        ->orderBy('created_at', 'desc')
+                        ->paginate(20);
+            
+        }
 
         foreach ($bills as $bill) {
 
@@ -107,5 +126,56 @@ class Bills extends Component
         $this->bill = new Bill();
 
         $this->dispatch('closeModal'); 
+    }
+
+    public function dailySalesReport()
+    {
+        $bills = Bill::find($this->selected_bills);
+        $billEntries = [];
+        foreach ($bills as $bill) {
+            foreach($bill->billEntries as $be){
+                $billEntry = [];
+                $billEntry['name'] = $be->product->name;
+                $billEntry['no_of_cottons'] = $be->no_of_cottons;
+                $billEntry['no_of_pieces'] = $be->no_of_pieces;
+                $billEntries[] = $billEntry;
+            }
+        }
+ 
+        $collection = collect($billEntries);
+        
+        $summary = $collection->groupBy('name')
+            ->map(function ($items, $name) {
+                return [
+                    'name' => $name,
+                    'total_no_of_cottons' => $items->sum('no_of_cottons'),
+                    'total_no_of_pieces' => $items->sum('no_of_pieces'),
+                ];
+            });
+
+        $overallTotalCottons = $summary->sum('total_no_of_cottons');
+        $overallTotalPieces = $summary->sum('total_no_of_pieces');
+
+        $date = Carbon::today()->format('Y-m-d');
+
+        $data = [
+            'summary' => $summary,
+            'overallTotalCottons' => $overallTotalCottons,
+            'overallTotalPieces' => $overallTotalPieces,
+            'booker'    => $this->booker->name,
+        ];
+
+        $pdf = PDF::loadView('bills.dialy-sales-report', $data);
+        
+ 
+        $filename = 'summary_'.$this->booker->name.'_'.$date.'.pdf';
+        $path = storage_path('app/public/' . $filename);
+        $pdf->save($path);
+ 
+        $link = asset('storage/' . $filename);
+ 
+        return redirect()->to($link);
+
+        return $pdf->stream('summary_'.$this->booker->name.'_'.$date.'.pdf');
     }
 }
