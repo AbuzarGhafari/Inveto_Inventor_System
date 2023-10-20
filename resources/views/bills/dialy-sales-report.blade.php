@@ -12,29 +12,27 @@
     <style>
         *{
             font-family: sans-serif;
-        }
-        .row {
-            padding: 0px !important;
-            display: flex; 
-            justify-content: space-around; 
-        }
-        
-        .col{ 
-            width: 100%; 
+        } 
+ 
+        .table,
+        .table th,
+        .table td{
+            border: 1px solid #aaa;
+            border-collapse: collapse;
         }
 
         .table th,
         .table td {
-            padding: 5px  !important;
+            padding: 1px  !important;
+            font-size: 0.6rem;
         }
 
-        /* table{
-            width: 100%
-        } */
+        p{
+            font-size: 0.6rem;
+        }
 
-        table th,
-        table td{
-            font-size: 0.75rem;
+        table{
+            width: 100%
         }
 
         .mb-0{
@@ -48,14 +46,6 @@
             text-align: left;
         }
 
-        .table,
-        .table th,
-        .table td{
-            border: 1px solid #aaa;
-            border-collapse: collapse;
-        }
-
-
         img {
             width: 120px;
         }
@@ -63,20 +53,15 @@
         .title {
             font-weight: bold;
             font-size: 0.9rem;
-            margin: 0px;
-        }
-
-        .text-center{
-            text-align: center
         }
 
         .fw-bold{
             font-weight: bold;
         }
 
-        .mb-5{
-            margin-bottom: 0.5rem;
-        }
+        .w-50{
+            width: 45%;  
+        } 
     </style>
 
 
@@ -85,17 +70,13 @@
 
 <body>
 
-    
-<div class="header">
-</div>
-
+     
 
 <table class="mb-5">
     <tr>
-        <td colspan="2" class="text-center">
-            
+        <td colspan="2" class="text-center"> 
             @include('datauri.al-noor-traders')
-            <p class="title text-center">Summary</p>
+            <p class="title text-center mb-0">Summary</p>
         </td>
     </tr>
     <tr>
@@ -106,38 +87,38 @@
     
     <tr>
         <td>
-            <p class="mb-0 text-dark text-end">Date: {{ \Carbon\Carbon::parse(\Carbon\Carbon::today())->format('d/m/Y g:i:s A')}}</p>
+            <p class="mb-0 text-darknd">Date: {{ \Carbon\Carbon::parse(\Carbon\Carbon::today())->format('d/m/Y g:i:s A')}}</p>
         </td>
     </tr>
 </table>
 
 
-    
-<table class="table text-nowrap">
-    <thead>
-        <tr> 
-            <th class="border-top-0  text-dark text-left">#</th>
-            <th class="border-top-0  text-dark text-left">Product Name</th>
-            <th class="border-top-0  text-dark text-end">No. of Cottons</th>
-            <th class="border-top-0  text-dark text-end">No. of Pieces</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach ($summary as $item)
-            <tr wire:key = "{{ $item['name'] }}">
-                <td class="text-left">{{ $loop->iteration }}</td>
-                <td class="text-left">{{ $item['name'] }}</td>
-                <td class="text-end">{{ $item['total_no_of_cottons'] }}</td>
-                <td class="text-end">{{ $item['total_no_of_pieces'] }}</td> 
+<div class="w-50">
+    <table class="table text-nowrap">
+        <thead>
+            <tr> 
+                <th class="border-top-0  text-dark text-left">#</th>
+                <th class="border-top-0  text-dark text-left">Product Name</th>
+                <th class="border-top-0  text-dark text-end">No. of Cottons</th>
+                <th class="border-top-0  text-dark text-end">No. of Pieces</th>
             </tr>
-        @endforeach
-        <tr>
-            <td colspan="3" class="text-end fw-bold">{{ $overallTotalCottons }}</td>
-            <td class="text-end fw-bold">{{ $overallTotalPieces }}</td>
-        </tr> 
-    </tbody>
-</table>
-
+        </thead>
+        <tbody>
+            @foreach ($summary as $item)
+                <tr wire:key = "{{ $item['name'] }}">
+                    <td class="text-left">{{ $loop->iteration }}</td>
+                    <td class="text-left">{{ $item['name'] }}</td>
+                    <td class="text-end">{{ $item['total_no_of_cottons'] }}</td>
+                    <td class="text-end">{{ $item['total_no_of_pieces'] }}</td> 
+                </tr>
+            @endforeach
+            <tr>
+                <td colspan="3" class="text-end fw-bold">{{ $overallTotalCottons }}</td>
+                <td class="text-end fw-bold">{{ $overallTotalPieces }}</td>
+            </tr> 
+        </tbody>
+    </table>
+</div> 
 
  
 

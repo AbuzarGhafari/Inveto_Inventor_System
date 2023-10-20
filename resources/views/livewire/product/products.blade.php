@@ -15,13 +15,13 @@
         <div class="col-sm-12">
             <div class="white-box">
                 
-                <div class="table-responsive">
-                    <table class="table text-nowrap">
+                <div class="">
+                    <table class="table ">
                         <thead>
                             <tr>
                                 <th class="border-top-0 text-dark">#</th>
                                 <th class="border-top-0 text-dark">SKU Code</th>
-                                <th class="border-top-0  text-dark">Name</th> 
+                                <th class="border-top-0 text-wrap  text-dark">Name</th> 
                                 <th class="border-top-0  text-dark">Cartons Qty</th>
                                 <th class="border-top-0  text-dark">Stock Status</th>
                                 <th class="border-top-0  text-dark text-end">Action</th>
@@ -36,7 +36,9 @@
                                 <td>
                                     <a href="{{ route('products.show', $product->id) }}">{{ $product->sku_code }}</a>
                                 </td>
-                                <td>{{ $product->name }}</td>
+                                <td>
+                                    {{ $product->name }} 
+                                </td>
                                 <td>{{ $product->stock_quantity }}</td> 
                                 <td>
                                     @if ($product->stock_quantity >= 10)

@@ -17,7 +17,7 @@
         <div class="col-sm-12">
             <div class="white-box">
                 
-                <div class="table-responsive">
+                <div class="">
                     <table class="table text-nowrap">
                         <thead>
                             <tr>

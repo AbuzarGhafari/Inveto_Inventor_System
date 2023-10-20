@@ -18,11 +18,11 @@
                     <p class="border-top-0  text-dark fw-bold">Mobile</p>
                     <p>{{ $orderBooker->mobile }}</p>
                 </div>
-                <div class="d-flex justify-content-between">
+                <div class="d-flex justify-content-between flex-wrap">
                     <p class="border-top-0  text-dark fw-bold">Assigned Main Areas</p>
-                    <p>
+                    <p class="d-flex justify-content-end flex-wrap flex-gap-2">
                         @foreach ($orderBooker->areas as $ar) 
-                        <span class="badge badge-secondary">{{ $ar->name }}</span>
+                        <span class="badge badge-secondary">{{ $ar->name }}</span>  
                         @endforeach 
                     </p>
                 </div> 

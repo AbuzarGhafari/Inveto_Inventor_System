@@ -14,7 +14,7 @@
         <div class="col-sm-12">
             <div class="white-box">
                 
-                <div class="table-responsive">
+                <div class="">
                     <table class="table text-nowrap">
                         <thead>
                             <tr> 
@@ -36,9 +36,11 @@
                                 </td>
                                 <td>{{ $booker->mobile }}</td>
                                 <td>
+                                    <div class="d-flex flex-wrap flex-gap-2">
                                     @foreach ($booker->areas as $ar) 
-                                        <span class="badge badge-secondary">{{ $ar->name }}</span>
+                                        <span class="badge badge-secondary">{{ $ar->name }}</span>  
                                     @endforeach 
+                                    </div>
                                 </td>
                                 <td>
                                     <div class="d-flex justify-content-end flex-gap-2">
