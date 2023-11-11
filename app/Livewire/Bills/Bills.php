@@ -35,7 +35,11 @@ class Bills extends Component
 
     public $order_booker_bills = false;
 
+    public $shop_bills = false;
+
     public $order_booker_id;
+
+    public $shop_id;
 
     public $selected_bills = [ 0 ];
 
@@ -51,6 +55,13 @@ class Bills extends Component
             
             $bills = Bill::with(['orderBooker'])->where('bill_number','LIKE', "%".$this->search."%")
                         ->where('order_booker_id', $this->order_booker_id)
+                        ->orderBy('created_at', 'desc')
+                        ->paginate(20);
+            
+        } else if($this->shop_bills){
+            
+            $bills = Bill::with(['shop'])->where('bill_number','LIKE', "%".$this->search."%")
+                        ->where('shop_id', $this->shop_id)
                         ->orderBy('created_at', 'desc')
                         ->paginate(20);
             

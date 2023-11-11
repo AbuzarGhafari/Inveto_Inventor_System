@@ -11,95 +11,24 @@
                     <div wire:click="addInput" class="btn btn-dark">Add Entry</div>
                 </div>
 
-                <form class="form-horizontal form-material" wire:submit="{{ !$add_previous_bill ? 'save': 'createBillWithPreviousBill' }}">
+                <form class="form-horizontal form-material" wire:submit="save">
                     @csrf
-
-                    @if (!$add_previous_bill)
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <div class="form-group mb-4">
-                                <label class="col-md-12 p-0">Select Order Booker</label>
-                                <div class="col-md-12 border-bottom p-0">                                    
-                                    <select wire:model.live="form.order_booker_id"   class="form-control p-0 border-0">
-                                        <option value="">Select Order Booker</option>
-                                        @foreach ($orderBookers as $ob)
-                                            <option value="{{ $ob->id }}">{{ $ob->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                @error('form.order_booker_id')<div class="alert alert-danger p-2">{{ $message }}</div>@enderror
-                            </div>
-                        </div>
-                        <div class="col-sm-3">
-                            <div class="form-group mb-4"> 
-                                <label class="col-md-12 p-0">Select Main Area</label>
-                                <div class="col-md-12 border-bottom p-0">
-                                    <select wire:model.live="form.main_area_id"   class="form-control p-0 border-0">
-                                        <option value="">Select Main Area</option>
-                                        @isset($mainAreas)
-                                            @foreach ($mainAreas as $oba)
-                                                <option value="{{ $oba->id }}">{{ $oba->name }}</option>
-                                            @endforeach
-                                        @endisset
-                                    </select>
-                                </div>
-                                @error('form.main_area_id')<div class="alert alert-danger p-2">{{ $message }}</div>@enderror
-                            </div>
-                        </div>
-                        <div class="col-sm-3">
-                            <div class="form-group mb-4">
-                                <label class="col-md-12 p-0">Select Sub Area</label>
-                                <div class="col-md-12 border-bottom p-0">
-                                    <select wire:model.live="form.sub_area_id"   class="form-control p-0 border-0">
-                                        <option value="">Select Sub Area</option>
-                                        @isset($subAreas)
-                                            @foreach ($subAreas as $oba)
-                                                <option value="{{ $oba->id }}">{{ $oba->name }}</option>
-                                            @endforeach
-                                        @endisset
-                                    </select>
-                                </div>
-                                @error('form.sub_area_id')<div class="alert alert-danger p-2">{{ $message }}</div>@enderror
-                            </div>
-
-                        </div>
-                        <div class="col-sm-3">
-                            <div class="form-group mb-4">
-                                <label class="col-md-12 p-0">Select Shop</label>
-                                <div class="col-md-12 border-bottom p-0">
-                                    <select wire:model.live="form.shop_id"   class="form-control p-0 border-0">
-                                        <option value="">Select Shop</option>
-                                        @isset($shops)
-                                            @foreach ($shops as $oba)
-                                                <option value="{{ $oba->id }}">{{ $oba->shop_name }}</option>
-                                            @endforeach
-                                        @endisset
-                                    </select>
-                                </div>
-                                @error('form.shop_id')<div class="alert alert-danger p-2">{{ $message }}</div>@enderror
-                            </div>
-                        </div>
-                    </div> 
-                    @endif
-
-                    @if ($add_previous_bill)
+  
                     <div class="row">
                         <div class="col-sm-6">
                             
-                            <p>Previous Bill Number: {{ $previousBill->bill_number }}</p>
-                            <p>Bill Date: {{ \Carbon\Carbon::parse($previousBill->created_at)->format('d/m/Y g:i:s A')}}  </p>
-                            <p>Pending Bill Amount: <span class="text-danger-dark">{{ $previousBill->previous_bill_amount + $previousBill->final_price - $previousBill->recovered_amount }}</span></p>
+                            <p>Bill Number: {{ $bill->bill_number }}</p>
+                            <p>Bill Date: {{ \Carbon\Carbon::parse($bill->created_at)->format('d/m/Y g:i:s A')}}  </p>
                             
                         </div>
                         <div class="col-sm-6 text-end">
                             
-                            <p>Order Booker: {{ $previousBill->orderBooker->name }}</p>
-                            <p>Shop Name: {{ $previousBill->shop->shop_name }}</p>
-                            <p>Shopkeeper Name: {{ $previousBill->shop->shopkeeper_name }}</p>
+                            <p>Order Booker: {{ $bill->orderBooker->name }}</p>
+                            <p>Shop Name: {{ $bill->shop->shop_name }}</p>
+                            <p>Shopkeeper Name: {{ $bill->shop->shopkeeper_name }}</p>
                             
                         </div>
-                    </div>
-                @endif
+                    </div> 
   
                     
                 <div class="table-responsive">
@@ -116,8 +45,7 @@
                                 <th class="border-top-0  text-dark">Pieces Price</th> 
                                 <th class="border-top-0  text-dark">Total Price</th> 
                                 <th class="border-top-0  text-dark">Discount</th> 
-                                <th class="border-top-0  text-dark w-10 text-end">Final Price</th> 
- 
+                                <th class="border-top-0  text-dark w-10 text-end">Final Price</th>  
                             </tr>
                         </thead>
                         <tbody>
@@ -133,7 +61,6 @@
                                         <div class="border-bottom p-0">                                    
                                             <input type="text" id="input_{{$key}}_sku_code"   wire:model.blur="inputs.{{$key}}.sku_code"   class="form-control p-0 border-0">                                
                                             @error('inputs.'.$key.'.sku_code')<div class="alert alert-danger p-2">{{ $message }}</div>@enderror
-                                             
                                         </div>
 
                                         @isset($inputs[$key]['product_name'])
@@ -206,7 +133,7 @@
                                         
                     <div class="form-group mb-4">
                         <div class="col-sm-12 text-end">
-                            <button class="btn btn-success" type="submit">Generate Bill</button>
+                            <button class="btn btn-success" type="submit">Update Bill</button>
                         </div>
                     </div>
                 </form>

@@ -111,6 +111,7 @@
                                                 <li><a class="dropdown-item" href="{{ route('bills.createBillWithPreviousBill', $bill) }}">Add in New Bill</a></li>
                                                 
                                                 <li><hr class="dropdown-divider"></li>
+                                                <li><a class="dropdown-item" href="{{ route('bills.edit', $bill) }}">Edit Bill</a></li>
                                                 @endif  
                                                 <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deleteBillModal" wire:click="selectBill({{ $bill }})"  type="button" >Delete Bill</a></li>
                                             </ul>

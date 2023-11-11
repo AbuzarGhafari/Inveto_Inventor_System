@@ -21,7 +21,7 @@
         <link href="{{ asset('assets/css/style.min.css') }}" rel="stylesheet">
 
         
-        <link href="{{ asset('assets/css/admin-custom-style.css') }}" rel="stylesheet">
+        <link href="{{ asset('assets/css/admin-custom-style.css') }}" rel="stylesheet"> 
         
         @livewireStyles
     </head>
@@ -86,6 +86,8 @@
             window.addEventListener('showModal', event => {
                 $(".modal").modal('show');                
             });
+             
+            
         </script>
             
         @livewireScripts

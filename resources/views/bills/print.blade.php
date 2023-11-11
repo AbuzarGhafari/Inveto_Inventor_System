@@ -13,8 +13,7 @@
         *{
             font-family: sans-serif;
         } 
-
-
+ 
         .table,
         .table th,
         .table td{
@@ -28,8 +27,16 @@
             font-size: 0.6rem;
         }
 
-        p{
-            font-size: 0.6rem;
+        .products p{
+            font-size: 0.7rem;
+        }
+
+        .footer p{
+            font-size: 0.7rem;
+        }
+
+        .header p{
+            font-size: 0.85rem;
         }
 
         table{
@@ -43,6 +50,7 @@
         .text-end{
             text-align: right;
         }
+
         .text-left{
             text-align: left;
         }
@@ -67,40 +75,36 @@
 </head>
 
 <body>
+ 
 
-    
-<div class="header">
-</div>
-
-
-<table class="mb-5">
+<table class="mb-5 header">
     <tr>
         <td >
             <div>
 
                 @include('datauri.al-noor-traders')
-                <p class="mb-0 title text-center">Bill Invoice</p>
-
+                <p class="mb-0 title text-center">Bill Invoice</p> 
                 
-                <p class="mb-0 text-dark">Bill Number/Date: {{ $bill->bill_number }} , {{ \Carbon\Carbon::parse($bill->created_at)->format('d/m/Y g:i:s A')}}</p>
+                <p class="mb-0 text-dark"><span class="fw-bold">Bill Number:</span> {{ $bill->bill_number }}</p>
+                <p class="mb-0 text-dark"><span class="fw-bold">Date:</span> {{ \Carbon\Carbon::parse($bill->created_at)->format('d/m/Y g:i:s A')}}</p>
                 
-                <p class="mb-0 text-dark">Order Booker: {{ $bill->orderBooker->name }},
-                Area: {{ $bill->mainArea->name }},  {{ $bill->subArea->name }}</p> 
+                <p class="mb-0 text-dark"><span class="fw-bold">Order Booker:</span> {{ $bill->orderBooker->name }}
+                <p class="mb-0 text-dark"><span class="fw-bold">Area:</span> {{ $bill->mainArea->name }},  {{ $bill->subArea->name }}</p> 
         
             </div>
         </td>
         <td>
             <div>
 
-                <p class="mb-0 text-end">Distributor: Bilal Mazhar</p>
-                <p class="mb-0 text-end">Disribution: Innovative biscuits, Rice and Sugar</p>
-                <p class="mb-0 text-end">Mobile: +92 322 1784066, +92 310 0087693, 0476334066</p>
-                <p class="mb-0 text-end">Address: Mohallah Hussain Abad Near Motti Masjid Chiniot</p>
+                <p class="mb-0 text-end"><span class="fw-bold">Distributor:</span> Bilal Mazhar</p>
+                <p class="mb-0 text-end"><span class="fw-bold">Disribution:</span> Innovative biscuits, Rice and Sugar</p>
+                <p class="mb-0 text-end"><span class="fw-bold">Mobile:</span> +92 322 1784066, +92 310 0087693, 0476334066</p>
+                <p class="mb-0 text-end"><span class="fw-bold">Address:</span> Mohallah Hussain Abad Near Motti Masjid Chiniot</p>
 
-                <p class="mb-0 text-dark text-end">Shop Name: {{ $bill->shop->shop_name }}</p>
-                <p class="mb-0 text-dark text-end">Shopkeepr Name: {{ $bill->shop->shopkeeper_name }}</p>
-                <p class="mb-0 text-dark text-end">Shopkeepr Mobile: {{ $bill->shop->shopkeeper_mobile }}</p>
-                <p class="mb-0 text-dark text-end">Address: {{ $bill->shop->address }}, {{ $bill->shop->city }}</p>
+                <p class="mb-0 text-dark text-end"><span class="fw-bold">Shop Name:</span> {{ $bill->shop->shop_name }}</p>
+                <p class="mb-0 text-dark text-end"><span class="fw-bold">Shopkeepr Name:</span> {{ $bill->shop->shopkeeper_name }}</p>
+                <p class="mb-0 text-dark text-end"><span class="fw-bold">Shopkeepr Mobile:</span> {{ $bill->shop->shopkeeper_mobile }}</p>
+                <p class="mb-0 text-dark text-end"><span class="fw-bold">Address:</span> {{ $bill->shop->address }}, {{ $bill->shop->city }}</p>
                      
             </div>
         </td>
@@ -110,7 +114,7 @@
 
 
     
-<table class="table text-nowrap">
+<table class="table text-nowrap products">
     <thead>
         <tr> 
             <th class="border-top-0  text-dark text-left">#</th>
@@ -139,26 +143,35 @@
         </tr>
         @endforeach
         <tr>
-            <td colspan="6" class="text-end fw-bold">Bill Amount</td>
-            <td  colspan="3"  class="text-end fw-bold">{{ $bill->actual_price }}</td>
-        </tr>
-        <tr>
-            <td colspan="6" class="text-end fw-bold">Discount</td>
-            <td  colspan="3"  class="text-end fw-bold">{{ $bill->discount }}</td>
-        </tr>
+            <td colspan="4" class="text-end fw-bold">Total</td>
+            <td colspan="1" class="text-end fw-bold">{{ $no_of_cottons }}</td>
+            <td  colspan="1"  class="text-end fw-bold">{{ $no_of_pieces }}</td>
+            <td colspan="1" class="text-end fw-bold">{{ $total_price }}</td>
+            <td  colspan="1"  class="text-end fw-bold">{{ $discount }}</td>
+            <td colspan="1" class="text-end fw-bold">{{ $final_price }}</td> 
+        </tr> 
         @if($bill->previous_bill_id)
         <tr>
-            <td colspan="6" class="text-end fw-bold">Previous Bill Amount</td>
-            <td  colspan="3"  class="text-end fw-bold">{{ $bill->previous_bill_amount }}</td>
+            <td colspan="4" class="text-end fw-bold">Previous Bill Amount</td>
+            <td  colspan="5"  class="text-end fw-bold">{{ $bill->previous_bill_amount }}</td>
         </tr>
         @endif
         <tr>
-            <td colspan="6" class="text-end fw-bold">Total Amount</td>
-            <td  colspan="3"  class="text-end fw-bold">{{ $bill->previous_bill_amount + $bill->final_price }}</td>
+            <td colspan="4" class="text-end fw-bold">Total Amount</td>
+            <td  colspan="5"  class="text-end fw-bold">{{ $bill->previous_bill_amount + $bill->final_price }}</td>
         </tr>
     </tbody>
 </table>
 
+
+<table class="footer">
+    <tr>
+        <td style="width: 60%;">
+            <p class="fw-bold">Distributor Sign: </p>
+        </td> 
+        <td><p class="fw-bold">Shoopkeeper Sign:</p>        </td>
+    </tr>
+</table>
 
  
 

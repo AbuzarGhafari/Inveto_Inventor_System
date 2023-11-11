@@ -14,13 +14,11 @@ use App\Livewire\Forms\BillForm;
 use Illuminate\Support\Collection;
 use App\Livewire\Forms\BillEntryForm;
 
-class BillCreate extends Component
+class BillEdit extends Component
 {
-    public BillForm $form; 
+    public BillForm $form;  
 
-    public $add_previous_bill;
-
-    public Bill $previousBill;
+    public Bill $bill;
 
     public $products;
 
@@ -58,8 +56,7 @@ class BillCreate extends Component
         'inputs.*.assigned_price.required' => 'The Assigned Price field is required.', 
         'inputs.*.discount.required' => 'The discount field is required.', 
     ];
- 
-
+  
     public function updated($field, $value)
     { 
         if ($field == 'form.order_booker_id') { 
@@ -97,31 +94,32 @@ class BillCreate extends Component
 
     public function mount()
     {        
-        $this->form->bill_number = Bill::getUniqueBillNumber();
-
+        $this->form->bill_number = $this->bill->bill_number;
         $this->fill([
-            'inputs' => collect([
-                [
-                    'product_id' => '',
-                    'sku_code' => '',
-                    'assigned_price' => '', 
-                    'no_of_cottons' => '', 
-                    'no_of_pieces' => '',
-                    'cottons_price' => '0',
-                    'peices_price' => '0',
-                    'total_price' => '0',
-                    'discount' => '0',
-                    'final_price' => '0',
-                ]                
-            ]),
+            'inputs' => collect( ),
         ]);
 
-        if($this->add_previous_bill){
-            $this->form->order_booker_id = $this->previousBill->orderBooker->id;
-            $this->form->main_area_id = $this->previousBill->mainArea->id;
-            $this->form->sub_area_id = $this->previousBill->subArea->id;
-            $this->form->shop_id = $this->previousBill->shop->id;
+        $billEntries = $this->bill->billEntries;
+
+        foreach ($billEntries as $entry) {
+            $this->inputs->push(
+                [
+                    'product_id' => $entry->product_id,
+                    'sku_code' => $entry->sku_code,
+                    'assigned_price' => $entry->assigned_price, 
+                    'no_of_cottons' => $entry->no_of_cottons, 
+                    'no_of_pieces' => $entry->no_of_pieces,
+                    'cottons_price' => $entry->cottons_price,
+                    'peices_price' => $entry->peices_price,
+                    'total_price' => $entry->total_price,
+                    'discount' => $entry->discount,
+                    'final_price' => $entry->final_price,
+                ]   
+            );
         }
+        $this->formatMappedInputs(); 
+
+        
     }
 
     public function addInput()
@@ -149,12 +147,11 @@ class BillCreate extends Component
 
     public function updatedInputs()
     {   
-        $validated = $this->validate();  
+        // $validated = $this->validate();  
         
         $this->formatMappedInputs();  
     }
- 
-
+  
     public function formatMappedInputs()
     { 
         $this->inputs = $this->inputs->map(function ($row) {
@@ -194,8 +191,7 @@ class BillCreate extends Component
         $this->form->actual_price = $this->inputs->sum('total_price');
         $this->form->final_price = $this->inputs->sum('final_price');
         $this->form->discount = $this->inputs->sum('discount');
-
-        
+ 
         $data = $this->inputs->map(function($row){
             
             $totalBuyAmount = ($row['distributor_prices'] * $row['no_of_cottons']) + ($row['distributor_prices'] / $row['pack_size'] * $row['no_of_pieces']);
@@ -215,44 +211,23 @@ class BillCreate extends Component
     
 
     public function save()
-    { 
-        $validated = $this->validate();   
+    {  
 
-        $bill = Bill::create($this->form->all());
-
-        $this->inputs->map(function ($row)  use ($bill) {
-            
-            $row['bill_id'] = $bill->id;
-
-            $row['bill_number'] = $bill->bill_number;
-
-            unset($row['product_name']);
-            unset($row['distributor_prices']);
-            unset($row['pack_size']);
-
-            BillEntry::create($row);
-            
-        });
-
-        return redirect()->route('bills.index');
-    }
-
-    public function createBillWithPreviousBill()
-    {
-
-        $validated = $this->validate();   
-
-        $previousBillAmount = $this->previousBill->previous_bill_amount +   $this->previousBill->final_price - $this->previousBill->recovered_amount;
-
-        $bill = Bill::create($this->form->all() + [
-            'previous_bill_id' => $this->previousBill->id,
-            'previous_bill_amount' => $previousBillAmount
+        $this->bill->update([
+            'actual_price' => $this->form->actual_price,
+            'final_price' => $this->form->final_price,
+            'discount' => $this->form->discount,
         ]);
 
-        $this->previousBill->is_recovered = true;
-        $this->previousBill->save();
+        $billEntries = $this->bill->billEntries;
 
-        $this->inputs->map(function ($row)  use ($bill) {
+        $bill = $this->bill;
+
+        foreach ($billEntries as $entry) {
+            $entry->delete();
+        }
+
+        $this->inputs->map(function ($row) use ($bill) {
             
             $row['bill_id'] = $bill->id;
 
@@ -268,6 +243,7 @@ class BillCreate extends Component
 
         return redirect()->route('bills.index');
     }
+ 
 
     public function render()
     {
@@ -275,6 +251,6 @@ class BillCreate extends Component
 
         $this->products = Product::all();
  
-        return view('livewire.bills.bill-create');
+        return view('livewire.bills.bill-edit');
     }
 }

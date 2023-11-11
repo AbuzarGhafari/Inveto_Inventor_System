@@ -64,8 +64,27 @@ class BillController extends Controller
      */
     public function print(Bill $bill)
     {
+        $no_of_cottons = 0;
+        $no_of_pieces = 0;
+        $total_price = 0;
+        $discount = 0;
+        $final_price = 0;
+        foreach ($bill->billEntries as $be){
+            $no_of_cottons += $be->no_of_cottons;
+            $no_of_pieces += $be->no_of_pieces;
+            $total_price += $be->total_price;
+            $discount += $be->discount;
+            $final_price += $be->final_price;
+        }
+
+        
         $data = [
             'bill'    => $bill,
+            'no_of_cottons' => $no_of_cottons,
+            'no_of_pieces' => $no_of_pieces,
+            'total_price' => $total_price,
+            'discount' => $discount,
+            'final_price' => $final_price,
        ];
 
         $pdf = PDF::loadView('bills.print', $data);
@@ -80,7 +99,9 @@ class BillController extends Controller
      */
     public function edit(Bill $bill)
     {
-        //
+        return view('bills.edit', compact(
+            'bill'
+        ));
     }
 
     /**

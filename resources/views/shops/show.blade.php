@@ -131,4 +131,10 @@
     </div>
  
 
+    
+    @livewire('bills.bills', ['shop_bills'=>true, 'shop_id' => $shop->id]) 
+
+
+
+
 @endsection
