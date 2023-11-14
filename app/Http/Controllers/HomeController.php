@@ -47,7 +47,7 @@ class HomeController extends Controller
 
         $data = $billEntries->map(function($item, $key){
             
-            $totalBuyAmount = ($item->product->distributor_prices * $item->no_of_cottons) + ($item->product->pack_size / $item->product->distributor_prices * $item->no_of_pieces);
+            $totalBuyAmount = ($item->product->distributor_prices * $item->no_of_cottons) + ($item->product->distributor_prices / $item->product->pack_size  * $item->no_of_pieces);
             
             return [
                 'totalBuyAmount' => $totalBuyAmount,

@@ -43,7 +43,7 @@ class BillEdit extends Component
         'inputs.*.no_of_cottons' => 'required|integer',
         'inputs.*.no_of_pieces' => 'required|integer', 
         'inputs.*.assigned_price' => 'required', 
-        'inputs.*.discount' => 'required', 
+        'inputs.*.discount' => 'required|integer', 
     ];
     
     protected $messages = [
@@ -180,7 +180,7 @@ class BillEdit extends Component
 
             if($row['discount'] > 0){
                 $row['final_price'] = $row['total_price'] - $row['discount'];
-                $row['discount'] = $row['discount'];
+                $row['discount'] = $row['discount'];                
             }
             else
                 $row['final_price'] = $row['total_price'];
@@ -212,12 +212,19 @@ class BillEdit extends Component
 
     public function save()
     {  
+        $this->formatMappedInputs();  
 
+        
         $this->bill->update([
             'actual_price' => $this->form->actual_price,
             'final_price' => $this->form->final_price,
             'discount' => $this->form->discount,
         ]);
+        // dd([
+        //     $this->form->actual_price,
+        //     $this->form->final_price,
+        //     $this->form->discount
+        // ]);
 
         $billEntries = $this->bill->billEntries;
 

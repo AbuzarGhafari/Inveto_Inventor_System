@@ -48,7 +48,8 @@ class BillController extends Controller
     public function show(Bill $bill)
     {
         
-        $response = $bill->getProfit();
+        $response = $bill->getProfit();        
+
         $bill->totalBuyAmount = $response['totalBuyAmount'];
         $bill->totalSellAmount = $response['totalSellAmount'];
         $bill->totalProfitLoss = $response['totalProfitLoss'];
