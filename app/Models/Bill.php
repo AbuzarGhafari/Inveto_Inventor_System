@@ -94,5 +94,40 @@ class Bill extends Model
             'totalProfitLoss' => $data->sum('totalSellAmount') - $data->sum('totalBuyAmount')
         ];
     }
+
+    public function scopeTimePeriod(Builder $query, $period, $fromDate = null, $toDate = null)
+    {
+        Carbon::setLocale('Asia/Karachi');
+
+        switch ($period) {
+            case 'last-week':
+                return $query->whereBetween('created_at', [Carbon::now()->subWeek()->startOfWeek(), Carbon::now()->subWeek()->endOfWeek()]);
+            case 'last-month':
+                return $query->whereBetween('created_at', [Carbon::now()->subMonth()->startOfMonth(), Carbon::now()->subMonth()->endOfMonth()]);
+            case 'all-time':
+                return $query;
+            case 'custom':
+                return $query->whereBetween('created_at', [$fromDate, $toDate]);
+            default:
+                return $query;
+        }
+    }
     
+    public function scopeGetPeriod(Builder $query, $period, $fromDate = null, $toDate = null)
+    {
+        Carbon::setLocale('Asia/Karachi');
+        
+        switch ($period) {
+            case 'last-week':
+                return 'Last Week';
+            case 'last-month':
+                return 'Last Month';
+            case 'all-time':
+                return 'All Time';
+            case 'custom':
+                return 'Custom Date: ' . $fromDate . ' - '. $toDate;
+            default:
+                return 'This Month';
+        }
+    }
 }

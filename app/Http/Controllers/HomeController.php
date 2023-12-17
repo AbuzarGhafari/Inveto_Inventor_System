@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Bill;
 use App\Models\Product;
 use App\Models\BillEntry;
@@ -24,41 +25,68 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
-    {
-        $products = Product::all();
-        $productsCount = $products->count();
-        $totalStock = $products->sum('stock_quantity');
+    public function index(Request $request)
+    { 
+        // Set the timezone to Pakistan's timezone
+        Carbon::setLocale('Asia/Karachi');
+  
 
-        $ordersCount = Bill::all()->count();
-        $recoveredOrdersCount = Bill::recovered()->count();
-        $pendingOrdersCount = Bill::pending()->count();
+        if ($request->isMethod('post')) {
 
-        $totalOrderedAmount = Bill::all()->sum('final_price');
+            $period = $request->input('period'); // 'last-week', 'last-month', 'all-time', or 'custom'
+            $fromDate = $request->input('from_date'); // required if period is 'custom'
+            $toDate = $request->input('to_date'); // required if period is 'custom'
+            
+            $bills = Bill::timePeriod($period, $fromDate, $toDate)->get();
+
+            
+            $period = Bill::getPeriod($period, $fromDate, $toDate);
+        }else{
+
+            $startOfCurrentMonth = Carbon::now('Asia/Karachi')->startOfMonth();
+
+            $bills = Bill::where('created_at', '>=', $startOfCurrentMonth)->get();
+
+            $period = 'This Month.';
+        }
+ 
+ 
+ 
+        $ordersCount = $bills->count(); 
+
+        // Count recovered bills
+        $recoveredOrdersCount = $bills->filter(function ($bill) {
+            return $bill->is_recovered;
+        })->count();
+
+        // Count pending bills
+        $pendingOrdersCount = $bills->filter(function ($bill) {
+            return !$bill->is_recovered;
+        })->count();
+ 
+        $totalOrderedAmount = $bills->sum('final_price');
 
         $totalOrderedAmount = number_format($totalOrderedAmount, 0, '');
 
-        $totalRecoveredAmount = Bill::all()->sum('recovered_amount');
+        $totalRecoveredAmount = $bills->sum('recovered_amount');
 
         $totalRecoveredAmount = number_format($totalRecoveredAmount, 0, '');
+ 
+        $bills->load('billEntries');
 
-        $billEntries = BillEntry::all();
-  
+        $data = [];
 
-        $data = $billEntries->map(function($item, $key){
-            
-            $totalBuyAmount = ($item->product->distributor_prices * $item->no_of_cottons) + ($item->product->distributor_prices / $item->product->pack_size  * $item->no_of_pieces);
-            
-            return [
-                'totalBuyAmount' => $totalBuyAmount,
-                'totalSellAmount' => $item->final_price
-            ];
+        foreach ($bills as $bill) {
+             
+            $data[] = $bill->getProfit();
+         
+        }
+          
+        $collection = collect($data);
 
-        });
-
-        $totalBuyAmount = $data->sum('totalBuyAmount');
-        $totalSellAmount = $data->sum('totalSellAmount');
-        $totalProfit = $totalSellAmount - $totalBuyAmount;
+        $totalBuyAmount = $collection->sum('totalBuyAmount');
+        $totalSellAmount = $collection->sum('totalSellAmount');
+        $totalProfit = $collection->sum('totalProfitLoss');
 
         $totalBuyAmount = number_format($totalBuyAmount, 0, '');
         $totalSellAmount = number_format($totalSellAmount, 0, '');
@@ -73,7 +101,8 @@ class HomeController extends Controller
             'totalRecoveredAmount',
             'totalBuyAmount',
             'totalSellAmount',
-            'totalProfit'
+            'totalProfit',
+            'period'
         ));
     }
 

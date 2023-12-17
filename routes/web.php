@@ -28,7 +28,7 @@ Auth::routes();
 
 Route::middleware(['auth'])->group(function () {
     
-    Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::any('/home', [HomeController::class, 'index'])->name('home');
     
     Route::resource('/products', ProductController::class);
     
@@ -39,7 +39,6 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/shops', ShopController::class);
     
     Route::resource('/order-bookers', OrderBookerController::class);
- 
 
     Route::resource('/bills', BillController::class);
 
