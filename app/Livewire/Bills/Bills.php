@@ -2,17 +2,17 @@
 
 namespace App\Livewire\Bills;
 
-use Carbon\Carbon;
 use App\Models\Bill;
+use Carbon\Carbon;
 use Livewire\Component;
 // use Barryvdh\DomPDF\PDF;
-use PDF;
 use Livewire\WithPagination;
+use PDF;
 
 class Bills extends Component
 {
     use WithPagination;
-    
+
     public $search = '';
 
     public Bill $bill;
@@ -41,52 +41,61 @@ class Bills extends Component
 
     public $shop_id;
 
-    public $selected_bills = [ 0 ];
+    public $selected_bills = [0];
 
     public $booker;
-    
+
+    public $activeTab = 'all';
+
+    private $billsList;
+
+    protected function getBillsQuery()
+    {
+        $query = Bill::query()->with(['orderBooker', 'shop'])->orderBy('created_at', 'desc');
+
+        if ($this->order_booker_bills) {
+            $query->where('order_booker_id', $this->order_booker_id);
+        } elseif ($this->shop_bills) {
+            $query->where('shop_id', $this->shop_id);
+        }
+
+        return $query;
+    }
+
+    public function mount()
+    {
+        $this->billsList = $this->getBillsQuery()->paginate(20);
+       
+    }
+
     public function render()
     {
-        $bills = Bill::with(['orderBooker'])->where('bill_number','LIKE', "%".$this->search."%")
-                    ->orderBy('created_at', 'desc')
-                    ->paginate(20);
+        // $bills = Bill::with(['orderBooker'])->where('bill_number','LIKE', "%".$this->search."%")
+        //                 ->orderBy('created_at', 'desc')
+        //                 ->paginate(20);
 
-        if($this->order_booker_bills){
-            
-            $bills = Bill::with(['orderBooker'])->where('bill_number','LIKE', "%".$this->search."%")
-                        ->where('order_booker_id', $this->order_booker_id)
-                        ->orderBy('created_at', 'desc')
-                        ->paginate(20);
-            
-        } else if($this->shop_bills){
-            
-            $bills = Bill::with(['shop'])->where('bill_number','LIKE', "%".$this->search."%")
-                        ->where('shop_id', $this->shop_id)
-                        ->orderBy('created_at', 'desc')
-                        ->paginate(20);
-            
-        }
+        $bills = $this->billsList;
 
         foreach ($bills as $bill) {
 
             $response = $bill->getProfit();
             $bill->profitLoss = $response['totalProfitLoss'];
-            
 
             $to = Carbon::createFromFormat('Y-m-d H:i:s', $bill->created_at);
             $from = Carbon::createFromFormat('Y-m-d H:i:s', Carbon::now());
             $diff_in_days = $to->diffInDays($from);
-            if($diff_in_days >= 14 & !$bill->is_recovered){
+            if ($diff_in_days >= 14 & !$bill->is_recovered) {
                 $bill->recover_bill = true;
-            }else{
+            } else {
                 $bill->recover_bill = false;
             }
             $bill->diff_in_days = $diff_in_days;
         }
 
-        return view('livewire.bills.bills',[
-            'bills' => $bills
+        return view('livewire.bills.bills', [
+            'bills' => $bills,
         ]);
+
     }
 
     public function selectBill(Bill $bill)
@@ -98,7 +107,7 @@ class Bills extends Component
         $this->recovered_amount = $bill->recovered_amount;
         $this->remaining_amount = $bill->final_price - $bill->recovered_amount;
 
-        if($bill->previous_bill_id){
+        if ($bill->previous_bill_id) {
             $this->is_previous_bill = true;
             $this->previous_bill_amount = $bill->previous_bill_amount;
         }
@@ -108,11 +117,11 @@ class Bills extends Component
     {
         $this->bill->recovered_amount = $this->bill->recovered_amount + $this->recovery_amount;
 
-        $this->bill->save(); 
+        $this->bill->save();
 
         $this->recovery_amount = 0;
 
-        $this->dispatch('closeModal'); 
+        $this->dispatch('closeModal');
     }
 
     public function fullyRecovered()
@@ -127,16 +136,16 @@ class Bills extends Component
 
         $this->recovery_amount = 0;
 
-        $this->dispatch('closeModal'); 
+        $this->dispatch('closeModal');
 
     }
 
     public function deleteBill()
     {
-        $this->bill->delete(); 
+        $this->bill->delete();
         $this->bill = new Bill();
 
-        $this->dispatch('closeModal'); 
+        $this->dispatch('closeModal');
     }
 
     public function dailySalesReport()
@@ -144,7 +153,7 @@ class Bills extends Component
         $bills = Bill::find($this->selected_bills);
         $billEntries = [];
         foreach ($bills as $bill) {
-            foreach($bill->billEntries as $be){
+            foreach ($bill->billEntries as $be) {
                 $billEntry = [];
                 $billEntry['name'] = $be->product->name;
                 $billEntry['no_of_cottons'] = $be->no_of_cottons;
@@ -152,9 +161,9 @@ class Bills extends Component
                 $billEntries[] = $billEntry;
             }
         }
- 
+
         $collection = collect($billEntries);
-        
+
         $summary = $collection->groupBy('name')
             ->map(function ($items, $name) {
                 return [
@@ -173,20 +182,63 @@ class Bills extends Component
             'summary' => $summary,
             'overallTotalCottons' => $overallTotalCottons,
             'overallTotalPieces' => $overallTotalPieces,
-            'booker'    => $this->booker->name,
+            'booker' => $this->booker->name,
         ];
 
         $pdf = PDF::loadView('bills.dialy-sales-report', $data);
-        
- 
-        $filename = 'summary_'.$this->booker->name.'_'.$date.'.pdf';
+
+        $filename = 'summary_' . $this->booker->name . '_' . $date . '.pdf';
         $path = storage_path('app/public/' . $filename);
         $pdf->save($path);
- 
+
         $link = asset('storage/' . $filename);
- 
+
         return redirect()->to($link);
 
-        return $pdf->stream('summary_'.$this->booker->name.'_'.$date.'.pdf');
+        return $pdf->stream('summary_' . $this->booker->name . '_' . $date . '.pdf');
+    }
+
+    public function allBills()
+    {
+        $this->activeTab = 'all';
+        // $this->billsList = Bill::with(['orderBooker'])->where('bill_number', 'LIKE', "%" . $this->search . "%")
+        //     ->orderBy('created_at', 'desc')
+        //     ->paginate(20);
+            
+        $this->billsList = $this->getBillsQuery()->paginate(20);
+    }
+
+    public function pendingBills()
+    {
+        $this->activeTab = 'pending';
+        // $this->billsList = Bill::with(['orderBooker'])
+        //     ->where('is_recovered', 0)
+        //     ->orderBy('created_at', 'desc')
+        //     ->paginate(20);
+        $this->billsList = $this->getBillsQuery()->where('is_recovered', 0)->paginate(20);
+    }
+
+    public function delayedBills()
+    {
+        $this->activeTab = 'delayed';
+        $twoWeeksAgo = Carbon::now()->subWeeks(2);
+
+        // $this->billsList = Bill::with(['orderBooker'])
+        //     ->where('is_recovered', 0)
+        //     ->where('created_at', '<', $twoWeeksAgo) // Bills created more than two weeks ago
+        //     ->orderBy('created_at', 'desc')
+        //     ->paginate(20);
+        $this->billsList = $this->getBillsQuery()->where('is_recovered', 0)->where('created_at', '<', $twoWeeksAgo)->paginate(20);
+    }
+
+    public function completedBills()
+    {
+        $this->activeTab = 'completed';
+        // $this->billsList = Bill::with(['orderBooker'])
+        //     ->where('is_recovered', 1)
+        //     ->orderBy('created_at', 'desc')
+        //     ->paginate(20);
+        $this->billsList = $this->getBillsQuery()->where('is_recovered', 1)->paginate(20);
+
     }
 }

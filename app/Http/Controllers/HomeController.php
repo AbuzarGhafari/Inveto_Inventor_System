@@ -93,17 +93,19 @@ class HomeController extends Controller
         $totalProfit = number_format($totalProfit, 0, '');
 
         
-        return view('welcome', compact(
-            'ordersCount', 
-            'pendingOrdersCount', 
-            'recoveredOrdersCount', 
-            'totalOrderedAmount',
-            'totalRecoveredAmount',
-            'totalBuyAmount',
-            'totalSellAmount',
-            'totalProfit',
-            'period'
-        ));
+        // return view('welcome', compact(
+        //     'ordersCount', 
+        //     'pendingOrdersCount', 
+        //     'recoveredOrdersCount', 
+        //     'totalOrderedAmount',
+        //     'totalRecoveredAmount',
+        //     'totalBuyAmount',
+        //     'totalSellAmount',
+        //     'totalProfit',
+        //     'period'
+        // ));
+
+        return view('welcome');
     }
 
     public function test()

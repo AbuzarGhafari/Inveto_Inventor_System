@@ -112,6 +112,14 @@ class Bill extends Model
                 return $query;
         }
     }
+
+    public function scopeCurrentMonth(Builder $query)
+    {
+        $startOfCurrentMonth = Carbon::now('Asia/Karachi')->startOfMonth();
+
+        return $query->where('created_at', '>=', $startOfCurrentMonth);
+
+    }
     
     public function scopeGetPeriod(Builder $query, $period, $fromDate = null, $toDate = null)
     {
