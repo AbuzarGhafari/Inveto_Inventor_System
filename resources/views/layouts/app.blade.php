@@ -75,9 +75,12 @@
         
         <!--This page JavaScript -->
         <!--chartis chart-->
-        <script src="{{ asset('assets/plugins/bower_components/chartist/dist/chartist.min.js') }}"></script>
+        {{-- <script src="{{ asset('assets/plugins/bower_components/chartist/dist/chartist.min.js') }}"></script>
         <script src="{{ asset('assets/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js') }}"></script>
-        <script src="{{ asset('assets/js/pages/dashboards/dashboard1.js') }}"></script>
+        <script src="{{ asset('assets/js/pages/dashboards/dashboard1.js') }}"></script> --}}
+
+        
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
         <script>
             window.addEventListener('closeModal', event => {
@@ -94,6 +97,7 @@
         @livewireScripts
 
         @yield('js')
+        @stack('scripts')
     </body>
     
 </html>

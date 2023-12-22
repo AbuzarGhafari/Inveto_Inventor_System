@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use App\Models\Bill;
 use App\Models\Product;
 use App\Models\BillEntry;
+use Livewire\Attributes\On; 
 
 class Dashboard extends Component
 {
@@ -20,22 +21,57 @@ class Dashboard extends Component
 
     public $bills;
 
+    public array $dataset;
+    public array $labels;
 
     public function mount()
     {
         $this->statistics = [];
         
         $this->bills = Bill::currentMonth()->get();
+        
+        $this->processData();
+
+        $this->ordersData();
     }
+ 
+
+    
+    public function ordersData()
+    {
+        $this->labels =['Recovered Orders', 'Pending Orders'];
+
+        $this->dataset = [
+            [
+                'label' => 'Orders',
+                'data' => [$this->statistics['recoveredOrdersCount'], $this->statistics['pendingOrdersCount']],
+                'backgroundColor' => ['rgb(255, 99, 132)', 'rgb(54, 162, 235)', 'rgb(255, 205, 86)'],
+                'hoverOffset'=> 4,
+            ]
+        ];
+    }
+     
 
     public function filter()
     {
         $this->bills = Bill::timePeriod($this->search_period, $this->from_date, $this->to_date)->get();
+        
+        $this->processData();
+
+        $this->ordersData();
+
+        $this->dispatch('ordersChartupdate',[
+            'datasets' => $this->dataset,
+            'labels' => $this->labels,
+        ]);
+
+        $this->dispatch('paymentsChartupdate',[
+            'statistics' => $this->statistics
+        ]);
     }
 
-    public function render()
+    private function processData()
     {
-        
         $this->statistics['ordersCount'] = $this->bills->count(); 
 
         $this->statistics['recoveredOrdersCount'] = $this->bills->filter(function ($bill) {
@@ -46,28 +82,32 @@ class Dashboard extends Component
             return !$bill->is_recovered;
         })->count();
 
-        $this->statistics['totalOrderedAmount'] = number_format($this->bills->sum('final_price'), 0, '');
-
-        $this->statistics['totalRecoveredAmount'] = number_format($this->bills->sum('recovered_amount'), 0, '');
-
+        $this->statistics['totalPendingAmount'] = $this->bills->sum('final_price') - $this->bills->sum('recovered_amount');
+        $this->statistics['totalOrderedAmount'] = $this->bills->sum('final_price');
+        $this->statistics['totalRecoveredAmount'] = $this->bills->sum('recovered_amount');
         
         $this->bills->load('billEntries');
 
         $data = [];
 
-        foreach ($this->bills as $bill) {
-             
-            $data[] = $bill->getProfit();
-         
-        }
+        foreach ($this->bills as $bill) $data[] = $bill->getProfit();
           
         $collection = collect($data);
-
-        $this->statistics['totalBuyAmount'] = number_format($collection->sum('totalBuyAmount'), 0, '');
-        $this->statistics['totalSellAmount'] = number_format($collection->sum('totalSellAmount'), 0, '');
-        $this->statistics['totalProfit'] = number_format($collection->sum('totalProfitLoss'), 0, '');
+        $this->statistics['totalBuyAmount'] = $collection->sum('totalBuyAmount');
+        $this->statistics['totalSellAmount'] = $collection->sum('totalSellAmount');
+        $this->statistics['totalProfit'] = $collection->sum('totalProfitLoss');
         
- 
+        $this->statistics['totalPendingAmount_format'] = number_format($this->statistics['totalPendingAmount'], 0, '');
+        $this->statistics['totalOrderedAmount_format'] = number_format($this->bills->sum('final_price'), 0, '');
+        $this->statistics['totalRecoveredAmount_format'] = number_format($this->bills->sum('recovered_amount'), 0, '');
+        $this->statistics['totalBuyAmount_format'] = number_format($collection->sum('totalBuyAmount'), 0, '');
+        $this->statistics['totalSellAmount_format'] = number_format($collection->sum('totalSellAmount'), 0, '');
+        $this->statistics['totalProfit_format'] = number_format($collection->sum('totalProfitLoss'), 0, '');
+
+    }
+
+    public function render()
+    {
         return view('livewire.dashboard.dashboard');
     }
 

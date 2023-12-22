@@ -281,3 +281,31 @@
     visibility: visible;
     transform: translateX(0rem);
 }
+
+.analytics-card{
+    background: #fff;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 0px 0.5rem 1rem rgba(35, 35, 35, 0.1);
+}
+
+.analytics-card .value{
+    font-weight: bold;
+    font-size: 3.2rem;
+    color: #222948;
+    margin: 0px;
+    line-height: 3rem;
+}
+
+
+.analytics-card .title{
+    color: #747474;
+    font-size: 12px;
+}
+
+.orders-chart{
+    height: 360px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

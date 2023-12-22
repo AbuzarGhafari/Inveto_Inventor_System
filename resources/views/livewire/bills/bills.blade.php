@@ -55,7 +55,7 @@
                                 <tr class="{{ $bill->is_recovered ? ' ' : 'bill-pending' }}" wire:key = "{{ $bill->id }}">
                                     <td>
                                         @if ($order_booker_bills)
-                                            <input type="checkbox" id="{{ $bill->id }}" name="{{ $bill->id }}" value="{{ $bill->id }}" wire:model.live="selected_bills"/>
+                                            <input type="checkbox" id="{{ $bill->id }}" name="{{ $bill->id }}" value="{{ $bill->id }}" wire:model.defer="selected_bills"/>
                                         @endif
                                         {{ $loop->iteration }} 
                                     </td>
