@@ -37,7 +37,7 @@
                 @if(!$bills->isEmpty()) 
                 
                     <div class="table-responsive--">
-                        <table class="table text-nowrap">
+                        <table class="table text-nowrap hovered-action">
                             <thead>
                                 <tr> 
                                     <th class="border-top-0  text-dark">#</th>
@@ -47,7 +47,7 @@
                                     <th class="border-top-0  text-dark">Bill Amount</th> 
                                     <th class="border-top-0  text-dark">P/L</th> 
                                     <th class="border-top-0  text-dark">Recovered</th> 
-                                    <th class="border-top-0  text-dark text-end">Action</th>
+                                    <th class="border-top-0  text-dark text-end"></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -100,7 +100,7 @@
                                         @endif
                                     </td>
                                     <td>
-                                        <div class="d-flex justify-content-end flex-gap-2">
+                                        <div class="d-flex justify-content-end flex-gap-2 actions">
                                             <a href="{{ route('bills.show', $bill->id) }}" class="btn btn-secondary">
                                                 <i class=" fas fa-eye me-2"></i>
                                                 Show

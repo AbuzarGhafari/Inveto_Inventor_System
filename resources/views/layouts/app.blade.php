@@ -89,8 +89,11 @@
              
             
         </script>
-            
+
+
         @livewireScripts
+
+        @yield('js')
     </body>
     
 </html>

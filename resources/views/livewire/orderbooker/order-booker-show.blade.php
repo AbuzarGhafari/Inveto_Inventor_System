@@ -1,71 +1,81 @@
 <div>
 
-    <div class="white-box">
-        <div class="d-flex justify-content-end mb-1"> 
+    <div class="d-flex justify-content-end mb-2"> 
+        <button  wire:click="toggleDetails" class="btn btn-info text-white">
+            <i class="fas fa-eye me-2"></i>
+            Toggle Details
+        </button>
+    </div>
+
+
+    @if($detailsShown)
+    <div class="card p-2 px-4 bg-light">
+        
+        <div class="d-flex justify-content-end mb-2"> 
             <button data-bs-toggle="modal" data-bs-target="#AssignAreaModal" class="btn btn-dark text-white">
                 <i class="fas fa-plus me-2"></i>
                 Assign Area
             </button>
         </div>
 
-        <div class="row">
-            <div class="col-sm-6">
-                <div class="d-flex justify-content-between">
-                    <p class="border-top-0 text-dark fw-bold">Name</p>
-                    <p>{{ $orderBooker->name }}</p>
-                </div>
-                <div class="d-flex justify-content-between">
-                    <p class="border-top-0  text-dark fw-bold">Mobile</p>
-                    <p>{{ $orderBooker->mobile }}</p>
-                </div>
-                <div class="d-flex justify-content-between flex-wrap">
-                    <p class="border-top-0  text-dark fw-bold">Assigned Main Areas</p>
-                    <p class="d-flex justify-content-end flex-wrap flex-gap-2">
-                        @foreach ($orderBooker->areas as $ar) 
-                        <span class="badge badge-secondary">{{ $ar->name }}</span>  
-                        @endforeach 
-                    </p>
-                </div> 
+        <div class="white-box">
+            <div class="d-flex justify-content-between">
+                <p class="border-top-0 text-dark fw-bold">Name</p>
+                <p>{{ $orderBooker->name }}</p>
+            </div>
+            <div class="d-flex justify-content-between">
+                <p class="border-top-0  text-dark fw-bold">Mobile</p>
+                <p>{{ $orderBooker->mobile }}</p>
+            </div>
+            <div class="d-flex justify-content-between flex-wrap">
+                <p class="border-top-0  text-dark fw-bold">Assigned Main Areas</p>
+                <p class="d-flex justify-content-end flex-wrap flex-gap-2">
+                    @foreach ($orderBooker->areas as $ar) 
+                    <span class="badge badge-secondary">{{ $ar->name }}</span>  
+                    @endforeach 
+                </p>
+            </div>
+        
+
+            <div class="table-responsive">
+                <table class="table text-nowrap hovered-action">
+                    <thead>
+                        <tr>
+                            <th class="border-top-0 text-dark">#</th>
+                            <th class="border-top-0  text-dark">Assigned Main Areas</th>
+                            <th class="border-top-0  text-dark text-end"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($orderBooker->areas as $ob) 
+                        <tr wire:key = "{{ $ob->id }}">
+                            <td>
+                                {{ $loop->iteration }}
+                            </td>
+                            <td>
+                                {{ $ob->name }}
+                            </td> 
+                            <td>
+                                <div class="d-flex justify-content-end actions"> 
+                                    <button data-bs-toggle="modal" wire:click="selectArea({{ $ob }})" data-bs-target="#unassignAreaModal" class="btn btn-danger text-white">
+                                        <i class=" fas fa-trash me-2"></i>
+                                        Unassign Area
+                                    </button> 
+                                </div>
+
+                            </td>
+
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
 
-            <div class="col-sm-6">
-                <div class="table-responsive">
-                    <table class="table text-nowrap">
-                        <thead>
-                            <tr>
-                                <th class="border-top-0 text-dark">#</th>
-                                <th class="border-top-0  text-dark">Assigned Main Areas</th>
-                                <th class="border-top-0  text-dark text-end">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($orderBooker->areas as $ob) 
-                            <tr wire:key = "{{ $ob->id }}">
-                                <td>
-                                    {{ $loop->iteration }}
-                                </td>
-                                <td>
-                                    {{ $ob->name }}
-                                </td> 
-                                <td>
-                                    <div class="d-flex justify-content-end"> 
-                                        <button data-bs-toggle="modal" wire:click="selectArea({{ $ob }})" data-bs-target="#unassignAreaModal" class="btn btn-danger text-white">
-                                            <i class=" fas fa-trash me-2"></i>
-                                            Unassign Area
-                                        </button> 
-                                    </div>
-
-                                </td>
-
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
         </div>
+ 
         
     </div>
+    @endif
 
     
         

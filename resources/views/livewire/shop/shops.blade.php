@@ -18,7 +18,7 @@
             <div class="white-box">
                 
                 <div class="">
-                    <table class="table text-nowrap">
+                    <table class="table text-nowrap hovered-action">
                         <thead>
                             <tr>
                                 <th class="border-top-0 text-dark">#</th>
@@ -27,7 +27,7 @@
                                 <th class="border-top-0  text-dark">Mobile</th>
                                 <th class="border-top-0  text-dark">Main Type</th>
                                 <th class="border-top-0  text-dark">Area</th>
-                                <th class="border-top-0  text-dark text-end">Action</th>
+                                <th class="border-top-0  text-dark text-end"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -56,7 +56,7 @@
                                     @endisset
                                 </td>
                                 <td> 
-                                    <div class="d-flex flex-wrap flex-gap-2 justify-content-end">
+                                    <div class="d-flex flex-wrap flex-gap-2 justify-content-end actions">
                                         <a class="btn btn-gray text-dark" href="{{ route('shops.show', $shop->id) }}">
                                             <i class="fa fa-eye me-2" aria-hidden="true"></i>
                                             Show

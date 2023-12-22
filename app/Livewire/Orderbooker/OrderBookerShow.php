@@ -19,9 +19,12 @@ class OrderBookerShow extends Component
 
     public $name;
 
+    public $detailsShown;
+
     public function mount(OrderBooker $orderBooker)
     {
         $this->orderBooker = OrderBooker::with('areas')->find($orderBooker->id);
+        $this->detailsShown = false;
     }
 
     public function refresh()
@@ -58,6 +61,11 @@ class OrderBookerShow extends Component
 
         $this->dispatch('closeModal'); 
  
+    }
+
+    public function toggleDetails()
+    {
+        $this->detailsShown = !$this->detailsShown;
     }
 
     public function render()

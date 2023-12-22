@@ -27,89 +27,12 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     { 
-        // Set the timezone to Pakistan's timezone
-        Carbon::setLocale('Asia/Karachi');
-  
+        $series = [
+            [5, 2, 7, 4, 5, 3, 5, 4],
+            [12, 2, 3, 5, 3, 11, 9, 2]
+        ];
 
-        if ($request->isMethod('post')) {
-
-            $period = $request->input('period'); // 'last-week', 'last-month', 'all-time', or 'custom'
-            $fromDate = $request->input('from_date'); // required if period is 'custom'
-            $toDate = $request->input('to_date'); // required if period is 'custom'
-            
-            $bills = Bill::timePeriod($period, $fromDate, $toDate)->get();
-
-            
-            $period = Bill::getPeriod($period, $fromDate, $toDate);
-        }else{
-
-            $startOfCurrentMonth = Carbon::now('Asia/Karachi')->startOfMonth();
-
-            $bills = Bill::where('created_at', '>=', $startOfCurrentMonth)->get();
-
-            $period = 'This Month.';
-        }
- 
- 
- 
-        $ordersCount = $bills->count(); 
-
-        // Count recovered bills
-        $recoveredOrdersCount = $bills->filter(function ($bill) {
-            return $bill->is_recovered;
-        })->count();
-
-        // Count pending bills
-        $pendingOrdersCount = $bills->filter(function ($bill) {
-            return !$bill->is_recovered;
-        })->count();
- 
-        $totalOrderedAmount = $bills->sum('final_price');
-
-        $totalOrderedAmount = number_format($totalOrderedAmount, 0, '');
-
-        $totalRecoveredAmount = $bills->sum('recovered_amount');
-
-        $totalRecoveredAmount = number_format($totalRecoveredAmount, 0, '');
- 
-        $bills->load('billEntries');
-
-        $data = [];
-
-        foreach ($bills as $bill) {
-             
-            $data[] = $bill->getProfit();
-         
-        }
-          
-        $collection = collect($data);
-
-        $totalBuyAmount = $collection->sum('totalBuyAmount');
-        $totalSellAmount = $collection->sum('totalSellAmount');
-        $totalProfit = $collection->sum('totalProfitLoss');
-
-        $totalBuyAmount = number_format($totalBuyAmount, 0, '');
-        $totalSellAmount = number_format($totalSellAmount, 0, '');
-        $totalProfit = number_format($totalProfit, 0, '');
-
-        
-        // return view('welcome', compact(
-        //     'ordersCount', 
-        //     'pendingOrdersCount', 
-        //     'recoveredOrdersCount', 
-        //     'totalOrderedAmount',
-        //     'totalRecoveredAmount',
-        //     'totalBuyAmount',
-        //     'totalSellAmount',
-        //     'totalProfit',
-        //     'period'
-        // ));
-
-        return view('welcome');
+        return view('welcome', compact('series'));
     }
 
-    public function test()
-    {
-        return view('test');
-    }
 }

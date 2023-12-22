@@ -8,31 +8,31 @@
 @section('content')
 
 
-@livewire('dashboard.dashboard')
+    @livewire('dashboard.dashboard')
 
 
-    {{-- <div class="row">
-    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
-        <div class="white-box">
-            <h3 class="box-title">Products Yearly Sales</h3>
-            <div class="d-md-flex">
-                <ul class="list-inline d-flex ms-auto">
-                    <li class="ps-3">
-                        <h5><i class="fa fa-circle me-1 text-info"></i>Mac</h5>
-                    </li>
-                    <li class="ps-3">
-                        <h5><i class="fa fa-circle me-1 text-inverse"></i>Windows</h5>
-                    </li>
-                </ul>
-            </div>
-            <div id="ct-visits" style="height: 405px;">
-                <div class="chartist-tooltip" style="top: -17px; left: -12px;"><span
-                        class="chartist-tooltip-value">6</span>
+    <div class="row">
+        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+            <div class="white-box">
+                <h3 class="box-title">Products Yearly Sales</h3>
+                <div class="d-md-flex">
+                    <ul class="list-inline d-flex ms-auto">
+                        <li class="ps-3">
+                            <h5><i class="fa fa-circle me-1 text-info"></i>Mac</h5>
+                        </li>
+                        <li class="ps-3">
+                            <h5><i class="fa fa-circle me-1 text-inverse"></i>Windows</h5>
+                        </li>
+                    </ul>
+                </div>
+                <div id="chart1" style="height: 405px;">
+                    <div class="chartist-tooltip" style="top: -17px; left: -12px;"><span
+                            class="chartist-tooltip-value">6</span>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div> --}}
 
 
     {{-- <div class="row">
@@ -294,4 +294,32 @@
     <!-- /.col -->
 </div> --}}
 
+@endsection
+
+@section('js')
+<script>
+    $(function (){
+    "use strict";
+        
+        //ct-visits
+        new Chartist.Line('#chart2', {
+            labels: ['2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015'],
+            series: @json($series)
+        }, {
+            top: 0,
+            low: 1,
+            showPoint: true,
+            fullWidth: true,
+            plugins: [
+                Chartist.plugins.tooltip()
+            ],
+            axisY: {
+                labelInterpolationFnc: function (value) {
+                    return (value / 1) + 'k';
+                }
+            },
+            showArea: true
+        });
+    });
+</script>
 @endsection

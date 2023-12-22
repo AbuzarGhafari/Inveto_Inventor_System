@@ -18,13 +18,13 @@
             <div class="white-box">
                 
                 <div class="">
-                    <table class="table text-nowrap">
+                    <table class="table text-nowrap hovered-action">
                         <thead>
                             <tr>
                                 <th class="border-top-0 text-dark">#</th>
                                 <th class="border-top-0  text-dark">Main Areas</th>
                                 <th class="border-top-0  text-dark">Sub Areas</th>
-                                <th class="border-top-0  text-dark text-end">Action</th>
+                                <th class="border-top-0  text-dark text-end"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -44,7 +44,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <div class="d-flex flex-wrap flex-gap-2 justify-content-end">
+                                    <div class="d-flex flex-wrap flex-gap-2 justify-content-end actions">
                                         <a class="btn btn-gray text-dark" href="{{ route('areas.show', $area->id) }}">
                                             <i class="fa fa-eye me-2" aria-hidden="true"></i>
                                             Show

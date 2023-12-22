@@ -15,14 +15,14 @@
             <div class="white-box">
                 
                 <div class="">
-                    <table class="table text-nowrap">
+                    <table class="table text-nowrap hovered-action">
                         <thead>
                             <tr> 
                                 <th class="border-top-0  text-dark">#</th>
                                 <th class="border-top-0  text-dark">Name</th>
                                 <th class="border-top-0  text-dark">Mobile</th> 
                                 <th class="border-top-0  text-dark">Assigned Areas</th> 
-                                <th class="border-top-0  text-dark text-end">Action</th>
+                                <th class="border-top-0  text-dark text-end"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -43,7 +43,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <div class="d-flex justify-content-end flex-gap-2">
+                                    <div class="d-flex justify-content-end flex-gap-2 actions">
                                         <a href="{{ route('order-bookers.show', $booker->id) }}" class="btn btn-secondary">
                                             <i class=" fas fa-eye me-2"></i>
                                             Show

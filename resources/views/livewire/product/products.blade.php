@@ -16,7 +16,7 @@
             <div class="white-box">
                 
                 <div class="">
-                    <table class="table ">
+                    <table class="table hovered-action">
                         <thead>
                             <tr>
                                 <th class="border-top-0 text-dark">#</th>
@@ -24,7 +24,7 @@
                                 <th class="border-top-0 text-wrap  text-dark">Name</th> 
                                 <th class="border-top-0  text-dark">Cartons Qty</th>
                                 <th class="border-top-0  text-dark">Stock Status</th>
-                                <th class="border-top-0  text-dark text-end">Action</th>
+                                <th class="border-top-0  text-dark text-end"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -50,7 +50,7 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <div class="d-flex justify-content-end flex-gap-2">
+                                    <div class="d-flex justify-content-end flex-gap-2 actions">
                                         <a class="btn btn-gray text-dark" href="{{ route('products.show', $product->id) }}">
                                             <i class="fa fa-eye me-2" aria-hidden="true"></i>
                                             Show
