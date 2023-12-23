@@ -21,8 +21,8 @@ class Dashboard extends Component
 
     public $bills;
 
-    public array $dataset;
-    public array $labels;
+    // public array $dataset;
+    // public array $labels;
 
     public function mount()
     {
@@ -32,24 +32,24 @@ class Dashboard extends Component
         
         $this->processData();
 
-        $this->ordersData();
+        // $this->ordersData();
     }
  
 
     
-    public function ordersData()
-    {
-        $this->labels =['Recovered Orders', 'Pending Orders'];
+    // public function ordersData()
+    // {
+    //     $this->labels =['Recovered Orders', 'Pending Orders'];
 
-        $this->dataset = [
-            [
-                'label' => 'Orders',
-                'data' => [$this->statistics['recoveredOrdersCount'], $this->statistics['pendingOrdersCount']],
-                'backgroundColor' => ['rgb(255, 99, 132)', 'rgb(54, 162, 235)', 'rgb(255, 205, 86)'],
-                'hoverOffset'=> 4,
-            ]
-        ];
-    }
+    //     $this->dataset = [
+    //         [
+    //             'label' => 'Orders',
+    //             'data' => [$this->statistics['recoveredOrdersCount'], $this->statistics['pendingOrdersCount']],
+    //             'backgroundColor' => ['rgb(255, 99, 132)', 'rgb(54, 162, 235)', 'rgb(255, 205, 86)'],
+    //             'hoverOffset'=> 4,
+    //         ]
+    //     ];
+    // }
      
 
     public function filter()
@@ -58,11 +58,10 @@ class Dashboard extends Component
         
         $this->processData();
 
-        $this->ordersData();
+        // $this->ordersData();
 
         $this->dispatch('ordersChartupdate',[
-            'datasets' => $this->dataset,
-            'labels' => $this->labels,
+            'statistics' => $this->statistics
         ]);
 
         $this->dispatch('paymentsChartupdate',[

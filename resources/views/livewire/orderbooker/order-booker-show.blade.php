@@ -37,39 +37,37 @@
             </div>
         
 
-            <div class="table-responsive">
-                <table class="table text-nowrap hovered-action">
-                    <thead>
-                        <tr>
-                            <th class="border-top-0 text-dark">#</th>
-                            <th class="border-top-0  text-dark">Assigned Main Areas</th>
-                            <th class="border-top-0  text-dark text-end"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($orderBooker->areas as $ob) 
-                        <tr wire:key = "{{ $ob->id }}">
-                            <td>
-                                {{ $loop->iteration }}
-                            </td>
-                            <td>
-                                {{ $ob->name }}
-                            </td> 
-                            <td>
-                                <div class="d-flex justify-content-end actions"> 
-                                    <button data-bs-toggle="modal" wire:click="selectArea({{ $ob }})" data-bs-target="#unassignAreaModal" class="btn btn-danger text-white">
-                                        <i class=" fas fa-trash me-2"></i>
-                                        Unassign Area
-                                    </button> 
-                                </div>
+            <table class="table text-nowrap hovered-action">
+                <thead>
+                    <tr>
+                        <th class="border-top-0 text-dark">#</th>
+                        <th class="border-top-0  text-dark">Assigned Main Areas</th>
+                        <th class="border-top-0  text-dark text-end"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($orderBooker->areas as $ob) 
+                    <tr wire:key = "{{ $ob->id }}">
+                        <td>
+                            {{ $loop->iteration }}
+                        </td>
+                        <td>
+                            {{ $ob->name }}
+                        </td> 
+                        <td>
+                            <div class="d-flex justify-content-end actions"> 
+                                <button data-bs-toggle="modal" wire:click="selectArea({{ $ob }})" data-bs-target="#unassignAreaModal" class="btn btn-danger text-white">
+                                    <i class=" fas fa-trash me-2"></i>
+                                    Unassign Area
+                                </button> 
+                            </div>
 
-                            </td>
+                        </td>
 
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
 
         </div>
  

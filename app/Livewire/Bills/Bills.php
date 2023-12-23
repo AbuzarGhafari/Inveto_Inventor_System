@@ -2,12 +2,13 @@
 
 namespace App\Livewire\Bills;
 
-use App\Models\Bill;
-use Carbon\Carbon;
-use Livewire\Component;
-// use Barryvdh\DomPDF\PDF;
-use Livewire\WithPagination;
 use PDF;
+use Carbon\Carbon;
+use App\Models\Bill;
+// use Barryvdh\DomPDF\PDF;
+use App\Models\Product;
+use Livewire\Component;
+use Livewire\WithPagination;
 
 class Bills extends Component
 {
@@ -65,14 +66,11 @@ class Bills extends Component
     public function mount()
     {
         $this->billsList = $this->getBillsQuery()->paginate(20);
-       
     }
 
     public function render()
     {
-        // $bills = Bill::with(['orderBooker'])->where('bill_number','LIKE', "%".$this->search."%")
-        //                 ->orderBy('created_at', 'desc')
-        //                 ->paginate(20);
+        $this->refreshBills();
 
         $bills = $this->billsList;
 
@@ -137,12 +135,20 @@ class Bills extends Component
         $this->recovery_amount = 0;
 
         $this->dispatch('closeModal');
-
     }
 
     public function deleteBill()
     {
+        $billEntries = $this->bill->billEntries;
+
+        foreach ($billEntries as $entry) {
+            
+            Product::returnStock($entry->toArray());
+            
+        }
+
         $this->bill->delete();
+
         $this->bill = new Bill();
 
         $this->dispatch('closeModal');
@@ -198,12 +204,17 @@ class Bills extends Component
         return $pdf->stream('summary_' . $this->booker->name . '_' . $date . '.pdf');
     }
 
+    public function refreshBills()
+    {
+        if($this->activeTab == 'all') $this->allBills();
+        else if($this->activeTab == 'pending') $this->pendingBills();
+        else if($this->activeTab == 'delayed') $this->delayedBills();
+        else if($this->activeTab == 'completed') $this->completedBills();
+    }
+
     public function allBills()
     {
         $this->activeTab = 'all';
-        // $this->billsList = Bill::with(['orderBooker'])->where('bill_number', 'LIKE', "%" . $this->search . "%")
-        //     ->orderBy('created_at', 'desc')
-        //     ->paginate(20);
             
         $this->billsList = $this->getBillsQuery()->paginate(20);
     }
@@ -211,33 +222,23 @@ class Bills extends Component
     public function pendingBills()
     {
         $this->activeTab = 'pending';
-        // $this->billsList = Bill::with(['orderBooker'])
-        //     ->where('is_recovered', 0)
-        //     ->orderBy('created_at', 'desc')
-        //     ->paginate(20);
+
         $this->billsList = $this->getBillsQuery()->where('is_recovered', 0)->paginate(20);
     }
 
     public function delayedBills()
     {
         $this->activeTab = 'delayed';
+
         $twoWeeksAgo = Carbon::now()->subWeeks(2);
 
-        // $this->billsList = Bill::with(['orderBooker'])
-        //     ->where('is_recovered', 0)
-        //     ->where('created_at', '<', $twoWeeksAgo) // Bills created more than two weeks ago
-        //     ->orderBy('created_at', 'desc')
-        //     ->paginate(20);
         $this->billsList = $this->getBillsQuery()->where('is_recovered', 0)->where('created_at', '<', $twoWeeksAgo)->paginate(20);
     }
 
     public function completedBills()
     {
         $this->activeTab = 'completed';
-        // $this->billsList = Bill::with(['orderBooker'])
-        //     ->where('is_recovered', 1)
-        //     ->orderBy('created_at', 'desc')
-        //     ->paginate(20);
+
         $this->billsList = $this->getBillsQuery()->where('is_recovered', 1)->paginate(20);
 
     }

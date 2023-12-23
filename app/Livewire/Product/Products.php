@@ -19,7 +19,7 @@ class Products extends Component
 
     public $product_name;
 
-    public $cartons_qty = 0;
+    public $no_of_cottons = 0;
 
     public function render()
     {
@@ -43,10 +43,10 @@ class Products extends Component
     {
         if($this->product){
 
-            $this->product->stock_quantity += $this->cartons_qty;
+            $this->product->no_of_cottons += $this->no_of_cottons;
             $this->product->save();
         }
-        $this->cartons_qty = 0;
+        $this->no_of_cottons = 0;
         $this->product = null;
         $this->dispatch('closeModal'); 
     }

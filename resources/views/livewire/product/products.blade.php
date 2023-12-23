@@ -23,6 +23,7 @@
                                 <th class="border-top-0 text-dark">SKU Code</th>
                                 <th class="border-top-0 text-wrap  text-dark">Name</th> 
                                 <th class="border-top-0  text-dark">Cartons Qty</th>
+                                <th class="border-top-0  text-dark">Pieces Qty</th>
                                 <th class="border-top-0  text-dark">Stock Status</th>
                                 <th class="border-top-0  text-dark text-end"></th>
                             </tr>
@@ -39,11 +40,12 @@
                                 <td>
                                     {{ $product->name }} 
                                 </td>
-                                <td>{{ $product->stock_quantity }}</td> 
+                                <td>{{ $product->no_of_cottons }}</td> 
+                                <td>{{ $product->no_of_pieces }}</td> 
                                 <td>
-                                    @if ($product->stock_quantity >= 10)
+                                    @if ($product->no_of_cottons >= 10)
                                         <span class="badge bg-success">In-Stock</span>
-                                    @elseif ($product->stock_quantity > 0 && $product->stock_quantity < 10)
+                                    @elseif ($product->no_of_cottons > 0 && $product->no_of_cottons < 10)
                                         <span class="badge bg-warning">In-Stock</span>
                                     @else
                                         <span class="badge bg-danger">Out-of-Stock</span>
@@ -97,7 +99,7 @@
                 <Strong>Product Name: </Strong> {{ $product_name }}
             </p>
 
-            <input type="number" min="0" class="form-control" wire:model.live="cartons_qty" placeholder="Enter Cartons Quantity">
+            <input type="number" min="0" class="form-control" wire:model.live="no_of_cottons" placeholder="Enter Cartons Quantity">
 
         </div>
         <div class="modal-footer">

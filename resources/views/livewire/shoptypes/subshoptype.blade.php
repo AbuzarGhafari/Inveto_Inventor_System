@@ -41,43 +41,41 @@
         <div class="col-sm-12">
             <div class="white-box">
                 
-                <div class="table-responsive">
-                    <table class="table text-nowrap hovered-action">
-                        <thead>
-                            <tr>
-                                <th class="border-top-0 text-dark">#</th>
-                                <th class="border-top-0  text-dark">Sub Shop Types</th>
-                                <th class="border-top-0  text-dark text-end"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($this->shopType->subShopTypes as $sa)
-                            <tr wire:key = "{{ $sa->id }}">
-                                <td>
-                                    {{ $loop->iteration }}
-                                </td>
-                                <td>
-                                    {{ $sa->name }}
-                                </td> 
-                                <td>
-                                    <div class="d-flex justify-content-end actions">
-                                        <button data-bs-toggle="modal" wire:click="selectSubShopType({{ $sa }})" data-bs-target="#EditSubShopTypeModal" class="btn btn-primary me-2">
-                                            <i class=" fas fa-pencil-alt me-2"></i>
-                                            Edit
-                                        </button> 
-                                        <button data-bs-toggle="modal" wire:click="selectSubShopType({{ $sa }})" data-bs-target="#DeleteSubShopTypeModal" class="btn btn-danger text-white">
-                                            <i class=" fas fa-trash me-2"></i>
-                                            Delete
-                                        </button> 
-                                    </div>
+                <table class="table text-nowrap hovered-action">
+                    <thead>
+                        <tr>
+                            <th class="border-top-0 text-dark">#</th>
+                            <th class="border-top-0  text-dark">Sub Shop Types</th>
+                            <th class="border-top-0  text-dark text-end"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($this->shopType->subShopTypes as $sa)
+                        <tr wire:key = "{{ $sa->id }}">
+                            <td>
+                                {{ $loop->iteration }}
+                            </td>
+                            <td>
+                                {{ $sa->name }}
+                            </td> 
+                            <td>
+                                <div class="d-flex justify-content-end actions">
+                                    <button data-bs-toggle="modal" wire:click="selectSubShopType({{ $sa }})" data-bs-target="#EditSubShopTypeModal" class="btn btn-primary me-2">
+                                        <i class=" fas fa-pencil-alt me-2"></i>
+                                        Edit
+                                    </button> 
+                                    <button data-bs-toggle="modal" wire:click="selectSubShopType({{ $sa }})" data-bs-target="#DeleteSubShopTypeModal" class="btn btn-danger text-white">
+                                        <i class=" fas fa-trash me-2"></i>
+                                        Delete
+                                    </button> 
+                                </div>
 
-                                </td>
+                            </td>
 
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
 
                              
             </div>

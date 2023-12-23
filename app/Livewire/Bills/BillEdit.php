@@ -213,24 +213,21 @@ class BillEdit extends Component
     public function save()
     {  
         $this->formatMappedInputs();  
-
         
         $this->bill->update([
             'actual_price' => $this->form->actual_price,
             'final_price' => $this->form->final_price,
             'discount' => $this->form->discount,
         ]);
-        // dd([
-        //     $this->form->actual_price,
-        //     $this->form->final_price,
-        //     $this->form->discount
-        // ]);
 
         $billEntries = $this->bill->billEntries;
 
         $bill = $this->bill;
 
         foreach ($billEntries as $entry) {
+            
+            Product::returnStock($entry->toArray());
+
             $entry->delete();
         }
 
@@ -245,6 +242,8 @@ class BillEdit extends Component
             unset($row['pack_size']);
 
             BillEntry::create($row);
+
+            Product::soldStock($row);
             
         });
 

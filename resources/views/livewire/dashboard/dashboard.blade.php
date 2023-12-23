@@ -2,7 +2,7 @@
     <script>
         let ordersChart;
 
-        function ordersChartShow(data) {
+        function ordersChartShow(statistics) {
 
             var ctx = document.getElementById('ordersChart').getContext('2d');
 
@@ -13,9 +13,9 @@
                         labels: ['Recovered Orders', 'Pending Orders'],
                         datasets: [{
                             label: 'Orders',
-                            data: data,
-                            backgroundColor: ['rgba(255, 99, 132, 0.75)', 'rgba(54, 162, 235, 0.75)', 'rgba(255, 205, 86, 0.75)'],
-                            borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 205, 86, 1)'],
+                            data: [statistics.recoveredOrdersCount, statistics.pendingOrdersCount],
+                            backgroundColor: ['rgba(0, 205, 0, 0.5)', 'rgba(254, 0, 0, 0.5)', 'rgba(255, 205, 86, 0.5)'],
+                            borderColor: ['rgba(0, 205, 0, 1)', 'rgba(254, 0, 0, 1)', 'rgba(255, 205, 86, 1)'],
                             hoverOffset: 4
                         }, ]
                     },
@@ -30,7 +30,6 @@
         let paymentsChart;
 
         function paymentsChartShow(statistics) {
-            console.log(statistics.totalBuyAmount);
 
             var ctx = document.getElementById('paymentsChart').getContext('2d');
             const labels = ['Buying Amount', 'Selling Amount', 'Bills Amount',  'Pending Amount','Recovered Amount', 'Profit' ];
@@ -52,19 +51,19 @@
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.75)',
                         'rgba(255, 159, 64, 0.75)',
-                        'rgba(255, 205, 86, 0.75)',
+                        'rgba(255, 50, 50, 0.75)',
                         'rgba(75, 192, 192, 0.75)',
-                        'rgba(54, 162, 235, 0.75)',
-                        'rgba(153, 102, 255, 0.75)',
+                        'rgba(10, 255, 10, 0.75)',
+                        'rgba(0, 202, 5, 0.75)',
                         'rgba(201, 203, 207, 0.75)'
                     ],
                     borderColor: [
                         'rgb(255, 99, 132)',
                         'rgb(255, 159, 64)',
-                        'rgb(255, 205, 86)',
+                        'rgb(255, 50, 50)',
                         'rgb(75, 192, 192)',
-                        'rgb(54, 162, 235)',
-                        'rgb(153, 102, 255)',
+                        'rgb(10, 255, 10)',
+                        'rgb(0, 202, 5)',
                         'rgb(201, 203, 207)'
                     ],
                     borderWidth: 1
@@ -88,7 +87,7 @@
         }
 
         Livewire.on('ordersChartupdate', data => {
-            newData = data[0].datasets[0].data;
+            newData = data[0].statistics;
             ordersChart.destroy();
             ordersChartShow(newData);
             ordersChart.update();
@@ -101,11 +100,7 @@
             paymentsChart.update();
         });
         
-        ordersChartShow(@json([$statistics['recoveredOrdersCount'], $statistics['pendingOrdersCount']]));
-
-        // ['Buying Amount', 'Selling Amount', 'Bills Amount', 'Recovered Amount', 'Pending Amount',
-        //         'Profit'
-        //     ]
+        ordersChartShow(@json($statistics));
 
         paymentsChartShow(@json($statistics));
         

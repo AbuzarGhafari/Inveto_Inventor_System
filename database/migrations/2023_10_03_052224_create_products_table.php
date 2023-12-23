@@ -18,7 +18,8 @@ return new class extends Migration
             $table->string('desc')->nullable();
             $table->integer('pack_size');
             $table->double('distributor_prices');
-            $table->integer('stock_quantity')->default(0);
+            $table->integer('no_of_cottons')->default(0);
+            $table->integer('no_of_pieces')->default(0);
             $table->timestamps();
         });
     }

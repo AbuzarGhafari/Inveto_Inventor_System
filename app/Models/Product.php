@@ -10,4 +10,44 @@ class Product extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    public static function soldStock($row)
+    {
+        $product = Product::find($row['product_id']);
+        
+        $product->no_of_cottons -= $row['no_of_cottons'];
+
+        if ($row['no_of_pieces'] > 0) {
+            
+            while ($product->no_of_pieces < $row['no_of_pieces'] && $product->no_of_cottons > 0) {
+                
+                $product->no_of_cottons--;
+
+                $product->no_of_pieces += $product->pack_size;
+            }
+            
+            $product->no_of_pieces -= $row['no_of_pieces'];
+        }
+
+        $product->save();
+    }
+
+    public static function returnStock($row)
+    {
+        $product = Product::find($row['product_id']);
+        
+        $product->no_of_cottons += $row['no_of_cottons'];
+
+        $product->no_of_pieces += $row['no_of_pieces'];
+
+        while ($product->no_of_pieces >= $product->pack_size) {
+
+            $product->no_of_cottons++;
+    
+            $product->no_of_pieces -= $product->pack_size;
+            
+        }
+
+        $product->save();
+    }
 }
