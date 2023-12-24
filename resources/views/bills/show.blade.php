@@ -149,7 +149,11 @@
                         <tr wire:key = "{{ $be->id }}">
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $be->sku_code }}</td>
-                            <td>{{ $be->product->name }}</td>
+                            <td>
+                                @isset($be->product)
+                                    {{ $be->product->name }}
+                                @endisset
+                            </td>
                             <td class="text-end">{{ $be->no_of_cottons }}</td>
                             <td class="text-end">{{ $be->no_of_pieces }}</td>
                             <td class="text-end">{{ $be->cottons_price }}</td>

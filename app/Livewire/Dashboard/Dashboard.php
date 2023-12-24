@@ -21,9 +21,6 @@ class Dashboard extends Component
 
     public $bills;
 
-    // public array $dataset;
-    // public array $labels;
-
     public function mount()
     {
         $this->statistics = [];
@@ -31,25 +28,8 @@ class Dashboard extends Component
         $this->bills = Bill::currentMonth()->get();
         
         $this->processData();
-
-        // $this->ordersData();
     }
  
-
-    
-    // public function ordersData()
-    // {
-    //     $this->labels =['Recovered Orders', 'Pending Orders'];
-
-    //     $this->dataset = [
-    //         [
-    //             'label' => 'Orders',
-    //             'data' => [$this->statistics['recoveredOrdersCount'], $this->statistics['pendingOrdersCount']],
-    //             'backgroundColor' => ['rgb(255, 99, 132)', 'rgb(54, 162, 235)', 'rgb(255, 205, 86)'],
-    //             'hoverOffset'=> 4,
-    //         ]
-    //     ];
-    // }
      
 
     public function filter()
@@ -57,8 +37,6 @@ class Dashboard extends Component
         $this->bills = Bill::timePeriod($this->search_period, $this->from_date, $this->to_date)->get();
         
         $this->processData();
-
-        // $this->ordersData();
 
         $this->dispatch('ordersChartupdate',[
             'statistics' => $this->statistics

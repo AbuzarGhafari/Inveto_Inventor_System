@@ -77,15 +77,20 @@ class Bill extends Model
     public function getProfit()
     {
         
-        $data = $this->billEntries->map(function($item, $key){            
+        $data = $this->billEntries->map(function($item, $key){  
             
-            $totalBuyAmount = ($item->product->distributor_prices * $item->no_of_cottons) + ( $item->product->distributor_prices / $item->product->pack_size * $item->no_of_pieces);
+            $totalBuyAmount = 0;
             
-            return [
-                'totalBuyAmount' => $totalBuyAmount,
-                'totalSellAmount' => $item->final_price
-            ];
+            if($item->product != null){
 
+                $totalBuyAmount = ($item->product->distributor_prices * $item->no_of_cottons) + ( $item->product->distributor_prices / $item->product->pack_size * $item->no_of_pieces);
+                
+                return [
+                    'totalBuyAmount' => $totalBuyAmount,
+                    'totalSellAmount' => $item->final_price
+                ];
+                
+            }
         });
 
         return [
@@ -109,7 +114,7 @@ class Bill extends Model
             case 'custom':
                 return $query->whereBetween('created_at', [$fromDate, $toDate]);
             default:
-                return $query;
+                return $query->where('created_at', '>=', Carbon::now('Asia/Karachi')->startOfMonth());
         }
     }
 

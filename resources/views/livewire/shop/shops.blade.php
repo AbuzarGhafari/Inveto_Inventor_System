@@ -16,6 +16,10 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="white-box">
+
+                <div class="d-flex">
+                    <p>Records Found: {{ $shopsCount }}</p>
+                </div>
                 
                 <div class="">
                     <table class="table text-nowrap hovered-action">

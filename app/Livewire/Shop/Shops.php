@@ -28,14 +28,34 @@ class Shops extends Component
 
     public function render()
     {        
-        $shops = Shop::where('shop_name','LIKE', "%".$this->search."%")
-                    ->orWhere('address','LIKE', "%".$this->search."%")
-                    ->orWhere('shopkeeper_name','LIKE', "%".$this->search."%")
-                    ->orWhere('shopkeeper_mobile','LIKE', "%".$this->search."%")
-                    ->paginate(20);
+        // $shops = Shop::where('shop_name','LIKE', "%".$this->search."%")
+        //             ->orWhere('address','LIKE', "%".$this->search."%")
+        //             ->orWhere('shopkeeper_name','LIKE', "%".$this->search."%")
+        //             ->orWhere('shopkeeper_mobile','LIKE', "%".$this->search."%")
+        //             ->paginate(20);
+
+        // $shopsCount = Shop::where('shop_name','LIKE', "%".$this->search."%")
+        //             ->orWhere('address','LIKE', "%".$this->search."%")
+        //             ->orWhere('shopkeeper_name','LIKE', "%".$this->search."%")
+        //             ->orWhere('shopkeeper_mobile','LIKE', "%".$this->search."%")
+        //             ->count();
+
+        // Base query with shared conditions
+        $baseQuery = Shop::where('shop_name', 'LIKE', "%" . $this->search . "%")
+                    ->orWhere('address', 'LIKE', "%" . $this->search . "%")
+                    ->orWhere('shopkeeper_name', 'LIKE', "%" . $this->search . "%")
+                    ->orWhere('shopkeeper_mobile', 'LIKE', "%" . $this->search . "%");
+
+        // Get paginated results
+        $shops = (clone $baseQuery)->paginate(20);
+
+        // Get count
+        $shopsCount = $baseQuery->count();
+
 
         return view('livewire.shop.shops',[
-            'shops' => $shops
+            'shops' => $shops,
+            'shopsCount' => $shopsCount,
         ]);
     }
 }

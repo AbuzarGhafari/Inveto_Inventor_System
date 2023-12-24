@@ -19,7 +19,11 @@ class Products extends Component
 
     public $product_name;
 
+    public $product_id;
+
     public $no_of_cottons = 0;
+
+    public $total_stock_amount = 0.0;
 
     public function render()
     {
@@ -27,8 +31,17 @@ class Products extends Component
                     ->orWhere('name','LIKE', "%".$this->search."%")
                     ->paginate(20);
 
+        $productsCount = Product::where('sku_code','LIKE', "%".$this->search."%")
+                        ->orWhere('name','LIKE', "%".$this->search."%")->count();
+
+        $this->total_stock_amount = 0;
+        foreach ($products as $product){
+            $this->total_stock_amount += $product->total_price;
+        }
+
         return view('livewire.product.products', [ 
             'products' => $products,
+            'productsCount' => $productsCount,
         ]);
     }
 
@@ -49,5 +62,12 @@ class Products extends Component
         $this->no_of_cottons = 0;
         $this->product = null;
         $this->dispatch('closeModal'); 
+    }
+
+    public function deleteProduct()
+    {
+        $this->product->delete();
+        $this->product = new Product();
+        $this->dispatch('closeModal');
     }
 }

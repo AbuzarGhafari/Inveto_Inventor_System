@@ -50,9 +50,19 @@ class Bills extends Component
 
     private $billsList;
 
+    public $billsCount = 0;
+
+    
+    public $search_period;
+    
+    public $from_date;
+
+    public $to_date;
+
     protected function getBillsQuery()
     {
-        $query = Bill::query()->with(['orderBooker', 'shop'])->orderBy('created_at', 'desc');
+        $query = Bill::query()->with(['orderBooker', 'shop'])->orderBy('created_at', 'desc')
+                    ->timePeriod($this->search_period, $this->from_date, $this->to_date);
 
         if ($this->order_booker_bills) {
             $query->where('order_booker_id', $this->order_booker_id);
@@ -161,7 +171,10 @@ class Bills extends Component
         foreach ($bills as $bill) {
             foreach ($bill->billEntries as $be) {
                 $billEntry = [];
-                $billEntry['name'] = $be->product->name;
+                $billEntry['name'] = '';
+                if($be->product != null)
+                    $billEntry['name'] = $be->product->name;
+                
                 $billEntry['no_of_cottons'] = $be->no_of_cottons;
                 $billEntry['no_of_pieces'] = $be->no_of_pieces;
                 $billEntries[] = $billEntry;
@@ -217,6 +230,8 @@ class Bills extends Component
         $this->activeTab = 'all';
             
         $this->billsList = $this->getBillsQuery()->paginate(20);
+            
+        $this->billsCount = $this->getBillsQuery()->count();
     }
 
     public function pendingBills()
@@ -224,6 +239,8 @@ class Bills extends Component
         $this->activeTab = 'pending';
 
         $this->billsList = $this->getBillsQuery()->where('is_recovered', 0)->paginate(20);
+
+        $this->billsCount = $this->getBillsQuery()->where('is_recovered', 0)->count();
     }
 
     public function delayedBills()
@@ -233,6 +250,8 @@ class Bills extends Component
         $twoWeeksAgo = Carbon::now()->subWeeks(2);
 
         $this->billsList = $this->getBillsQuery()->where('is_recovered', 0)->where('created_at', '<', $twoWeeksAgo)->paginate(20);
+
+        $this->billsCount = $this->getBillsQuery()->where('is_recovered', 0)->where('created_at', '<', $twoWeeksAgo)->count();
     }
 
     public function completedBills()
@@ -241,5 +260,13 @@ class Bills extends Component
 
         $this->billsList = $this->getBillsQuery()->where('is_recovered', 1)->paginate(20);
 
+        $this->billsCount = $this->getBillsQuery()->where('is_recovered', 1)->count();
+    }
+
+    
+
+    public function filter()
+    {
+        $this->refreshBills();
     }
 }

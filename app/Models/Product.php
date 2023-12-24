@@ -50,4 +50,13 @@ class Product extends Model
 
         $product->save();
     }
+
+    public function getTotalPriceAttribute()
+    {
+        $totalCottonPrice = $this->distributor_prices * $this->no_of_cottons;
+        
+        $totalPiecesPrice = $this->no_of_pieces * ($this->distributor_prices / $this->pack_size);
+
+        return $totalCottonPrice + $totalPiecesPrice;
+    }
 }

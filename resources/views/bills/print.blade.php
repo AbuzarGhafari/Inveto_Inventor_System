@@ -132,9 +132,17 @@
         @foreach ($bill->billEntries as $be)                            
         <tr wire:key = "{{ $be->id }}">
             <td class="text-left">{{ $loop->iteration }}</td>
-            <td class="text-left">{{ $be->product->name }}</td>
+            <td class="text-left">
+                @isset($be->product)
+                {{ $be->product->name }}
+                @endisset
+            </td>
             <td class="text-left">{{ $be->assigned_price }}</td>
-            <td class="text-left">{{  number_format($be->assigned_price / $be->product->pack_size, 2) }}</td>
+            <td class="text-left">
+                @isset($be->product)
+                {{  number_format($be->assigned_price / $be->product->pack_size, 2) }}
+                @endisset
+            </td>
             <td class="text-end">{{ $be->no_of_cottons }}</td>
             <td class="text-end">{{ $be->no_of_pieces }}</td>
             <td class="text-end">{{ $be->total_price }}</td>

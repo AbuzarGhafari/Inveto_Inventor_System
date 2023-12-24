@@ -111,8 +111,6 @@
 
 <div>
 
-
-
     <div class="row ">
 
         <div class="col-12">
@@ -136,7 +134,7 @@
                         @enderror
 
                         <div class="col-4 d-flex align-items-center">
-                            <label for="period" class="me-2 mb-0 w-25">Search By</label>
+                            <label for="period" class="me-2 mb-0 w-25">Filter By</label>
                             <select wire:model.defer="search_period" class="form-control">
                                 <option value="">Select</option>
                                 <option value="last-week">Last Week</option>
@@ -176,7 +174,7 @@
         <div class="col-lg-6 col-md-12">
             <div class="analytics-card mb-4">
                 <p class="title mb-4">Total Orders</p>
-                <p class="value mb-4">{{ $statistics['ordersCount'] }}</p>
+                <p class="value mb-4" >{{ $statistics['ordersCount'] }}</p>
                 <div class="d-flex align-items-center justify-content-between">
 
                     <div class="d-flex">
@@ -187,7 +185,7 @@
                                     d="M11.178 19.569a.998.998 0 0 0 1.644 0l9-13A.999.999 0 0 0 21 5H3a1.002 1.002 0 0 0-.822 1.569l9 13z">
                                 </path>
                             </svg>
-                            <span class=" ms-2">{{ $statistics['pendingOrdersCount'] }}</span>
+                            <span class=" ms-2" title="Pending Orders">{{ $statistics['pendingOrdersCount'] }}</span>
                         </div>
                         <div>
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
@@ -196,7 +194,7 @@
                                     d="M3 19h18a1.002 1.002 0 0 0 .823-1.569l-9-13c-.373-.539-1.271-.539-1.645 0l-9 13A.999.999 0 0 0 3 19z">
                                 </path>
                             </svg>
-                            <span class="ms-2">{{ $statistics['recoveredOrdersCount'] }}</span>
+                            <span class="ms-2" title="Recovered Orders">{{ $statistics['recoveredOrdersCount'] }}</span>
                         </div>
                     </div>
 
@@ -222,7 +220,7 @@
                                     d="M11.178 19.569a.998.998 0 0 0 1.644 0l9-13A.999.999 0 0 0 21 5H3a1.002 1.002 0 0 0-.822 1.569l9 13z">
                                 </path>
                             </svg>
-                            <span class=" ms-2">{{ $statistics['totalBuyAmount_format'] }}</span>
+                            <span class=" ms-2" title="Totay Buing Amount">{{ $statistics['totalBuyAmount_format'] }}</span>
                         </div>
                         <div>
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
@@ -231,7 +229,7 @@
                                     d="M3 19h18a1.002 1.002 0 0 0 .823-1.569l-9-13c-.373-.539-1.271-.539-1.645 0l-9 13A.999.999 0 0 0 3 19z">
                                 </path>
                             </svg>
-                            <span class="ms-2">{{ $statistics['totalSellAmount_format'] }}</span>
+                            <span class="ms-2" title="Total Selling Amount">{{ $statistics['totalSellAmount_format'] }}</span>
                         </div>
                     </div>
 
@@ -243,7 +241,7 @@
                                     d="M11.178 19.569a.998.998 0 0 0 1.644 0l9-13A.999.999 0 0 0 21 5H3a1.002 1.002 0 0 0-.822 1.569l9 13z">
                                 </path>
                             </svg>
-                            <span class=" ms-2">{{ $statistics['totalOrderedAmount_format'] }}</span>
+                            <span class=" ms-2" title="Total Ordered Amount">{{ $statistics['totalOrderedAmount_format'] }}</span>
                         </div>
                         <div>
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
@@ -252,7 +250,7 @@
                                     d="M3 19h18a1.002 1.002 0 0 0 .823-1.569l-9-13c-.373-.539-1.271-.539-1.645 0l-9 13A.999.999 0 0 0 3 19z">
                                 </path>
                             </svg>
-                            <span class="ms-2">{{ $statistics['totalRecoveredAmount_format'] }}</span>
+                            <span class="ms-2" title="Total Recovered Amount">{{ $statistics['totalRecoveredAmount_format'] }}</span>
                         </div>
                     </div>
 
