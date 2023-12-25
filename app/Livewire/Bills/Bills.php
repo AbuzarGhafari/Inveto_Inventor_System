@@ -75,7 +75,7 @@ class Bills extends Component
 
     public function mount()
     {
-        $this->billsList = $this->getBillsQuery()->paginate(20);
+        $this->billsList = $this->getBillsQuery()->paginate(50);
     }
 
     public function render()
@@ -229,7 +229,7 @@ class Bills extends Component
     {
         $this->activeTab = 'all';
             
-        $this->billsList = $this->getBillsQuery()->paginate(20);
+        $this->billsList = $this->getBillsQuery()->paginate(50);
             
         $this->billsCount = $this->getBillsQuery()->count();
     }
@@ -238,7 +238,7 @@ class Bills extends Component
     {
         $this->activeTab = 'pending';
 
-        $this->billsList = $this->getBillsQuery()->where('is_recovered', 0)->paginate(20);
+        $this->billsList = $this->getBillsQuery()->where('is_recovered', 0)->paginate(50);
 
         $this->billsCount = $this->getBillsQuery()->where('is_recovered', 0)->count();
     }
@@ -249,7 +249,7 @@ class Bills extends Component
 
         $twoWeeksAgo = Carbon::now()->subWeeks(2);
 
-        $this->billsList = $this->getBillsQuery()->where('is_recovered', 0)->where('created_at', '<', $twoWeeksAgo)->paginate(20);
+        $this->billsList = $this->getBillsQuery()->where('is_recovered', 0)->where('created_at', '<', $twoWeeksAgo)->paginate(50);
 
         $this->billsCount = $this->getBillsQuery()->where('is_recovered', 0)->where('created_at', '<', $twoWeeksAgo)->count();
     }
@@ -258,7 +258,7 @@ class Bills extends Component
     {
         $this->activeTab = 'completed';
 
-        $this->billsList = $this->getBillsQuery()->where('is_recovered', 1)->paginate(20);
+        $this->billsList = $this->getBillsQuery()->where('is_recovered', 1)->paginate(50);
 
         $this->billsCount = $this->getBillsQuery()->where('is_recovered', 1)->count();
     }
@@ -267,6 +267,6 @@ class Bills extends Component
 
     public function filter()
     {
-        $this->refreshBills();
+        
     }
 }

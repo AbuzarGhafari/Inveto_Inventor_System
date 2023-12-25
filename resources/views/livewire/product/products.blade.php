@@ -4,6 +4,10 @@
             <input wire:model.live="search" type="text"  placeholder="Search Product" class="form-control">
         </div> 
         <div class="col-sm-6 text-end">
+            <a target="_blank" wire:click="stockPDF" class="btn btn-success text-white">
+                <i class="fa fa-print me-2" aria-hidden="true"></i>
+                Print Stock
+            </a>
             <a href="{{ route('products.create') }}" class="btn btn-danger text-white">
                 <i class="fas fa-plus me-2"></i>
                 Add Product

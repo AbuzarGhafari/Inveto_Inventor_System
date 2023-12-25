@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Product;
 
+use PDF;
 use App\Models\Product;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -69,5 +70,25 @@ class Products extends Component
         $this->product->delete();
         $this->product = new Product();
         $this->dispatch('closeModal');
+    }
+
+    public function stockPDF()
+    {
+        $products = Product::all();
+        $data = [
+            'products' => $products
+        ];
+
+        $pdf = PDF::loadView('products.stock_list', $data);
+
+        $filename = 'stock_list.pdf';
+        $path = storage_path('app/public/' . $filename);
+        $pdf->save($path);
+
+        $link = asset('storage/' . $filename);
+
+        return redirect()->to($link);
+
+        return $pdf->stream($filename);
     }
 }

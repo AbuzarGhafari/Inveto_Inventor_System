@@ -26,71 +26,64 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="white-box">
+ 
+                <div class="row mb-4">
 
+                    <div class="col-12"> 
 
+                        <form wire:submit="filter">
 
-                <div class="row ">
+                            @csrf
 
-                    <div class="col-12">
+                            <div class="row justify-content-end">
 
-                        <div class="mb-4">
+                                @error('search_period')
+                                    <div class="alert alert-danger p-2">{{ $message }}</div>
+                                @enderror
+                                @error('from_date')
+                                    <div class="alert alert-danger p-2">{{ $message }}</div>
+                                @enderror
+                                @error('to_date')
+                                    <div class="alert alert-danger p-2">{{ $message }}</div>
+                                @enderror
 
-                            <form wire:submit="filter">
-
-                                @csrf
-
-                                <div class="row justify-content-end">
-
-                                    @error('search_period')
-                                        <div class="alert alert-danger p-2">{{ $message }}</div>
-                                    @enderror
-                                    @error('from_date')
-                                        <div class="alert alert-danger p-2">{{ $message }}</div>
-                                    @enderror
-                                    @error('to_date')
-                                        <div class="alert alert-danger p-2">{{ $message }}</div>
-                                    @enderror
-
-                                    <div class="col-4 d-flex align-items-center">
-                                        <label for="period" class="me-2 mb-0 w-25">Filter By</label>
-                                        <select wire:model.defer="search_period" class="form-control">
-                                            <option value="">Select</option>
-                                            <option value="last-week">Last Week</option>
-                                            <option value="last-month">Last Month</option>
-                                            <option value="all-time">All</option>
-                                            <option value="custom">Custom Date</option>
-                                        </select>
-                                    </div>
-
-                                    @if ($search_period === 'custom')
-                                        <div class="col-3 d-flex align-items-center">
-                                            <label for="from_date" class="form-label mb-0 me-2">From</label>
-                                            <input type="date" class="form-control" wire:model.defer="from_date">
-                                        </div>
-
-                                        <div class="col-3 d-flex align-items-center">
-                                            <label for="to_date" class="form-label me-2 mb-0">To</label>
-                                            <input type="date" class="form-control" wire:model.defer="to_date">
-                                        </div>
-                                    @endif
-
-                                    <div class="col-1">
-                                        <input type="submit" class="btn btn-primary" value="Search">
-                                    </div>
-
+                                <div class="col-4 d-flex align-items-center">
+                                    <label for="period" class="me-2 mb-0 w-25">Filter By</label>
+                                    <select wire:model.defer="search_period" class="form-control">
+                                        <option value="">Select</option>
+                                        <option value="last-week">Last Week</option>
+                                        <option value="last-month">Last Month</option>
+                                        <option value="all-time">All</option>
+                                        <option value="custom">Custom Date</option>
+                                    </select>
                                 </div>
 
-                            </form>
+                                @if ($search_period === 'custom')
+                                    <div class="col-3 d-flex align-items-center">
+                                        <label for="from_date" class="form-label mb-0 me-2">From</label>
+                                        <input type="date" class="form-control" wire:model.defer="from_date">
+                                    </div>
 
-                        </div>
+                                    <div class="col-3 d-flex align-items-center">
+                                        <label for="to_date" class="form-label me-2 mb-0">To</label>
+                                        <input type="date" class="form-control" wire:model.defer="to_date">
+                                    </div>
+                                @endif
 
+                                <div class="col-1">
+                                    <input type="submit" class="btn btn-primary" value="Search">
+                                </div>
+
+                            </div>
+
+                        </form>
+  
                     </div>
 
                 </div>
+  
 
-
-                <div class="d-flex justify-content-between">
-
+                <div class="d-flex justify-content-between"> 
 
                     <div class="bills-tabs-btns d-flex">
                         <button wire:click="allBills" class="all {{ $activeTab == 'all' ? 'active' : '' }}">All</button>
