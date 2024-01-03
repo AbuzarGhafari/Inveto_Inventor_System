@@ -22,7 +22,9 @@
 
         
         <link href="{{ asset('assets/css/admin-custom-style.css') }}" rel="stylesheet"> 
-        
+
+        {{-- <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" /> --}}
+       
         @livewireStyles
     </head>
     <body>
@@ -54,9 +56,6 @@
         </div>
 
         
-
-
-
         <script src="{{ asset('assets/plugins/bower_components/jquery/dist/jquery.min.js') }}"></script>
         
         <!-- Bootstrap tether Core JavaScript -->
@@ -82,6 +81,9 @@
         
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+        {{-- <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script> --}}
+        
+
         <script>
             window.addEventListener('closeModal', event => {
                 $(".modal").modal('hide');                
@@ -89,15 +91,15 @@
             window.addEventListener('showModal', event => {
                 $(".modal").modal('show');                
             });
-             
-            
         </script>
 
 
         @livewireScripts
 
         @yield('js')
+
         @stack('scripts')
+
     </body>
     
 </html>

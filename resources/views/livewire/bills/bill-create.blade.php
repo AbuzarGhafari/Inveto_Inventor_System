@@ -20,7 +20,8 @@
                             <div class="form-group mb-4">
                                 <label class="col-md-12 p-0">Select Order Booker</label>
                                 <div class="col-md-12 border-bottom p-0">                                    
-                                    <select wire:model.live="form.order_booker_id"   class="form-control p-0 border-0">
+                                    
+                                    <select  wire:model.live="form.order_booker_id"   class=" form-control p-0 border-0">
                                         <option value="">Select Order Booker</option>
                                         @foreach ($orderBookers as $ob)
                                             <option value="{{ $ob->id }}">{{ $ob->name }}</option>

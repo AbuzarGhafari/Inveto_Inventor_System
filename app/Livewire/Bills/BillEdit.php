@@ -238,8 +238,8 @@ class BillEdit extends Component
             $row['bill_number'] = $bill->bill_number;
 
             unset($row['product_name']);
-            unset($row['distributor_prices']);
-            unset($row['pack_size']);
+            // unset($row['distributor_prices']);
+            // unset($row['pack_size']);
 
             BillEntry::create($row);
 

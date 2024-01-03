@@ -22,6 +22,8 @@ return new class extends Migration
             $table->foreign('product_id')->references('id')->on('products')->nullOnDelete();
                
             $table->string('sku_code');
+            $table->double('distributor_prices')->default(0);
+            $table->integer('pack_size')->default(0);
             $table->integer('assigned_price');
             $table->integer('no_of_cottons');
             $table->integer('no_of_pieces');

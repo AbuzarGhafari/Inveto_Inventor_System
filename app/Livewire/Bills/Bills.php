@@ -93,7 +93,6 @@ class Bills extends Component
 
         $bills = $this->billsList;
 
-
         $allBills = $this->getBillsQuery()->get();
 
         foreach ($bills as $bill) {
@@ -280,14 +279,11 @@ class Bills extends Component
         $this->billsCount = $this->getBillsQuery()->where('is_recovered', 1)->count();
     }
 
-    
-
     public function filter()
     {
         
     }
 
-    
     public function billsEntry()
     {
         $allBills = $this->getBillsQuery()->where('is_recovered', 0)->get();

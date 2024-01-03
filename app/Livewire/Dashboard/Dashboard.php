@@ -70,16 +70,21 @@ class Dashboard extends Component
         foreach ($this->bills as $bill) $data[] = $bill->getProfit();
           
         $collection = collect($data);
+
+        // dd($collection);
+
+        // dd($this->statistics);
+
         $this->statistics['totalBuyAmount'] = $collection->sum('totalBuyAmount');
         $this->statistics['totalSellAmount'] = $collection->sum('totalSellAmount');
         $this->statistics['totalProfit'] = $collection->sum('totalProfitLoss');
         
         $this->statistics['totalPendingAmount_format'] = number_format($this->statistics['totalPendingAmount'], 0, '');
-        $this->statistics['totalOrderedAmount_format'] = number_format($this->bills->sum('final_price'), 0, '');
-        $this->statistics['totalRecoveredAmount_format'] = number_format($this->bills->sum('recovered_amount'), 0, '');
-        $this->statistics['totalBuyAmount_format'] = number_format($collection->sum('totalBuyAmount'), 0, '');
-        $this->statistics['totalSellAmount_format'] = number_format($collection->sum('totalSellAmount'), 0, '');
-        $this->statistics['totalProfit_format'] = number_format($collection->sum('totalProfitLoss'), 0, '');
+        $this->statistics['totalOrderedAmount_format'] = number_format($this->statistics['totalOrderedAmount'], 0, '');
+        $this->statistics['totalRecoveredAmount_format'] = number_format($this->statistics['totalRecoveredAmount'], 0, '');
+        $this->statistics['totalBuyAmount_format'] = number_format($this->statistics['totalBuyAmount'], 0, '');
+        $this->statistics['totalSellAmount_format'] = number_format($this->statistics['totalSellAmount'], 0, '');
+        $this->statistics['totalProfit_format'] = number_format($this->statistics['totalProfit'], 0, '');
 
     }
 

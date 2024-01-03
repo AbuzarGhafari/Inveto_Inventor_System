@@ -81,16 +81,13 @@ class Bill extends Model
             
             $totalBuyAmount = 0;
             
-            if($item->product != null){
-
-                $totalBuyAmount = ($item->product->distributor_prices * $item->no_of_cottons) + ( $item->product->distributor_prices / $item->product->pack_size * $item->no_of_pieces);
-                
-                return [
-                    'totalBuyAmount' => $totalBuyAmount,
-                    'totalSellAmount' => $item->final_price
-                ];
-                
-            }
+            $totalBuyAmount = ($item->distributor_prices * $item->no_of_cottons) + ( $item->distributor_prices / $item->product->pack_size * $item->no_of_pieces);
+            
+            return [
+                'totalBuyAmount' => $totalBuyAmount,
+                'totalSellAmount' => $item->final_price
+            ];
+             
         });
 
         return [

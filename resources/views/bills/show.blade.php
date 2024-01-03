@@ -135,12 +135,14 @@
                             <th class="border-top-0  text-dark">#</th>
                             <th class="border-top-0  text-dark ">SKU Code</th>
                             <th class="border-top-0  text-dark ">Product</th>
-                            <th class="border-top-0  text-dark text-end">No. of Cottons</th>
-                            <th class="border-top-0  text-dark text-end">No. of Pieces</th>
+                            <th class="border-top-0  text-dark ">Dis. Price</th>
+                            <th class="border-top-0  text-dark ">Ass. Price</th>
+                            <th class="border-top-0  text-dark text-end"># Cottons</th>
+                            <th class="border-top-0  text-dark text-end"># Pieces</th>
                             <th class="border-top-0  text-dark text-end">Cottons Price</th>
                             <th class="border-top-0  text-dark text-end">Pieces Price</th> 
                             <th class="border-top-0  text-dark text-end">Amount</th> 
-                            <th class="border-top-0  text-dark text-end">Discount</th>
+                            <th class="border-top-0  text-dark text-end">Dis.</th>
                             <th class="border-top-0  text-dark text-end">Final Price</th>
                         </tr>
                     </thead>
@@ -154,6 +156,8 @@
                                     {{ $be->product->name }}
                                 @endisset
                             </td>
+                            <td class="text-end">{{ $be->distributor_prices }}</td>
+                            <td class="text-end">{{ $be->assigned_price }}</td>
                             <td class="text-end">{{ $be->no_of_cottons }}</td>
                             <td class="text-end">{{ $be->no_of_pieces }}</td>
                             <td class="text-end">{{ $be->cottons_price }}</td>

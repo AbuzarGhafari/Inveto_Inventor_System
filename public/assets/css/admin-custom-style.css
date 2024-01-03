@@ -287,7 +287,10 @@
     box-shadow: 0px 0.5rem 1rem rgba(35, 35, 35, 0.1);
 }
 
-.analytics-card{
+.analytics-card,
+.white-box,
+.card
+{
     background: #fff;
     padding: 1rem;
     border-radius: 0.5rem;
