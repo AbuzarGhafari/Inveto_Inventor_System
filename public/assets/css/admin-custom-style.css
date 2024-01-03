@@ -314,3 +314,92 @@
     align-items: center;
     justify-content: center;
 }
+
+.bills-filter{
+    gap: 1rem;
+}
+
+aside.left-sidebar .navbar-header{
+    border-bottom: 1px solid #d5d5d5;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+}
+
+aside.left-sidebar .navbar-header .navbar-brand{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    color: #313131;    
+}
+
+aside.left-sidebar .navbar-header img{
+    width: 60px;
+    border-radius: 50%;
+}
+
+.left-sidebar{
+    padding-top: 0px !important;
+    position: fixed !important;
+    height: 100vh;
+}
+
+.scroll-sidebar {
+    height: calc(100vh - 240px);
+    position: relative;
+}
+
+aside.left-sidebar .logout{
+    padding: 1rem;
+}
+
+aside.left-sidebar .logout a{
+    display: flex;
+    background: linear-gradient(45deg, #1331a4, #061655);
+    padding: 1rem 0.5rem;
+    justify-content: center;
+    color: #fff;
+    border-radius: 0.25rem;
+    box-shadow: 0px 1rem 1rem rgba(0,0,0,0.2);
+    cursor: pointer;    
+    transition: all 0.2s ease;
+}
+aside.left-sidebar .logout a:hover{
+    transition: all 0.2s ease;
+    background: linear-gradient(45deg, #061655, #1331a4);
+}
+
+aside.left-sidebar .logout a .svg-icon{
+    margin-right: 0.5rem;
+    fill: #fff;
+}
+
+@media screen and (max-width: 1168px) {
+    aside.left-sidebar .logout{
+        padding: 0.5rem ;
+    }
+    aside.left-sidebar .logout a {
+        padding: 0.5rem 0.25rem;
+    }
+    aside.left-sidebar .logout a .text{
+        display: none;
+    }
+    aside.left-sidebar .logout a .svg-icon{
+        margin-right: 0rem;        
+    }
+    
+    aside.left-sidebar .navbar-header img{
+        width: 50px;
+    }
+        
+    aside.left-sidebar .navbar-header .navbar-brand .logo-text{
+        display: none;
+    }
+}
+
+aside.left-sidebar .navbar-header .navbar-brand{
+    margin-right: 0px;
+}

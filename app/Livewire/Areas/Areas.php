@@ -20,7 +20,7 @@ class Areas extends Component
     public function render()
     {
         $areas = Area::with('subAreas')->where('name','LIKE', "%".$this->search."%") 
-                    ->paginate(20);
+                    ->paginate(50);
         return view('livewire.areas.areas',[
             'areas' => $areas
         ]);

@@ -44,25 +44,34 @@ class Bills extends Component
 
     public $selected_bills = [0];
 
-    public $booker;
+    // public $booker;
 
     public $activeTab = 'all';
 
     private $billsList;
 
     public $billsCount = 0;
-
     
     public $search_period;
+    
+    public $group_by = 'created_at';
     
     public $from_date;
 
     public $to_date;
 
+    public $bills_amount;
+
+    public $bills_recovered_amount;
+
+    public $bills_profit_amount;
+
     protected function getBillsQuery()
     {
-        $query = Bill::query()->with(['orderBooker', 'shop'])->orderBy('created_at', 'desc')
-                    ->timePeriod($this->search_period, $this->from_date, $this->to_date);
+        $query = Bill::query()->with(['orderBooker', 'shop'])
+                    ->timePeriod($this->search_period, $this->from_date, $this->to_date)
+                    ->orderBy($this->group_by)
+                    ->orderBy('created_at', 'desc');
 
         if ($this->order_booker_bills) {
             $query->where('order_booker_id', $this->order_booker_id);
@@ -84,6 +93,9 @@ class Bills extends Component
 
         $bills = $this->billsList;
 
+
+        $allBills = $this->getBillsQuery()->get();
+
         foreach ($bills as $bill) {
 
             $response = $bill->getProfit();
@@ -99,6 +111,12 @@ class Bills extends Component
             }
             $bill->diff_in_days = $diff_in_days;
         }
+
+        
+        $this->bills_amount = $bills->sum('final_price');
+        $this->bills_recovered_amount = $bills->sum('recovered_amount');
+        $this->bills_profit_amount = $bills->sum('profitLoss');
+
 
         return view('livewire.bills.bills', [
             'bills' => $bills,
@@ -164,7 +182,7 @@ class Bills extends Component
         $this->dispatch('closeModal');
     }
 
-    public function dailySalesReport()
+    public function salesReport()
     {
         $bills = Bill::find($this->selected_bills);
         $billEntries = [];
@@ -200,13 +218,12 @@ class Bills extends Component
         $data = [
             'summary' => $summary,
             'overallTotalCottons' => $overallTotalCottons,
-            'overallTotalPieces' => $overallTotalPieces,
-            'booker' => $this->booker->name,
+            'overallTotalPieces' => $overallTotalPieces,            
         ];
 
         $pdf = PDF::loadView('bills.dialy-sales-report', $data);
 
-        $filename = 'summary_' . $this->booker->name . '_' . $date . '.pdf';
+        $filename = 'summary_' . $date . '.pdf';
         $path = storage_path('app/public/' . $filename);
         $pdf->save($path);
 
@@ -214,7 +231,7 @@ class Bills extends Component
 
         return redirect()->to($link);
 
-        return $pdf->stream('summary_' . $this->booker->name . '_' . $date . '.pdf');
+        return $pdf->stream('summary_' . $date . '.pdf');
     }
 
     public function refreshBills()
@@ -269,4 +286,31 @@ class Bills extends Component
     {
         
     }
+
+    
+    public function billsEntry()
+    {
+        $allBills = $this->getBillsQuery()->where('is_recovered', 0)->get();
+        $groupedBills = $allBills->groupBy(function ($bill) {
+            return $bill->mainArea->name;
+        });        
+
+        $data = [
+            'groupedBills' => $groupedBills,
+        ];
+
+        $pdf = PDF::loadView('bills.bills_entry_report', $data);
+
+        $filename = 'bills_entry_report.pdf';
+        $path = storage_path('app/public/' . $filename);
+        $pdf->save($path);
+
+        $link = asset('storage/' . $filename);
+
+        return redirect()->to($link);
+
+        return $pdf->stream('bills_entry_report.pdf');        
+    }
+
+
 }

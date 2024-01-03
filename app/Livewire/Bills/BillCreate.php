@@ -11,6 +11,7 @@ use App\Models\Product;
 use App\Models\SubArea;
 use Illuminate\Support\Collection;
 use Livewire\Component;
+use Illuminate\Validation\Rule;
 
 class BillCreate extends Component
 {
@@ -59,6 +60,8 @@ class BillCreate extends Component
 
     public function updated($field, $value)
     {
+        $this->validateOnly($field, $this->validationRules());
+ 
         if ($field == 'form.order_booker_id') {
 
             $orderBooker = OrderBooker::with('areas')->find($this->form->order_booker_id);
@@ -92,8 +95,31 @@ class BillCreate extends Component
         }
     }
 
+    protected function validationRules()
+    {
+        $maxCottons = 2;
+        $dynamicRules = [
+            'inputs.*.no_of_cottons' => [
+                'required',
+                'integer',
+                function($attribute, $value, $fail) {
+                    $maxCottons = 2;
+                    if ($value > $maxCottons) {
+                        $fail('The '.$attribute.' must not be greater than '.$maxCottons.'.');
+                    }
+                    $fail('The '.$attribute.' must not be greater than '.$maxCottons.'.');
+                    // dd($value, $attribute, $maxCottons);
+                },
+            ],
+        ];
+
+
+        return array_merge($this->rules, $dynamicRules);
+    }
+
     public function mount()
     {
+
         $this->form->bill_number = Bill::getUniqueBillNumber();
 
         $this->fill([

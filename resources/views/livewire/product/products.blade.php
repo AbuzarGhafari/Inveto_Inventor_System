@@ -68,15 +68,25 @@
                                             <i class="fa fa-eye me-2" aria-hidden="true"></i>
                                             Show
                                         </a>
-                                        <button  type="button" wire:click="selectProduct({{ $product->id }})" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#AddStockModal">
-                                            <i class=" fas fa-plus me-2"></i>
-                                            Add Stock
-                                        </button>
                                         <div class="btn-group"> 
+                                            
                                             <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
                                             <span class="visually-hidden">Toggle Dropdown</span>
                                             </button>
                                             <ul class="dropdown-menu"> 
+                                                <li>
+                                                    
+                                                    <a  type="button" wire:click="selectProduct({{ $product->id }})"
+                                                        class="dropdown-item" data-bs-toggle="modal" data-bs-target="#AddStockModal">                                                        
+                                                        Add Stock
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a  type="button" wire:click="selectProduct({{ $product->id }})"
+                                                        class="dropdown-item" data-bs-toggle="modal" data-bs-target="#ResetStockModal">                                                        
+                                                        Reset Stock
+                                                    </a>
+                                                </li>
                                                 <li><a class="dropdown-item" href="{{ route('products.edit', $product->id) }}">Edit</a></li>
                                                 <li><hr class="dropdown-divider"></li>
                                                 <li><a class="dropdown-item" data-bs-toggle="modal" 
@@ -118,12 +128,54 @@
                 <Strong>Product Name: </Strong> {{ $product_name }}
             </p>
 
-            <input type="number" min="0" class="form-control" wire:model.live="no_of_cottons" placeholder="Enter Cartons Quantity">
+            <div class="mb-2">
+                <label for="no_of_cottons">Add Cartons Quantity</label>
+                <input type="number" min="0" class="form-control" wire:model.live="no_of_cottons" placeholder="Add Cartons Quantity">
+            </div>
+            <div class="mb-2">
+                <label for="no_of_pieces">Add Pieces Quantity</label>
+                <input type="number" min="0" class="form-control" wire:model.live="no_of_pieces" placeholder="Add Pieces Quantity">
+            </div>
 
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           <button type="button" class="btn btn-primary" wire:click="addStock">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div  wire:ignore.self class="modal fade" id="ResetStockModal" tabindex="-1" aria-labelledby="AddStockModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5">Reset Stock</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+            <p>
+                <Strong>SKU Code: </Strong> {{ $sku_code }}
+            </p>
+
+            <p>
+                <Strong>Product Name: </Strong> {{ $product_name }}
+            </p>
+
+            <div class="mb-2">
+                <label for="no_of_cottons">Enter Cartons Quantity</label>
+                <input type="number" min="0" class="form-control" wire:model.live="no_of_cottons" placeholder="Enter Cartons Quantity">
+            </div>
+            <div class="mb-2">
+                <label for="no_of_pieces">Enter Pieces Quantity</label>
+                <input type="number" min="0" class="form-control" wire:model.live="no_of_pieces" placeholder="Enter Pieces Quantity">
+            </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" wire:click="resetStock">Save changes</button>
         </div>
       </div>
     </div>

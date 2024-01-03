@@ -6,12 +6,16 @@
         </div>
         <div class="col-sm-6 text-end">
 
-            @if ($order_booker_bills & isset($selected_bills))
-                <a target="_blank" wire:click="dailySalesReport" class="btn btn-success text-white">
+            {{-- @if ($order_booker_bills & isset($selected_bills)) --}}
+                <a target="_blank" wire:click="billsEntry" class="btn btn-success text-white">
                     <i class="fa fa-print me-2" aria-hidden="true"></i>
-                    Dialy Sales Report
+                    Bills Entry
                 </a>
-            @endif
+                <a target="_blank" wire:click="salesReport" class="btn btn-success text-white">
+                    <i class="fa fa-print me-2" aria-hidden="true"></i>
+                    Sales Report
+                </a>
+            {{-- @endif --}}
 
             <a href="{{ route('bills.create') }}" class="btn btn-dark">
                 <i class="fas fa-plus me-2"></i>
@@ -29,25 +33,23 @@
  
                 <div class="row mb-4">
 
-                    <div class="col-12"> 
+                    <div class="col-md-4">
+                        <div class="d-flex justify-content-between">
+                            <p class="m-0">Bills Amount: {{ number_format($bills_amount) }}</p>
+                            <p class="mb-0">Recovered: {{ number_format($bills_recovered_amount) }}</p>
+                            <p class="mb-0">P/L: {{ number_format($bills_profit_amount) }}</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-8"> 
 
                         <form wire:submit="filter">
 
                             @csrf
 
-                            <div class="row justify-content-end">
+                            <div class="d-flex w-100 justify-content-end bills-filter">
 
-                                @error('search_period')
-                                    <div class="alert alert-danger p-2">{{ $message }}</div>
-                                @enderror
-                                @error('from_date')
-                                    <div class="alert alert-danger p-2">{{ $message }}</div>
-                                @enderror
-                                @error('to_date')
-                                    <div class="alert alert-danger p-2">{{ $message }}</div>
-                                @enderror
-
-                                <div class="col-4 d-flex align-items-center">
+                                <div class="d-flex align-items-center">
                                     <label for="period" class="me-2 mb-0 w-25">Filter By</label>
                                     <select wire:model.defer="search_period" class="form-control">
                                         <option value="">Select</option>
@@ -59,20 +61,29 @@
                                 </div>
 
                                 @if ($search_period === 'custom')
-                                    <div class="col-3 d-flex align-items-center">
+                                    <div class="d-flex align-items-center">
                                         <label for="from_date" class="form-label mb-0 me-2">From</label>
                                         <input type="date" class="form-control" wire:model.defer="from_date">
                                     </div>
 
-                                    <div class="col-3 d-flex align-items-center">
+                                    <div class="d-flex align-items-center">
                                         <label for="to_date" class="form-label me-2 mb-0">To</label>
                                         <input type="date" class="form-control" wire:model.defer="to_date">
                                     </div>
                                 @endif
 
-                                <div class="col-1">
-                                    <input type="submit" class="btn btn-primary" value="Search">
+                                <div class="d-flex align-items-center">
+                                    <label for="group_by" class="me-2 mb-0 w-25">Order By</label>
+                                    <select wire:model.defer="group_by" class="form-control">
+                                        <option value="created_at">Select</option>
+                                        <option value="main_area_id">Main Area</option>
+                                        <option value="sub_area_id">Sub Area</option>
+                                        <option value="shop_id">Shop</option>
+                                        <option value="order_booker_id">Order Booker</option>
+                                    </select>
                                 </div>
+
+                                <input type="submit" class="btn btn-primary" value="Search">
 
                             </div>
 
@@ -119,11 +130,11 @@
                                     <tr class="{{ $bill->is_recovered ? ' ' : 'bill-pending' }}"
                                         wire:key = "{{ $bill->id }}">
                                         <td>
-                                            @if ($order_booker_bills)
+                                            {{-- @if ($order_booker_bills) --}}
                                                 <input type="checkbox" id="{{ $bill->id }}"
                                                     name="{{ $bill->id }}" value="{{ $bill->id }}"
                                                     wire:model.defer="selected_bills" />
-                                            @endif
+                                            {{-- @endif --}}
                                             {{ $loop->iteration }}
                                         </td>
                                         <td>

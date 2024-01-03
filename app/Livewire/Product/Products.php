@@ -24,25 +24,24 @@ class Products extends Component
 
     public $no_of_cottons = 0;
 
+    public $no_of_pieces = 0;
+
     public $total_stock_amount = 0.0;
 
     public function render()
     {
         $products = Product::where('sku_code','LIKE', "%".$this->search."%")
                     ->orWhere('name','LIKE', "%".$this->search."%")
-                    ->paginate(20);
+                    ->paginate(50);
 
-        $productsCount = Product::where('sku_code','LIKE', "%".$this->search."%")
-                        ->orWhere('name','LIKE', "%".$this->search."%")->count();
+        $productsList = Product::where('sku_code','LIKE', "%".$this->search."%")
+                        ->orWhere('name','LIKE', "%".$this->search."%")->get();
 
-        $this->total_stock_amount = 0;
-        foreach ($products as $product){
-            $this->total_stock_amount += $product->total_price;
-        }
+        $this->total_stock_amount = $productsList->sum('total_price');;
 
         return view('livewire.product.products', [ 
             'products' => $products,
-            'productsCount' => $productsCount,
+            'productsCount' => $productsList->count(),
         ]);
     }
 
@@ -58,9 +57,25 @@ class Products extends Component
         if($this->product){
 
             $this->product->no_of_cottons += $this->no_of_cottons;
+            $this->product->no_of_pieces += $this->no_of_pieces;
             $this->product->save();
         }
         $this->no_of_cottons = 0;
+        $this->no_of_pieces = 0;
+        $this->product = null;
+        $this->dispatch('closeModal'); 
+    }
+
+    public function resetStock()
+    {
+        if($this->product){
+
+            $this->product->no_of_cottons = $this->no_of_cottons;
+            $this->product->no_of_pieces = $this->no_of_pieces;
+            $this->product->save();
+        }
+        $this->no_of_cottons = 0;
+        $this->no_of_pieces = 0;
         $this->product = null;
         $this->dispatch('closeModal'); 
     }

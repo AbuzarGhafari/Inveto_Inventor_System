@@ -21,7 +21,7 @@ class ShopTypes extends Component
     public function render()
     {
         $shopTypes = ShopType::with('subShopTypes')->where('name','LIKE', "%".$this->search."%") 
-                    ->paginate(20);
+                    ->paginate(50);
         return view('livewire.shoptypes.shoptypes',[
             'shopTypes' => $shopTypes
         ]);

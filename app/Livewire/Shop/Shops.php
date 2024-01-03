@@ -32,7 +32,7 @@ class Shops extends Component
         //             ->orWhere('address','LIKE', "%".$this->search."%")
         //             ->orWhere('shopkeeper_name','LIKE', "%".$this->search."%")
         //             ->orWhere('shopkeeper_mobile','LIKE', "%".$this->search."%")
-        //             ->paginate(20);
+        //             ->paginate(50);
 
         // $shopsCount = Shop::where('shop_name','LIKE', "%".$this->search."%")
         //             ->orWhere('address','LIKE', "%".$this->search."%")
@@ -47,7 +47,7 @@ class Shops extends Component
                     ->orWhere('shopkeeper_mobile', 'LIKE', "%" . $this->search . "%");
 
         // Get paginated results
-        $shops = (clone $baseQuery)->paginate(20);
+        $shops = (clone $baseQuery)->paginate(50);
 
         // Get count
         $shopsCount = $baseQuery->count();

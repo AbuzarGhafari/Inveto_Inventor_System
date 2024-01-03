@@ -1,5 +1,18 @@
  
 <aside class="left-sidebar" data-sidebarbg="skin6">
+
+    <div class="navbar-header" data-logobg="skin6">
+            
+        <a class="navbar-brand" href="{{ route('home') }}"> 
+            <img class="logo-icon" src="{{ asset('assets/images/logo.png') }}" alt="homepage" />
+            <span class="logo-text"> 
+                <span>Al-noor</span> Traders
+            </span>
+        </a>            
+        {{-- <a class="nav-toggler waves-effect waves-light text-dark d-block d-md-none"
+            href="javascript:void(0)"><i class="ti-menu ti-close"></i></a> --}}
+    </div>
+
     <!-- Sidebar scroll-->
     <div class="scroll-sidebar">
         <!-- Sidebar navigation-->
@@ -60,6 +73,22 @@
 
         </nav>
         <!-- End Sidebar navigation -->
+
+        
     </div>
     <!-- End Sidebar scroll-->
+
+    <div class="logout">
+        
+        <a  href="{{ route('logout') }}"
+            onclick="event.preventDefault();
+                            document.getElementById('logout-form').submit();">
+            <div class="svg-icon">@include('layouts.partials.svgs.logout')</div>
+            <span class="text">{{ __('Logout') }}</span>
+        </a>
+
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+            @csrf
+        </form> 
+    </div>
 </aside> 
