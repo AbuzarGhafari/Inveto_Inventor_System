@@ -59,4 +59,9 @@ class Product extends Model
 
         return $totalCottonPrice + $totalPiecesPrice;
     }
+
+    public function getStockCountAttribute()
+    {
+        return $this->no_of_cottons * $this->pack_size + $this->no_of_pieces;
+    }
 }

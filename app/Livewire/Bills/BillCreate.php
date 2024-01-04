@@ -39,6 +39,10 @@ class BillCreate extends Component
 
     public $profitLoss = 0;
 
+    public $isCountErrors = false;
+
+    public $errorMsg = [];
+
     protected $rules = [
         'inputs.*.sku_code' => 'required|regex:/^([0-9]*)$/',
         'inputs.*.no_of_cottons' => 'required|integer',
@@ -60,7 +64,7 @@ class BillCreate extends Component
 
     public function updated($field, $value)
     {
-        $this->validateOnly($field, $this->validationRules());
+        // $this->validateOnly($field, $this->validationRules());
  
         if ($field == 'form.order_booker_id') {
 
@@ -95,31 +99,9 @@ class BillCreate extends Component
         }
     }
 
-    protected function validationRules()
-    {
-        $maxCottons = 2;
-        $dynamicRules = [
-            'inputs.*.no_of_cottons' => [
-                'required',
-                'integer',
-                function($attribute, $value, $fail) {
-                    $maxCottons = 2;
-                    if ($value > $maxCottons) {
-                        $fail('The '.$attribute.' must not be greater than '.$maxCottons.'.');
-                    }
-                    $fail('The '.$attribute.' must not be greater than '.$maxCottons.'.');
-                    // dd($value, $attribute, $maxCottons);
-                },
-            ],
-        ];
-
-
-        return array_merge($this->rules, $dynamicRules);
-    }
 
     public function mount()
     {
-
         $this->form->bill_number = Bill::getUniqueBillNumber();
 
         $this->fill([
@@ -179,6 +161,10 @@ class BillCreate extends Component
 
     public function formatMappedInputs()
     {
+        $this->errorMsg = [];
+        
+        $this->isCountErrors = false;
+
         $this->inputs = $this->inputs->map(function ($row) {
 
             $product = Product::where('sku_code', $row['sku_code'])->first();
@@ -212,6 +198,16 @@ class BillCreate extends Component
                 $row['final_price'] = $row['total_price'];
             }
 
+            $stockCount = $product->stock_count;
+
+            $entryStock = $row['no_of_cottons'] * $row['pack_size'] + $row['no_of_pieces'];
+
+            if($entryStock > $stockCount){
+                $this->isCountErrors = true;
+                $this->errorMsg[] = $row['product_name'] . ' stock is not available! ' .$product->no_of_cottons . ' Cottons  ' . $product->no_of_pieces . ' Pieces are in stock!';
+            }
+
+
             return $row;
         });
 
@@ -239,6 +235,8 @@ class BillCreate extends Component
     {
         $validated = $this->validate();
 
+        if($this->isCountErrors) return;
+
         $bill = Bill::create($this->form->all());
 
         $this->inputs->map(function ($row) use ($bill) {
@@ -264,6 +262,8 @@ class BillCreate extends Component
     {
 
         $validated = $this->validate();
+
+        if($this->isCountErrors) return;
 
         $previousBillAmount = $this->previousBill->previous_bill_amount + $this->previousBill->final_price - $this->previousBill->recovered_amount;
 

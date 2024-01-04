@@ -1,20 +1,17 @@
 <div class="row mb-3">
     <div class="col-sm-12">
         
-        <div class="card">
-            <div class="card-body">
-                
-                <div class="d-flex align-items-center justify-content-between mb-4 bg-info p-2">
+        <div class="white-box">
+            
+            <div class="d-flex align-items-center justify-content-between mb-4 bg-info p-2">
+                <p class="fw-bold text-light m-0">Bill Number: {{ $form->bill_number }}</p>
+                <div wire:click="addInput" class="btn btn-dark">Add Entry</div>
+            </div>
 
-                    <p class="fw-bold text-light m-0">Bill Number: {{ $form->bill_number }}</p>
+            <form class="form-horizontal form-material" wire:submit="{{ !$add_previous_bill ? 'save': 'createBillWithPreviousBill' }}">
+                @csrf
 
-                    <div wire:click="addInput" class="btn btn-dark">Add Entry</div>
-                </div>
-
-                <form class="form-horizontal form-material" wire:submit="{{ !$add_previous_bill ? 'save': 'createBillWithPreviousBill' }}">
-                    @csrf
-
-                    @if (!$add_previous_bill)
+                @if (!$add_previous_bill)
                     <div class="row">
                         <div class="col-sm-3">
                             <div class="form-group mb-4">
@@ -81,9 +78,9 @@
                             </div>
                         </div>
                     </div> 
-                    @endif
+                @endif
 
-                    @if ($add_previous_bill)
+                @if ($add_previous_bill)
                     <div class="row">
                         <div class="col-sm-6">
                             
@@ -101,7 +98,17 @@
                         </div>
                     </div>
                 @endif
-  
+
+                @if($isCountErrors)
+                <div class="alert alert-danger" role="alert">
+                    <ul class="mb-0">
+                        @foreach ($errorMsg as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
+
                     
                 <div class="table-responsive">
                     <table class="table text-nowrap">
@@ -118,14 +125,14 @@
                                 <th class="border-top-0  text-dark">Total Price</th> 
                                 <th class="border-top-0  text-dark">Discount</th> 
                                 <th class="border-top-0  text-dark w-10 text-end">Final Price</th> 
- 
+
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($inputs as $key => $input)
                             <tr>
                                 <td>
-                                    @if($key > 0) <div wire:click="removeInput({{$key}})" class="btn btn-sm btn-danger text-white"><i class="fa fa-times"></i></div> @endif
+                                    <div wire:click="removeInput({{$key}})" class="btn btn-sm btn-danger text-white"><i class="fa fa-times"></i></div> 
                                 </td>
                                 <td>{{ $key+1 }}</td>
                                 
@@ -134,7 +141,7 @@
                                         <div class="border-bottom p-0">                                    
                                             <input type="text" id="input_{{$key}}_sku_code"   wire:model.blur="inputs.{{$key}}.sku_code"   class="form-control p-0 border-0">                                
                                             @error('inputs.'.$key.'.sku_code')<div class="alert alert-danger p-2">{{ $message }}</div>@enderror
-                                             
+                                            
                                         </div>
 
                                         @isset($inputs[$key]['product_name'])
@@ -204,14 +211,15 @@
                         </tbody>
                     </table>
                 </div> 
-                                        
-                    <div class="form-group mb-4">
-                        <div class="col-sm-12 text-end">
-                            <button class="btn btn-success" type="submit">Generate Bill</button>
-                        </div>
+                                    
+                <div class="form-group mb-4">
+                    <div class="col-sm-12 text-end">
+                        <button class="btn btn-success" type="submit">Generate Bill</button>
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
+
+                
         </div>
     </div>
 </div>

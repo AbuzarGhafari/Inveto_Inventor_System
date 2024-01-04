@@ -38,6 +38,10 @@ class BillEdit extends Component
 
     public $profitLoss = 0;
 
+    public $isCountErrors = false;
+
+    public $errorMsg = [];
+
     protected $rules = [
         'inputs.*.sku_code' => 'required|regex:/^([0-9]*)$/',
         'inputs.*.no_of_cottons' => 'required|integer',
@@ -154,6 +158,10 @@ class BillEdit extends Component
   
     public function formatMappedInputs()
     { 
+        $this->errorMsg = [];
+        
+        $this->isCountErrors = false;
+
         $this->inputs = $this->inputs->map(function ($row) {
 
             $product = Product::where('sku_code', $row['sku_code'])->first();
@@ -185,6 +193,17 @@ class BillEdit extends Component
             else
                 $row['final_price'] = $row['total_price'];
 
+                
+            $stockCount = $product->stock_count;
+
+            $entryStock = $row['no_of_cottons'] * $row['pack_size'] + $row['no_of_pieces'];
+
+            if($entryStock > $stockCount){
+                $this->isCountErrors = true;
+                $this->errorMsg[] = $row['product_name'] . ' stock is not available! ' .$product->no_of_cottons . ' Cottons  ' . $product->no_of_pieces . ' Pieces are in stock!';
+            }
+
+
             return $row; 
         });
 
@@ -213,6 +232,8 @@ class BillEdit extends Component
     public function save()
     {  
         $this->formatMappedInputs();  
+        
+        if($this->isCountErrors) return;
         
         $this->bill->update([
             'actual_price' => $this->form->actual_price,

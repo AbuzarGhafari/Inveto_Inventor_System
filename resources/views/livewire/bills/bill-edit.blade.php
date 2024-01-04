@@ -1,36 +1,47 @@
 <div class="row mb-3">
+
     <div class="col-sm-12">
         
-        <div class="card">
-            <div class="card-body">
+        <div class="white-box">
+            
+            <div class="d-flex align-items-center justify-content-between mb-4 bg-info p-2">
+
+                <p class="fw-bold text-light m-0">Bill Number: {{ $form->bill_number }}</p>
+
+                <div wire:click="addInput" class="btn btn-dark">Add Entry</div>
+            </div>
+
+            <form class="form-horizontal form-material" wire:submit="save">
+                @csrf
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        
+                        <p>Bill Number: {{ $bill->bill_number }}</p>
+                        <p>Bill Date: {{ \Carbon\Carbon::parse($bill->created_at)->format('d/m/Y g:i:s A')}}  </p>
+                        
+                    </div>
+                    <div class="col-sm-6 text-end">
+                        
+                        <p>Order Booker: {{ $bill->orderBooker->name }}</p>
+                        <p>Shop Name: {{ $bill->shop->shop_name }}</p>
+                        <p>Shopkeeper Name: {{ $bill->shop->shopkeeper_name }}</p>
+                        
+                    </div>
+                </div> 
+
                 
-                <div class="d-flex align-items-center justify-content-between mb-4 bg-info p-2">
-
-                    <p class="fw-bold text-light m-0">Bill Number: {{ $form->bill_number }}</p>
-
-                    <div wire:click="addInput" class="btn btn-dark">Add Entry</div>
+                @if($isCountErrors)
+                <div class="alert alert-danger" role="alert">
+                    <ul class="mb-0">
+                        @foreach ($errorMsg as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
                 </div>
+                @endif
 
-                <form class="form-horizontal form-material" wire:submit="save">
-                    @csrf
-  
-                    <div class="row">
-                        <div class="col-sm-6">
-                            
-                            <p>Bill Number: {{ $bill->bill_number }}</p>
-                            <p>Bill Date: {{ \Carbon\Carbon::parse($bill->created_at)->format('d/m/Y g:i:s A')}}  </p>
-                            
-                        </div>
-                        <div class="col-sm-6 text-end">
-                            
-                            <p>Order Booker: {{ $bill->orderBooker->name }}</p>
-                            <p>Shop Name: {{ $bill->shop->shop_name }}</p>
-                            <p>Shopkeeper Name: {{ $bill->shop->shopkeeper_name }}</p>
-                            
-                        </div>
-                    </div> 
-  
-                    
+                
                 <div class="table-responsive">
                     <table class="table text-nowrap">
                         <thead>
@@ -130,14 +141,16 @@
                         </tbody>
                     </table>
                 </div> 
-                                        
-                    <div class="form-group mb-4">
-                        <div class="col-sm-12 text-end">
-                            <button class="btn btn-success" type="submit">Update Bill</button>
-                        </div>
+                                    
+                <div class="form-group mb-4">
+                    <div class="col-sm-12 text-end">
+                        <button class="btn btn-success" type="submit">Update Bill</button>
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
+            
         </div>
+
     </div>
+
 </div>
