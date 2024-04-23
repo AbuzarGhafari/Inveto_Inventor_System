@@ -54,7 +54,7 @@ class Bills extends Component
     
     public $search_period;
     
-    public $group_by = 'created_at';
+    public $group_by = '';
     
     public $from_date;
 
@@ -69,9 +69,13 @@ class Bills extends Component
     protected function getBillsQuery()
     {
         $query = Bill::query()->with(['orderBooker', 'shop'])
-                    ->timePeriod($this->search_period, $this->from_date, $this->to_date)
-                    ->orderBy($this->group_by)
-                    ->orderBy('created_at', 'desc');
+                    ->timePeriod($this->search_period, $this->from_date, $this->to_date);
+                    
+
+        if($this->group_by != ''){
+            $query->orderBy($this->group_by);
+        }
+        $query->orderBy('created_at', 'desc');
 
         if ($this->order_booker_bills) {
             $query->where('order_booker_id', $this->order_booker_id);
